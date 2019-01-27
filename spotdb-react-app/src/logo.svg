@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<svg width="256" height="256" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <title>SpotDB Logo</title>
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <circle cx="134" cy="135" fill="#0b6055" id="svg_11" r="112" stroke="#000000" stroke-linecap="null" stroke-linejoin="null" stroke-width="0"/>
+  <path d="m15,129c0,-61.878453 50.121547,-112 112,-112c61.878453,0 112,50.121547 112,112c0,61.878453 -50.121547,112 -112,112c-61.878453,0 -112,-50.121547 -112,-112z" fill="#1eceb7" id="svg_8" stroke="#000000" stroke-linecap="null" stroke-linejoin="null" stroke-width="0"/>
+  <path d="m117.011661,83.80308l2.939592,0m-1.463084,1.261744l1.436239,1.409394m-1.43624,-1.422817l-1.34228,1.422816m1.335568,-3.100666l0,1.67785m0.446203,-2.130974c0,0.246431 -0.199772,0.446203 -0.446203,0.446203c-0.246431,0 -0.446203,-0.199772 -0.446203,-0.446203c0,-0.246431 0.199772,-0.446203 0.446203,-0.446203c0.246431,0 0.446203,0.199772 0.446203,0.446203z" fill="#0b6055" id="svg_13" stroke="#000000" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0"/>
+  <path d="m131.851473,142.618412l0,0c-8.231277,0 -14.904045,-7.410366 -14.904045,-16.55151c0,-9.141147 6.672769,-16.55151 14.904045,-16.55151l0,0c-4.691158,3.90728 -7.452023,10.039375 -7.452023,16.55151c0,6.512134 2.760865,12.644226 7.452023,16.55151z" fill="#ffffff" id="svg_19" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="3" transform="rotate(30.0114 124.4 126.067)"/>
+  <path d="m153.125,235.125c0,0 -12.75,-50.5 4.25,-66c17,-15.5 -0.75,-25 -0.875,-25.125c-0.125,-0.125 -14.625,-9.625 -14.75,-9.75c-0.125,-0.125 6.375,-3.875 11.875,-2.875c5.5,1 14.25,2.5 14.125,2.375c-0.125,-0.125 17.625,-10.375 36.375,9.125" fill="#ffffff" id="svg_27" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="5"/>
+  <path d="m222.500007,182.166663l-14.66667,-17.33333c-17.33334,-15 23,-25 23,-25c0,0 -41,-35 -62.66667,-5c-21.66667,30 54,54.66667 54.33334,47.33333z" fill="#ffffff" id="svg_37" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" transform="rotate(-4.15314 197.55 153.077)"/>
+  <path d="m185.5,163.5c0,0 -32.33333,71 -32.16667,71.83333c0.16667,0.83334 48.16667,-9.5 71.83334,-56.16666" fill="#ffffff" id="svg_41" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="5"/>
+  <path d="m97.08701,149.774847l0,0c-27.36598,0 -49.55049,-24.63675 -49.55049,-55.02771c0,-30.39097 22.18451,-55.02771 49.55049,-55.02771l0,0c-15.59638,12.99028 -24.77524,33.37724 -24.77524,55.02771c0,21.65046 9.17886,42.03742 24.77524,55.02771z" fill="#ffffff" id="svg_42" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0" transform="rotate(30.0114 72.3118 94.7472)"/>
+  <path d="m114.223886,142.024968l0,0c-14.563482,0 -26.369517,-13.527392 -26.369517,-30.214257c0,-16.686876 11.806035,-30.214257 26.369517,-30.214257l0,0c-8.299999,7.132613 -13.184761,18.326558 -13.184761,30.214257c0,11.887694 4.884762,23.081633 13.184761,30.214257z" fill="#ffffff" id="svg_43" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" transform="rotate(30.0114 101.039 111.81)"/>
+  <ellipse cx="177.67708" cy="141.510412" fill="#ffffff" id="svg_44" rx="15.333333" ry="18" stroke="#ffffff" stroke-dasharray="null" stroke-linecap="null" stroke-linejoin="null" stroke-width="0"/>
+ </g>
+</svg>
