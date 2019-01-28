@@ -1,0 +1,24 @@
+.SimpleForm {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.SimpleForm	.form input {
+	background-color: unset;
+	margin: 3px;
+	padding: 3px 10px;
+	border-width: 1px;
+	border-radius: 15px;
+	font-size: calc(6px + 2vmin);
+	color: white;
+	width: 33vw;
+}
+
+.SimpleForm .stateful {
+	color: green;
+}
+
+.SimpleForm .error {
+		color: red;
+		font-size: calc(6px + 1vmin);
+}
