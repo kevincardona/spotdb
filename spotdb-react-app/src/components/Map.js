@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Map.css';
+import '../layouts/Map.css';
 
 class Map extends Component {
     componentDidMount() {
@@ -242,8 +242,7 @@ class Map extends Component {
                     // The anchor for this image is the base of the flagpole at (0, 32).
                     anchor: new window.google.maps.Point(0, 0)
                 };
-            
-                var overlay;
+
                 var beachMarker = new window.google.maps.Marker({
                     position: {lat: position.coords.latitude, lng: position.coords.longitude},
                     map: map,
@@ -257,21 +256,11 @@ class Map extends Component {
  
   render() {
     return (
-        <div>
-            SpotDB
-            <div id="toolbar">
-                <div className="toolbar-container">
-                    SpotDB
-                </div>
-            </div>
-            <div id="map-container">
-                <div id="map">
-                    <image className="loader" src="%PUBLIC_URL%/loader.svg"></image>
-                </div>
-                <div id="side-panel">
-                </div>
-            </div>
+    <div id="map-container">
+        <div id="map">
+            <image className="loader" src="%PUBLIC_URL%/loader.svg"></image>
         </div>
+    </div>
     );
   }
 }
