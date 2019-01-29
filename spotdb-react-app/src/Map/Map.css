@@ -1,0 +1,73 @@
+body {
+    height: 100vh;
+    width: 100vh;
+    margin: 0px;
+    background-color:	#f9f9f9;
+    overflow: hidden;
+}
+
+#map {
+    float: left;
+    width: 70%;
+    height: 100%;
+    background: lightgray;
+    overflow: hidden;
+}
+#map-container {
+    overflow: hidden;
+    color: lightgray;
+    box-shadow: 0px 0px 4px 1px;
+    text-align: center;
+    width: 100vw;
+    height: 90vh;
+}
+
+#side-panel {
+    float: left;
+    z-index: 1;
+    right: 0;
+    height: 100%;
+    width: 30%;
+    min-width: 200px;
+    background:#616970;
+    box-shadow: 4px 4px 4px 1px;
+    opacity: 1;
+}
+
+#toolbar {
+    z-index: 3;
+    padding-left: 30px;
+    font-size: 20px;
+    line-height: 70px;
+    font-family: 'Leckerli One', cursive;
+    background-color: 	#f9f9f9;
+    box-shadow: 1px -4px 10px 1px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 10vh;
+}
+
+.loader {
+    width: 100px;
+    height: 90vh;
+}
+
+@keyframes colorchange
+{
+      0%   {fill: red;}
+      25%  {fill: yellow;}
+      50%  {fill: blue;}
+      75%  {fill: green;}
+      100% {fill: red;}
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
+{
+        0%   {fill: red;}
+        25%  {fill: yellow;}
+        50%  {fill: blue;}
+        75%  {fill: green;}
+        100% {fill: red;}
+}
