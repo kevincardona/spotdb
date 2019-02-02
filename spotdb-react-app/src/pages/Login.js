@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 
 export default class Login extends Component {
-    constructor() {
-      super();
-    }
+
     getHashParams() {
       var hashParams = {};
       var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -15,7 +13,7 @@ export default class Login extends Component {
       }
       return hashParams;
     }
-  
+
     render() {
       return (
         <div className="App">
