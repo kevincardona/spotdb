@@ -36,8 +36,31 @@ var search = (req, res) => {
     
 }
 
+var authorized = (req, res) => {
+    var code = req.query.code;
+    var state = req.query.state;
+    spotify.authorizationCodeGrant(code).then(function(data) {
+      console.log('The token expires in ' + data['expires_in']);
+      console.log('The access token is ' + data['access_token']);
+      console.log('The refresh token is ' + data['refresh_token']);
+    /* Ok. We've got the access token!
+         Save the access token for this user somewhere so that you can use it again.
+         Cookie? Local storage?
+      */
+
+      /* Redirecting back to the main page! :-) */
+      //res.redirect('/');
+
+    }, function(err) {
+      res.status(err.code);
+      res.send(err.message);
+    })
+}
+
+
 module.exports = {
     login: login,
     getaccess: getaccess,
-    search: search
+    search: search,
+    authorized: authorized
 }
