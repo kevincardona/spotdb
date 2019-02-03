@@ -5,39 +5,37 @@ if (process.env.NODE_ENV !== 'production') {
 }
 var spotify_client_id = process.env.SPOTIFY_API_ID;
 var spotify_client_secret = process.env.SPOTIFY_API_SECRET;
+
+//var scopes = ['user-read-private', 'user-read-email'];
+
 var spotify = new SpotifyWebApi({
-    id: spotify_client_id,
-    secret: spotify_client_secret,
+    clientId: spotify_client_id,
+    clientSecret: spotify_client_secret,
     redirectUri: 'http://localhost:3000/authorized'
   });
 
 var login = (req, res) => {
-    var scopes = 'user-read-private user-read-email';
+    //var scopes = ['user-read-private', 'user-read-email'];
+    var scopes = 'user-read-private user-read-email'
+    
     res.redirect('https://accounts.spotify.com/authorize' +
       '?response_type=code' +
       '&client_id=' + spotify_client_id +
       (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
       '&redirect_uri=' + encodeURIComponent('http://localhost:3000/authorized'));
+    //var authorizeURL = spotify.createAuthorizeURL(scopes);
+    //console.log(authorizeURL);
 }
 
 var getaccess = (req, res) => {
-    var code = req.body.code;
-    console.log(code);
-}
-
-var search = (req, res) => {
-    spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-        if (err) {
-          return console.log('Error occurred: ' + err);
-        }
-       
-      console.log(data); 
-      });
-    
+    //var code = res.body.code;
+    console.log(req.body);
+    console.log('------------')
+    console.log(res.body);
 }
 
 var authorized = (req, res) => {
-    var code = req.query.code;
+    var code = req.query.code; //we need this code
     var state = req.query.state;
     spotify.authorizationCodeGrant(code).then(function(data) {
       console.log('The token expires in ' + data['expires_in']);
@@ -48,13 +46,23 @@ var authorized = (req, res) => {
          Cookie? Local storage?
       */
 
-      /* Redirecting back to the main page! :-) */
-      //res.redirect('/');
+      spotify.setAccessToken(data.body['access_token']);
+      spotify.setRefreshToken(data.body['refresh_token']);
 
     }, function(err) {
-      res.status(err.code);
-      res.send(err.message);
+      console.log('Something went wrong!')
     })
+}
+
+var search = (req, res) => {
+    spotify.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE', { limit: 10, offset: 20 }).then(
+    function(data) {
+      console.log('Album information', data.body);
+    },
+    function(err) {
+      console.error(err);
+    }
+  );
 }
 
 
