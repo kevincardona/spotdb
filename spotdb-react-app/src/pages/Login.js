@@ -19,7 +19,6 @@ export default class Login extends Component {
         <div className="App">
           <header className="App-header">
             <a href='http://localhost:5000/login'> Login to Spotify </a>
-            {this.getHashParams().toString()}
           </header>
         </div>
       );
