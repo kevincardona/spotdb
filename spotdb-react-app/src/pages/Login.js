@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Navbar from '../components/Navbar';
 
 export default class Login extends Component {
     constructor() {
@@ -18,10 +19,13 @@ export default class Login extends Component {
   
     render() {
       return (
-        <div className="App">
-          <header className="App-header">
-            <a href='http://localhost:5000/login'> Login to Spotify </a>
-          </header>
+        <div>
+          <Navbar />
+          <div className="App">
+            <div className="App-header">
+              <a href='http://localhost:5000/login'> Login to Spotify </a>
+            </div>
+          </div>
         </div>
       );
     }

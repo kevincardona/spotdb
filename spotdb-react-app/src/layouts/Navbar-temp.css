@@ -1,0 +1,36 @@
+.Navbar {
+	display: grid;
+	grid-auto-flow: column;
+	--Navbar-font-size: 1em;
+	height: calc(var(--Navbar-font-size) * 3);
+	width: 100vw;
+	background-color: #3E3F52;
+	box-shadow: 1px -4px 10px 1px;
+	position: fixed;
+	left: 0;
+  top: 0;
+}
+
+.Navbar-logo img {
+	display: none;
+	height: calc(var(--Navbar-font-size) * 2);
+}
+
+.Navbar-logo span {
+	color: #ffffff;
+	text-decoration: none;	
+}
+
+.Navbar-link {
+	display: inline-block;
+	line-height: calc(var(--Navbar-font-size) * 3);
+	font-size: var(--Navbar-font-size);
+	color: #ffffff;
+	text-decoration: none;
+	padding: 0 0.5em;
+	text-align: center;
+}
+
+.Navbar-link:hover {
+	background-color: #38394A;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../layouts/SongMap.css';
+import Navbar from '../components/Navbar';
 
 export default class SongMap extends Component {
     componentDidMount() {
@@ -258,6 +259,7 @@ export default class SongMap extends Component {
   render() {
     return (
         <div>
+            <Navbar />
             SpotDB
             <div id="toolbar">
                 <div className="toolbar-container">
