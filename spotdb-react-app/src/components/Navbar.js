@@ -44,6 +44,8 @@ class Navbar extends React.Component {
 	};
 
 	render() {
+		console.log(this.props);
+
 		const {mobileMenuVisible} = this.state;
 
 		return (
@@ -70,8 +72,11 @@ class Navbar extends React.Component {
 									onBlur={this.onQueryBlur}
 									onKeyDown={this.onQueryKeyDown} />
 				</div>
-				<div className={mobileMenuVisible ? "" : "hidden"}>
-					<Link to="/login" className="Navbar-login">Login</Link>
+				<div className={mobileMenuVisible ? "Navbar-last " : "Navbar-last hidden"}>
+					{this.props.isLoggedIn 
+						? <Link to="/account" className="Navbar-login Navbar-account">Account</Link>
+						: <Link to="/login" className="Navbar-login">Login</Link>
+					}
 				</div>
 			</div>
 		);
