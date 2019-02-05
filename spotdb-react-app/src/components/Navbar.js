@@ -7,6 +7,7 @@ class Navbar extends React.Component {
 	state = {
 		searchQuery: "",
 		queryError: "",
+		mobileMenuVisible: false,
 	};
 
 	validateQuery = (query) => {
@@ -36,29 +37,40 @@ class Navbar extends React.Component {
 		this.props.history.push('/search?query=' + this.state.searchQuery);
 	};
 
+	onMobileMenuClick = () => {
+		this.setState({
+			mobileMenuVisible: !this.state.mobileMenuVisible
+		});
+	};
+
 	render() {
+		const {mobileMenuVisible} = this.state;
+
 		return (
-			<div className="Navbar">
-				<Link to="/">
-					<img src={logo} alt="SpotDB logo of cardinal singing." className="Navbar-logo"  />
-					<span className="Navbar-title">SpotDB</span>
-				</Link>
-				<NavLink exact to="/" activeClassName="Navbar-active">
+			<div className={"Navbar" + (mobileMenuVisible ? "" : " Navbar-minimized")}>
+				<div className="Navbar-primary">
+					<Link to="/">
+						<img src={logo} alt="SpotDB logo of cardinal singing." className="Navbar-logo"  />
+						<span className="Navbar-title">SpotDB</span>
+					</Link>
+					<span onClick={this.onMobileMenuClick} className="Navbar-mobile-menu">&#9776;</span>
+				</div>
+				<NavLink exact to="/" activeClassName="Navbar-active" className={mobileMenuVisible ? "" : "hidden"}>
 					Home
 				</NavLink>
-				<NavLink to="/me" activeClassName="Navbar-active">
+				<NavLink to="/me" activeClassName="Navbar-active" className={mobileMenuVisible ? "" : "hidden"}>
 					Personalization 
 				</NavLink>
-				<NavLink to="/map" activeClassName="Navbar-active">
+				<NavLink to="/map" activeClassName="Navbar-active" className={mobileMenuVisible ? "" : "hidden"}>
 					Song Map
 				</NavLink>
-				<div>
+				<div className={mobileMenuVisible ? "" : "hidden"}>
 					<input 	type="text" placeholder="Search" className="Navbar-search" 
 									onChange={this.onQueryChange} 
 									onBlur={this.onQueryBlur}
 									onKeyDown={this.onQueryKeyDown} />
 				</div>
-				<div>
+				<div className={mobileMenuVisible ? "" : "hidden"}>
 					<Link to="/login" className="Navbar-login">Login</Link>
 				</div>
 			</div>

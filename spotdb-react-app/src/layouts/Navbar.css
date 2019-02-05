@@ -28,11 +28,13 @@
 	font-family: "Noto Sans", sans-serif;
 	font-weight: bold;
 }
-.Navbar > *:nth-child(1) {
+.Navbar-primary {
 	display: flex;
-	text-align: left;
+}
+.Navbar-primary a:first-child {
+	display: flex;
 	padding-left: 16px;
-	width: calc(100% - 16px);
+	/*width: calc(100% - 16px);*/
 }
 .Navbar > *:nth-child(n+2):nth-child(-n+4):hover {
 	background-color: #38394A;
@@ -53,6 +55,9 @@
 	font-size: calc(var(--navbar-font-size) - 0.05em);
 	/* Looks */
 	color: #2ecdb7;
+}
+.Navbar-mobile-menu {
+	display: none;
 }
 
 .Navbar-search {
@@ -85,6 +90,32 @@
 	background-color: #32E8D0;
 }
 
-/*.Navbar(@media:max-width 600px) {
-	
-}*/
+@media (max-width: 750px) {
+	.Navbar {
+		--navbar-font-size: 1rem;
+		max-height: calc(18 * var(--navbar-font-size));
+		height: calc(18 * var(--navbar-font-size));
+		grid-auto-flow: row;
+		grid-template-columns: 100%;
+	}
+
+	.Navbar > * {
+		box-shadow: 0px 1px 0px #7b7b7b;
+	}
+
+	.Navbar-mobile-menu {
+		display: inline;
+	  padding: 0 16px;
+	  margin-left: auto;
+	  font-size: calc(var(--navbar-font-size) + 0.5em);
+	}
+
+	.Navbar-minimized {
+		height: calc(3 * var(--navbar-font-size));
+	}
+
+	.hidden {
+		display: none;
+	}
+}
+
