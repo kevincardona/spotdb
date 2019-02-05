@@ -26,7 +26,7 @@ class Authorized extends Component {
         //console.log(this.props.location.search)
         var apiKey = this.props.location.search
         var callbackUri = 'http://localhost:5000/authorized' + apiKey
-        window.location = callbackUri
+        window.location.href = 'http://localhost:3000'
         return (
           <div className="App">
             <header className="App-header">

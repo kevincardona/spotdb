@@ -9,15 +9,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 var spotify_client_id = process.env.SPOTIFY_API_ID;
 var spotify_client_secret = process.env.SPOTIFY_API_SECRET;
+var access_token;
+var refresh_token;
+var expires_in;
 
 //var scopes = ['user-read-private', 'user-read-email'];
-
-var spotify = new SpotifyWebApi({
-    clientId: spotify_client_id,
-    clientSecret: spotify_client_secret,
-    redirectUri: 'http://localhost:3000/authorized'
-  });
-
 var login = (req, res) => {
     var scopes = 'user-read-private user-read-email'
     
@@ -38,9 +34,6 @@ var login = (req, res) => {
 var authorized = (req, res) => {
     var code = req.query.code; 
     var state = req.query.state;
-    var access_token;
-    var refresh_token;
-    var expires_in;
 
     var options = {
         url: 'https://accounts.spotify.com/api/token',
@@ -58,25 +51,41 @@ var authorized = (req, res) => {
         access_token = body.access_token;
         refresh_token = body.refresh_token;
         expires_in = body.expires_in;
-        console.log(body)
+        //console.log(body)
     })
 
 }
 
-var search = (req, res) => {
-    spotify.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE', { limit: 10, offset: 20 }).then(
-    function(data) {
-      console.log('Album information', data.body);
-    },
-    function(err) {
-      console.error(err);
+var accountInfo = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+            'Authorization': "Bearer " + access_token
+        },
+        json: true
     }
-  );
+    request.get(options, (error, response, body) => {
+        console.log(body)
+    })
+}
+
+var search = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/search?q='+req.query.q+'&type='+req.query.type,
+        headers: {
+            'Authorization': "Bearer " + access_token
+        },
+        json: true
+    }
+    request.get(options, (error, response, body) => {
+        console.log(body.artists)
+    })
 }
 
 
 module.exports = {
     login: login,
     search: search,
-    authorized: authorized
+    authorized: authorized,
+    accountInfo: accountInfo
 }

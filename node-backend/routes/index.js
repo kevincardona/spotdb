@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
 
 router.get('/login', spotify.login);
 router.get('/authorized', spotify.authorized);
-//router.get('/search', spotify.search);
-//router.get('/getaccess', spotify.getaccess);
+router.get('/accountinfo', spotify.accountInfo)
+router.get('/search', spotify.search);
+
 module.exports = router;
