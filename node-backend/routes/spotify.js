@@ -1,4 +1,8 @@
 var SpotifyWebApi = require('spotify-web-api-node');
+var request = require('request')
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var FormData = require('form-data');
+//var Buffer = require('buffer/').Buffer
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -15,7 +19,6 @@ var spotify = new SpotifyWebApi({
   });
 
 var login = (req, res) => {
-    //var scopes = ['user-read-private', 'user-read-email'];
     var scopes = 'user-read-private user-read-email'
     
     res.redirect('https://accounts.spotify.com/authorize' +
@@ -23,35 +26,41 @@ var login = (req, res) => {
       '&client_id=' + spotify_client_id +
       (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
       '&redirect_uri=' + encodeURIComponent('http://localhost:3000/authorized'));
-    //var authorizeURL = spotify.createAuthorizeURL(scopes);
-    //console.log(authorizeURL);
 }
 
-var getaccess = (req, res) => {
+/* var getaccess = (req, res) => {
     //var code = res.body.code;
     console.log(req.body);
     console.log('------------')
     console.log(res.body);
-}
+} */
 
 var authorized = (req, res) => {
-    var code = req.query.code; //we need this code
+    var code = req.query.code; 
     var state = req.query.state;
-    spotify.authorizationCodeGrant(code).then(function(data) {
-      console.log('The token expires in ' + data['expires_in']);
-      console.log('The access token is ' + data['access_token']);
-      console.log('The refresh token is ' + data['refresh_token']);
-    /* Ok. We've got the access token!
-         Save the access token for this user somewhere so that you can use it again.
-         Cookie? Local storage?
-      */
+    var access_token;
+    var refresh_token;
+    var expires_in;
 
-      spotify.setAccessToken(data.body['access_token']);
-      spotify.setRefreshToken(data.body['refresh_token']);
-
-    }, function(err) {
-      console.log('Something went wrong!')
+    var options = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+            code: code,
+            redirect_uri: 'http://localhost:3000/authorized',
+            grant_type: 'authorization_code'
+        },
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer(spotify_client_id + ':' + spotify_client_secret).toString('base64'))
+        },
+        json: true
+    }
+    request.post(options, function(error, response, body) {
+        access_token = body.access_token;
+        refresh_token = body.refresh_token;
+        expires_in = body.expires_in;
+        console.log(body)
     })
+
 }
 
 var search = (req, res) => {
@@ -68,7 +77,6 @@ var search = (req, res) => {
 
 module.exports = {
     login: login,
-    getaccess: getaccess,
     search: search,
     authorized: authorized
 }
