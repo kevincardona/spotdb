@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import '../layouts/SongMap.css';
+import Navbar from '../components/Navbar';
 
 export default class SongMap extends Component {
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const map = new window.google.maps.Map(document.getElementById('map'), {
-                    center: {lat: position.coords.latitude, lng: position.coords.longitude},
+                     center: {lat: position.coords.latitude, lng: position.coords.longitude},
                      zoom: 14,
                      disableDefaultUI: true,
                      styles: [
@@ -258,6 +259,7 @@ export default class SongMap extends Component {
   render() {
     return (
         <div>
+            <Navbar />
             SpotDB
             <div id="toolbar">
                 <div className="toolbar-container">

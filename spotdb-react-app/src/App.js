@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
-import logo from './assets/logo.svg';
 import './layouts/App.css';
 
 class App extends Component {

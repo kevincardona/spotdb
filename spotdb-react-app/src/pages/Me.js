@@ -1,16 +1,16 @@
 import React from 'react';
-import '../layouts/Home.css';
+import '../layouts/Me.css';
 import Navbar from '../components/Navbar';
 
-class Home extends React.Component {
+class Me extends React.Component {
     render() {
         return (
             <div>
             		<Navbar />
-                <h1>Welcome to SpotDB</h1>
+                <h1>This is for Me!</h1>
             </div>
         );
     }
 }
 
-export default Home;
+export default Me;

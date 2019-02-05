@@ -1,0 +1,121 @@
+.Navbar {
+	/* Global */
+	--navbar-font-size: 1.1rem;
+	max-height: calc(3 * var(--navbar-font-size));
+	/* Layout */
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 15% 20% 20% 20% 15% 10%;
+	/* Dimensions */
+	width: 100vw;
+	height: calc(3 * var(--navbar-font-size));
+	/* Looks */
+	background-color: #3E3F52;
+	box-shadow: 0px 1px 10px #5a5a5a;
+}
+
+.Navbar > * {
+	/* Layout */
+	text-align: center;
+	vertical-align: middle;
+	/* Dimensions */
+	width: 100%;
+	line-height: calc(3 * var(--navbar-font-size));
+	font-size: var(--navbar-font-size);
+	/* Looks */
+	color: white;
+	text-decoration: none;
+	font-family: "Noto Sans", sans-serif;
+	font-weight: bold;
+}
+.Navbar-primary {
+	display: flex;
+}
+.Navbar-primary a:first-child {
+	display: flex;
+	padding-left: 16px;
+	/*width: calc(100% - 16px);*/
+}
+.Navbar > *:nth-child(n+2):nth-child(-n+4):hover {
+	background-color: #38394A;
+}
+.Navbar-active {
+	text-decoration: underline;
+}
+
+.Navbar-logo {
+	height: calc(2.25 * var(--navbar-font-size));
+	align-self: center;
+	padding-right: 5px;
+}
+
+.Navbar-title {
+	/* Dimensions */
+	line-height: calc(3 * var(--navbar-font-size));;
+	font-size: calc(var(--navbar-font-size) - 0.05em);
+	/* Looks */
+	color: #2ecdb7;
+}
+.Navbar-mobile-menu {
+	display: none;
+}
+
+.Navbar-search {
+	/* Dimensions */
+	max-width: calc(90% - 16px);
+	border: none;
+	padding: 8px;
+	font-size: calc(var(--navbar-font-size) - 0.1em);	
+	/* Looks */
+	color: white;
+	background-color: #656687;
+	border-radius: 5px;
+}
+.Navbar-search::placeholder {
+	color: #BFBFBF;
+}
+
+.Navbar-login {
+	/* Dimensions */
+	max-width: calc(100% - 24px);
+	padding: 8px 12px;
+	font-size: calc(var(--navbar-font-size) - 0.1em);
+	/* Looks */
+	color: white;
+	background-color: #2ecdb7;
+	border-radius: 5px;
+	text-decoration: none;
+}
+.Navbar-login:hover {
+	background-color: #32E8D0;
+}
+
+@media (max-width: 750px) {
+	.Navbar {
+		--navbar-font-size: 1rem;
+		max-height: calc(18 * var(--navbar-font-size));
+		height: calc(18 * var(--navbar-font-size));
+		grid-auto-flow: row;
+		grid-template-columns: 100%;
+	}
+
+	.Navbar > * {
+		box-shadow: 0px 1px 0px #7b7b7b;
+	}
+
+	.Navbar-mobile-menu {
+		display: inline;
+	  padding: 0 16px;
+	  margin-left: auto;
+	  font-size: calc(var(--navbar-font-size) + 0.5em);
+	}
+
+	.Navbar-minimized {
+		height: calc(3 * var(--navbar-font-size));
+	}
+
+	.hidden {
+		display: none;
+	}
+}
+
