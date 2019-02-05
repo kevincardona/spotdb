@@ -1,6 +1,5 @@
 import React from 'react';
 import '../layouts/Search.css';
-import Navbar from '../components/Navbar';
 
 class Search extends React.Component {
 	state = {
@@ -17,7 +16,6 @@ class Search extends React.Component {
 		const p = new URLSearchParams(this.state.params);
 		return (
 			<div>
-				<Navbar />
 				<h1>This will process query parameters</h1>
 				<h1>{p.get("query")}</h1>
 			</div>

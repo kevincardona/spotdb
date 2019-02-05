@@ -1,5 +1,6 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import '../layouts/Login.css'
+import spotifyLogo from '../assets/Spotify_Icon_RGB_Green.png';
 
 class Login extends React.Component {
 	// constructor() {
@@ -20,11 +21,13 @@ class Login extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar />
-				<div className="App">
-					<div className="App-header">
-						<a href='http://localhost:5000/login'> Login to Spotify </a>
-					</div>
+				<div className="Login">
+					<a href='http://localhost:5000/login'>
+						<div className="Login-button">
+							<img src={spotifyLogo} alt="Spotify Logo" className="Login-button-logo" />
+							<span className="Login-link">Login with your <br/> Spotify Account</span>
+						</div>
+					</a>
 				</div>
 			</div>
 		);

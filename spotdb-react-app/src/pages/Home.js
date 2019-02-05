@@ -1,12 +1,10 @@
 import React from 'react';
 import '../layouts/Home.css';
-import Navbar from '../components/Navbar';
 
 class Home extends React.Component {
     render() {
         return (
-            <div>
-            		<Navbar />
+            <div className="Home">
                 <h1>Welcome to SpotDB</h1>
             </div>
         );
