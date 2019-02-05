@@ -7,7 +7,7 @@ export default class SongMap extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const map = new window.google.maps.Map(document.getElementById('map'), {
-                    center: {lat: position.coords.latitude, lng: position.coords.longitude},
+                    ncenter: {lat: position.coords.latitude, lng: position.coords.longitude},
                      zoom: 14,
                      disableDefaultUI: true,
                      styles: [

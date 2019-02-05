@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import '../layouts/Navbar.css';
 import logo from '../assets/logo.svg';
 
@@ -19,39 +20,50 @@ class Navbar extends React.Component {
 		return this.setState({ queryError });
 	};
 
-	onQueryChange = event => {
+	onQueryChange = (event) => {
 		this.setState({
 			searchQuery: event.target.value
 		});
 	};
 
+	onQueryKeyDown = (event) => {
+		if (event.key === "Enter") {
+      this.onQuerySubmit();
+    }
+	};
+
+	onQuerySubmit = () => {
+		this.props.history.push('/search?query=' + this.state.searchQuery);
+	};
+
 	render() {
 		return (
 			<div className="Navbar">
-				<a href="/">
+				<Link to="/">
 					<img src={logo} alt="SpotDB logo of cardinal singing." className="Navbar-logo"  />
 					<span className="Navbar-title">SpotDB</span>
-				</a>
-				<a href="/Home">
+				</Link>
+				<NavLink exact to="/" activeClassName="Navbar-active">
 					Home
-				</a>
-				<a href="">
+				</NavLink>
+				<NavLink to="/me" activeClassName="Navbar-active">
 					Personalization 
-				</a>
-				<a href="/Map">
+				</NavLink>
+				<NavLink to="/map" activeClassName="Navbar-active">
 					Song Map
-				</a>
+				</NavLink>
 				<div>
 					<input 	type="text" placeholder="Search" className="Navbar-search" 
 									onChange={this.onQueryChange} 
-									onBlur={this.onQueryBlur} />
+									onBlur={this.onQueryBlur}
+									onKeyDown={this.onQueryKeyDown} />
 				</div>
 				<div>
-					<a href="/Login" className="Navbar-login">Login</a>
+					<Link to="/login" className="Navbar-login">Login</Link>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default Navbar;
+export default withRouter(Navbar);

@@ -35,6 +35,9 @@ body {
 }
 
 #toolbar {
+
+    display: none; /* Added by Joe to temp replace with Navbar component */
+
     z-index: 3;
     padding-left: 30px;
     font-size: 20px;
