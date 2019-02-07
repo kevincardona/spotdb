@@ -53,6 +53,7 @@
 	height: calc(2.25 * var(--navbar-font-size));
 	align-self: center;
 	padding-right: 5px;
+	user-select: none;
 }
 
 .Navbar-title {
@@ -61,6 +62,7 @@
 	font-size: calc(var(--navbar-font-size) - 0.05em);
 	/* Looks */
 	color: #2ecdb7;
+	user-select: none;
 }
 .Navbar-mobile-menu {
 	display: none;
@@ -118,14 +120,22 @@
 	  padding: 0 16px;
 	  margin-left: auto;
 	  font-size: calc(var(--navbar-font-size) + 0.5em);
+	  user-select: none;
 	}
 
 	.Navbar-minimized {
 		height: calc(3 * var(--navbar-font-size));
+		width: 100vw;
+		padding: 0px;
+	}
+
+	.Navbar-logo {
+		margin-left: 16px;
 	}
 
 	.hidden {
 		display: none;
 	}
+
 }
 
