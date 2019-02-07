@@ -1,7 +1,7 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 var request = require('request')
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var FormData = require('form-data');
+//var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+//var FormData = require('form-data');
 //var Buffer = require('buffer/').Buffer
 
 if (process.env.NODE_ENV !== 'production') {
