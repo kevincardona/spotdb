@@ -1,11 +1,10 @@
-import React,{ Component } from 'react';
-import Map from '../components/Map';
+import React from 'react';
 import '../layouts/Home.css';
 
-class Home extends Component {
+class Home extends React.Component {
     render() {
         return (
-            <div>
+            <div className="Home">
                 <h1>Welcome to SpotDB</h1>
             </div>
         );
