@@ -3,9 +3,6 @@ import '../layouts/Login.css'
 import spotifyLogo from '../assets/Spotify_Icon_RGB_Green.png';
 
 class Login extends React.Component {
-	// constructor() {
-	// 	super();
-	// }
 	getHashParams() {
 		var hashParams = {};
 		var e, r = /([^&;=]+)=?([^&;]*)/g,

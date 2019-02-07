@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SongMap from './pages/SongMap';
+import Authorized from './pages/Authorized';
 import Me from './pages/Me';
 import Account from './pages/Account';
 import Search from './pages/Search';
@@ -20,7 +21,8 @@ const Routes = () => (
 			<Route exact path="/me" component={Me} />
 			<Route exact path="/map" component={SongMap} />
 			<Route exact path="/account" component={Account} />
-			<Route exact path="/search" component={Search} />
+			<Route exact path="/search" component={Search} />	
+        		<Route exact path="/authorized" component={Authorized} />
 			<Route path="*" component={NoMatch} />
 		</Switch>
 	</div>
