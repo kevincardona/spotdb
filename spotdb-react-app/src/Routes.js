@@ -13,7 +13,7 @@ import NoMatch from './pages/NoMatch';
 
 const Routes = () => (
 	<div id="Routes">
-		<Navbar isLoggedIn="false" /> {/* This need to be updated to take in a proper value */}
+		<Navbar isLoggedIn="" /> {/* This need to be updated to take in a proper value */}
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/home" render={() => (<Redirect to="/" />)} />
