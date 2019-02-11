@@ -13,7 +13,7 @@
 	height: calc(3 * var(--navbar-font-size));
 	padding: 0 16px;
 	/* Looks */
-	background-color: #3E3F52;
+	background-color: #3E3F52;																		/* Background color for Navbar */
 	box-shadow: 0px -2px 10px #000000;
 }
 
@@ -32,18 +32,19 @@
 	font-weight: bold;
 }
 .Navbar-primary {
-	display: flex;
+	display: flex; /* fixes text alignment */
+}
+.Navbar-primary a {
+	text-decoration: none; /* remove the underline when clicking logo */
 }
 .Navbar-primary a:first-child {
-	display: flex;
-	/*padding-left: 16px;*/
-	/*width: calc(100% - 16px);*/
+	display: flex; /* fixes text alignment */
 }
 .Navbar-last {
 	text-align: end;
 }
 .Navbar > *:nth-child(n+2):nth-child(-n+4):hover {
-	background-color: #38394A;
+	background-color: #38394A;																		/* Link hover color */
 }
 .Navbar-active {
 	text-decoration: underline;
@@ -61,7 +62,7 @@
 	line-height: calc(3 * var(--navbar-font-size));;
 	font-size: calc(var(--navbar-font-size) - 0.05em);
 	/* Looks */
-	color: #2ecdb7;
+	color: #2ecdb7;																								/* Logo text color */
 	user-select: none;
 }
 .Navbar-mobile-menu {
@@ -101,6 +102,9 @@
 .Navbar-login.Navbar-account {
 	background-color: #656687;
 }
+.Navbar-login.Navbar-account:hover {
+	background-color: #595A78;
+}
 
 @media (max-width: 750px) {
 	.Navbar {
@@ -109,10 +113,13 @@
 		height: calc(18 * var(--navbar-font-size));
 		grid-auto-flow: row;
 		grid-template-columns: 100%;
+		/* Get rid of margins */
+		padding: 0 0;
+		width: 100vw;
 	}
 
 	.Navbar > * {
-		box-shadow: 0px 1px 0px #7b7b7b;
+		box-shadow: 0px 1px 0px #7b7b7b;												/* This is the border between menus */
 	}
 
 	.Navbar-mobile-menu {
@@ -123,10 +130,19 @@
 	  user-select: none;
 	}
 
+	.Navbar-last {
+		text-align: center;
+		box-shadow: none; /* no border on last element */
+	}
+
 	.Navbar-minimized {
 		height: calc(3 * var(--navbar-font-size));
 		width: 100vw;
 		padding: 0px;
+	}
+
+	.Navbar-minimized .Navbar-primary {
+		box-shadow: none; /* no border when minimized */
 	}
 
 	.Navbar-logo {

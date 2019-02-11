@@ -1,1 +1,37 @@
- 
+.Me-account-warning {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #B22A31;
+	font-size: 1.3rem;
+	padding: 0.6rem 10vw;
+} 
+.Me-account-warning-text {
+	flex-grow: 1;
+	margin-right: 15px;
+}
+.Me-account-warning-close {
+	font-size: 1em;
+	font-weight: bold;
+	min-width: 2rem;
+	min-height: 1.9rem;
+	width: 2rem;
+	height: 1.9rem;
+	background-color: #91232A;
+	border: none;
+	border-radius: 10px;
+}
+.Me-account-warning-close:hover {
+	background-color: #771E24;
+}
+.Me-account-warning-close:after {
+	content: 'x';
+	color: white;
+	font-size: 1.2em;
+	font-weight: bold;
+	position: relative;
+	top: -0.1em;
+}
+.Me-account-warning.closed {
+	display: none;
+}
