@@ -5,7 +5,7 @@ import { Script } from 'vm';
 
 class Authorized extends Component {
     componentDidMount() {
-        this.props.userAuthorized("Account"); // Potentially replace with username if can get
+        this.props.userAuthorized("(username)"); // Potentially replace with username if can get
     }
     //buttonClick(){
     //    console.log("came here")
