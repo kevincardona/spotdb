@@ -13,7 +13,7 @@ import NoMatch from './pages/NoMatch';
 
 const Routes = ({userName, userAuthorized}) => (
 	<div id="Routes">
-		<Navbar userName={userName} /> {/* This need to be updated to take in a proper value */}
+		<Navbar userName={userName} />
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/home" render={() => (<Redirect to="/" />)} />
