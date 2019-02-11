@@ -11,18 +11,18 @@ import Account from './pages/Account';
 import Search from './pages/Search';
 import NoMatch from './pages/NoMatch';
 
-const Routes = () => (
+const Routes = ({userName, userAuthorized}) => (
 	<div id="Routes">
-		<Navbar isLoggedIn="" /> {/* This need to be updated to take in a proper value */}
+		<Navbar userName={userName} />
 		<Switch>
 			<Route exact path="/" component={Home} />
 			<Route exact path="/home" render={() => (<Redirect to="/" />)} />
 			<Route exact path="/login" component={Login} />
-			<Route exact path="/me" component={Me} />
+			<Route exact path="/me" render={() => <Me userName={userName} />} />
 			<Route exact path="/map" component={SongMap} />
-			<Route exact path="/account" component={Account} />
+			<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
 			<Route exact path="/search" component={Search} />	
-        		<Route exact path="/authorized" component={Authorized} />
+      <Route exact path="/authorized" render={() => <Authorized userAuthorized={userAuthorized} />} />
 			<Route path="*" component={NoMatch} />
 		</Switch>
 	</div>

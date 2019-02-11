@@ -1,6 +1,6 @@
 import React from 'react';
-import '../layouts/Login.css'
-import spotifyLogo from '../assets/Spotify_Icon_RGB_Green.png';
+import '../layouts/Login.css';
+import spotifyLogo from '../assets/Spotify_Icon_RGB_Black.png';
 
 class Login extends React.Component {
 	getHashParams() {

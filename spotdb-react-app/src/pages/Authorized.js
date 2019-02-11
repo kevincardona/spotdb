@@ -1,9 +1,12 @@
 import React,{ Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import '../layouts/Home.css';
 import { Script } from 'vm';
 
 class Authorized extends Component {
-
+    componentDidMount() {
+        this.props.userAuthorized("(username)"); // Potentially replace with username if can get
+    }
     //buttonClick(){
     //    console.log("came here")
     //    
@@ -23,16 +26,14 @@ class Authorized extends Component {
     //   }
 
     render() {
-        //console.log(this.props.location.search)
-        var apiKey = this.props.location.search
-        var callbackUri = 'http://localhost:5000/authorized' + apiKey
-        window.location.href = 'http://localhost:3000'
+        // console.log(this.props)
+        // var apiKey = this.props.location.search // This is improper place to put variables
+        // var callbackUri = 'http://localhost:5000/authorized' + apiKey // This is improper place to put variables
+        // window.location.href = 'http://localhost:3000' // THIS IS REPLACED with the Redirect Component below
         return (
-          <div className="App">
-            <header className="App-header">
+          <div>
             <h1>Authorized</h1>
-            {}
-            </header>
+            <Redirect to="/" />
           </div>
         );
       }

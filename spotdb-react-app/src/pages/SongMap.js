@@ -257,7 +257,7 @@ export default class SongMap extends Component {
  
   render() {
     return (
-        <div>
+        <div className="SongMap">
             <div id="map-container">
                 <div id="map">
                     <image className="loader" src="%PUBLIC_URL%/loader.svg"></image>
