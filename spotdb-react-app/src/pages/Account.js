@@ -4,7 +4,7 @@ import profilePicture from "../assets/logo.svg";
 
 class Account extends React.Component {
 	state = {
-		name: "Tocseoj",
+		name: this.props.userName || "No Name",
 		birthday: "6/24/97",
 		follower_count: 1,
 		following_count: 41,
