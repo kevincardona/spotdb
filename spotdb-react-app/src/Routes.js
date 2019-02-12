@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import FooterNav from './components/FooterNav';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -14,25 +15,44 @@ import Search from './pages/Search';
 import Artist from './pages/Artist';
 import NoMatch from './pages/NoMatch';
 
+/* 	
+	This component is funcitonal and has no state
+	but it renders all the visible page content	
+*/
 const Routes = ({userName, userAuthorized}) => (
 	<div id="Routes">
 		<Navbar userName={userName} />
-		<Switch>
-			<Route exact path="/" component={Home} />
-			<Route exact path="/home" render={() => (<Redirect to="/" />)} />
-			<Route exact path="/login" component={Login} />
-			<Route exact path="/me" render={() => <Me userName={userName} />} />
-			<Route exact path="/map" component={SongMap} />
-			<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
-			<Route exact path="/about" component={About} />
-			<Route exact path="/terms" render={() => <TextPage textFile="terms_and_conditions.txt" />} />
-			<Route exact path="/privacy" render={() => <TextPage textFile="privacy_policy.txt" />} />
-			<Route exact path="/search" component={Search} />	
-      <Route exact path="/authorized" render={() => <Authorized userAuthorized={userAuthorized} />} />
-      <Route exact path="/artist" component={Artist} />
-      <Route exact path="/artist/:id" component={Artist} />
-			<Route component={NoMatch} />
-		</Switch>
+		<div className="main-content">
+			<Switch>
+				
+				{/* Main Content / Navbar Pages */}
+				<Route exact path="/" component={Home} />
+				<Route exact path="/home" render={() => (<Redirect to="/" />)} /> {/* This simply redirects back to the Home page */}
+				<Route exact path="/me" render={() => <Me userName={userName} />} /> {/* Using the render prop we can pass props to the component rendered by the Route */}
+				<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
+	      <Route exact path="/authorized" render={() => <Authorized userAuthorized={userAuthorized} />} />
+
+	    	{/* These pages don't have the FooterNav */}
+				<Route exact path="/map" component={SongMap} />
+				<Route exact path="/login" component={Login} />
+				
+				{/* Pages that GETs Spotify data based on URL parameters */}
+				<Route exact path="/search" component={Search} />	
+	      <Route exact path="/artist" component={Artist} />
+	      <Route exact path="/artist/:id" component={Artist} /> {/* The ':id' means the component will get passed a url parameter */}
+
+	    	{/* Static Information pages */}
+	      <Route exact path="/about" component={About} />
+				<Route exact path="/terms" render={() => <TextPage textFile="terms_and_conditions.txt" />} />
+				<Route exact path="/privacy" render={() => <TextPage textFile="privacy_policy.txt" />} />
+
+				{/* This is the 404 page */}
+				<Route component={NoMatch} /> 
+			</Switch>
+		</div>
+		{/* The regular expression matches all routes that are not exactly '/map' or '/login' */}
+		{/* This throws an error, but it's just because react router didn't use to support regex */}
+		<Route path={/^(?!(\/map|\/login)$).*$/} component={FooterNav} />
 	</div>
 );
 
