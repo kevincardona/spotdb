@@ -29,7 +29,7 @@
 	color: white;
 	text-decoration: none;
 	font-family: "Noto Sans", sans-serif;
-	font-weight: bold;
+	font-weight: lighter;
 }
 .Navbar-primary {
 	display: flex; /* fixes text alignment */
@@ -41,7 +41,16 @@
 	display: flex; /* fixes text alignment */
 }
 .Navbar-last {
-	text-align: end;
+	max-height: calc(3 * var(--navbar-font-size));
+	min-height: calc(3 * var(--navbar-font-size));
+	align-self: center;
+	justify-self: center;
+}
+.Navbar-last a {
+	display: block;
+	line-height: 1em;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
 }
 .Navbar > *:nth-child(n+2):nth-child(-n+4):hover {
 	background-color: #38394A;																		/* Link hover color */
@@ -86,24 +95,31 @@
 
 .Navbar-login { 
 	/* Dimensions */
-	max-width: calc(100% - 24px);
-	padding: 8px 12px;
-	font-size: calc(var(--navbar-font-size) - 0.1em);
+	max-width: calc(100% - 32px);
+	width: fit-content;
+	margin: 0.5em 0 0.5em auto;
+	padding: 0.5em 0.75em;
+	font-size: 1em;
 	/* Looks */
 	color: white;
 	background-color: #2ecdb7;
 	border-radius: 5px;
 	text-decoration: none;
 }
+.Navbar-login div {
+	font-size: 0.8rem;
+	/*overflow: hidden;
+  text-overflow: ellipsis*/
+}
 .Navbar-login:hover {
 	/*background-color: #32E8D0;*/
 	background-color: #25A998;
 }
 .Navbar-login.Navbar-account {
-	background-color: #656687;
+	background-color: #272835;
 }
 .Navbar-login.Navbar-account:hover {
-	background-color: #595A78;
+	background-color: #22232F;
 }
 
 @media (max-width: 750px) {
@@ -133,6 +149,10 @@
 	.Navbar-last {
 		text-align: center;
 		box-shadow: none; /* no border on last element */
+	}
+
+	.Navbar-login {
+		margin: 0.5em auto;
 	}
 
 	.Navbar-minimized {

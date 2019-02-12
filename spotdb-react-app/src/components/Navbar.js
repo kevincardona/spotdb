@@ -72,7 +72,7 @@ class Navbar extends React.Component {
 				</div>
 				<div className={mobileMenuVisible ? "Navbar-last " : "Navbar-last hidden"}>
 					{this.props.userName
-						? <Link to="/account" className="Navbar-login Navbar-account">{this.props.userName}</Link>
+						? <Link to="/account" className="Navbar-login Navbar-account">Account</Link>
 						: <Link to="/login" className="Navbar-login">Login</Link>
 					}
 				</div>

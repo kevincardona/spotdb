@@ -6,3 +6,14 @@ body {
   text-align: center;
   font-family: "Noto Sans", sans-serif;
 }
+
+.main-content {
+	width: 100vw;
+	min-height: calc(100vh - 3.3rem);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	overflow-wrap: break-word;
+}
