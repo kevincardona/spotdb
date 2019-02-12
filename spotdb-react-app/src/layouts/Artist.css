@@ -1,14 +1,10 @@
-.Me {
+.Artist {
 	margin: 3vh 15vw;
 	flex-grow: 1;
 }
 
 @media (max-width: 750px) {
-	.Me {
+	.Artist {
 		margin: 3vh 0;
 	}
-}
-
-.Me-hero {
-	font-size: 2em;
-}
+} 
