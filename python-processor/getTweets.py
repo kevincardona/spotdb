@@ -5,12 +5,15 @@ import preprocessor
 import contractions
 from string import punctuation
 from nltk.tokenize import TweetTokenizer
+from gensim.models import Word2Vec
+
 
 tknzr = TweetTokenizer(strip_handles=True)
+model = Word2Vec.load("word2vec.model")
 
 
 def initialPreprocess(tweet):
-    return preprocessor.clean(tweet.encode('ascii', 'ignore'))
+    return preprocessor.clean(tweet)
 
 
 def strip_punctuation(tweet):
@@ -41,10 +44,16 @@ def custom_preprocess(tweet):
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         try:
-            print(status.extended_tweet['full_text'])
+            tweet = status.extended_tweet['full_text']
         except:
-            print(status.text)
-
+            tweet = status.text
+        tweet = initialPreprocess(tweet)
+        tweet = custom_preprocess(tweet)
+        tweetArray = tweet.split(' ')
+        print(tweet)
+        for word in tweetArray:
+            if word in model.wv.vocab:
+                print('good')
 
 auth = tweepy.OAuthHandler(cfg.api_key, cfg.secret_key)
 
