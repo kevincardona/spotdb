@@ -1,4 +1,4 @@
-![SpotDB Logo](/spotdb-react-app/src/assest/logo.svg)
+![SpotDB Logo](/spotdb-react-app/src/assets/logo.svg)
 
 # SpotDB
 
