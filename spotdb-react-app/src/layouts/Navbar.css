@@ -1,7 +1,4 @@
 .Navbar {
-	/* Global */
-	--navbar-font-size: 1.1rem;
-	max-height: calc(3 * var(--navbar-font-size));
 	/* Layout */
 	position: relative;
 	z-index: 1000;
@@ -10,7 +7,8 @@
 	grid-template-columns: 16% 18% 18% 18% 18% 12%;
 	/* Dimensions */
 	width: calc(100vw - 32px);
-	height: calc(3 * var(--navbar-font-size));
+	height: 3.3rem;
+	max-height: 3.3rem;
 	padding: 0 16px;
 	/* Looks */
 	background-color: #3E3F52;																		/* Background color for Navbar */
@@ -23,8 +21,8 @@
 	vertical-align: middle;
 	/* Dimensions */
 	width: 100%;
-	line-height: calc(3 * var(--navbar-font-size));
-	font-size: var(--navbar-font-size);
+	line-height: 3.3rem;
+	font-size: 1.1rem;
 	/* Looks */
 	color: white;
 	text-decoration: none;
@@ -41,8 +39,8 @@
 	display: flex; /* fixes text alignment */
 }
 .Navbar-last {
-	max-height: calc(3 * var(--navbar-font-size));
-	min-height: calc(3 * var(--navbar-font-size));
+	max-height: 3.3rem;
+	min-height: 3.3rem;
 	align-self: center;
 	justify-self: center;
 }
@@ -60,7 +58,7 @@
 }
 
 .Navbar-logo {
-	height: calc(2.25 * var(--navbar-font-size));
+	height: 2.475rem;
 	align-self: center;
 	padding-right: 5px;
 	user-select: none;
@@ -68,8 +66,8 @@
 
 .Navbar-title {
 	/* Dimensions */
-	line-height: calc(3 * var(--navbar-font-size));;
-	font-size: calc(var(--navbar-font-size) - 0.05em);
+	line-height: 3.3rem;
+	font-size: 1.05rem;
 	/* Looks */
 	color: #2ecdb7;																								/* Logo text color */
 	user-select: none;
@@ -83,7 +81,7 @@
 	max-width: calc(90% - 16px);
 	border: none;
 	padding: 8px;
-	font-size: calc(var(--navbar-font-size) - 0.1em);	
+	font-size: 1rem;	
 	/* Looks */
 	color: white;
 	background-color: #656687;
@@ -125,8 +123,8 @@
 @media (max-width: 750px) {
 	.Navbar {
 		--navbar-font-size: 1rem;
-		max-height: calc(18 * var(--navbar-font-size));
-		height: calc(18 * var(--navbar-font-size));
+		max-height: 19.8rem;
+		height: 19.8rem;
 		grid-auto-flow: row;
 		grid-template-columns: 100%;
 		/* Get rid of margins */
@@ -142,7 +140,7 @@
 		display: inline;
 	  padding: 0 16px;
 	  margin-left: auto;
-	  font-size: calc(var(--navbar-font-size) + 0.5em);
+	  font-size: 1.6rem;
 	  user-select: none;
 	}
 
@@ -156,7 +154,7 @@
 	}
 
 	.Navbar-minimized {
-		height: calc(3 * var(--navbar-font-size));
+		height: 3.3rem;
 		width: 100vw;
 		padding: 0px;
 	}

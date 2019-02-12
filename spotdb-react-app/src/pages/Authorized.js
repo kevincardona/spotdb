@@ -4,8 +4,10 @@ import '../layouts/Home.css';
 import { Script } from 'vm';
 
 class Authorized extends Component {
+    // This tells app user is logged in based on a userName variable
+    // Calls a function passed to it by App.js to update our global state
     componentDidMount() {
-        this.props.userAuthorized("this_is_a_super_long_username"); // Potentially replace with username if can get
+        this.props.userAuthorized("this_is_a_super_long_username"); // Replace with username once we get it
     }
     //buttonClick(){
     //    console.log("came here")
@@ -27,12 +29,13 @@ class Authorized extends Component {
 
     render() {
         // console.log(this.props)
-        // var apiKey = this.props.location.search // This is improper place to put variables
-        // var callbackUri = 'http://localhost:5000/authorized' + apiKey // This is improper place to put variables
+        // var apiKey = this.props.location.search // Unused
+        // var callbackUri = 'http://localhost:5000/authorized' + apiKey // Unused
         // window.location.href = 'http://localhost:3000' // THIS IS REPLACED with the Redirect Component below
         return (
           <div>
             <h1>Authorized</h1>
+            {/* This Redirect component will redirect after mounting and will use react-router which is faster than 'refreshing' to home */}
             <Redirect to="/" />
           </div>
         );
