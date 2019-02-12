@@ -12,6 +12,11 @@ tknzr = TweetTokenizer(strip_handles=True)
 model = Word2Vec.load("word2vec.model")
 
 
+def completelyProcess(tweet):
+    tweet = initialPreprocess(tweet)
+    return custom_preprocess(tweet)
+
+
 def initialPreprocess(tweet):
     return preprocessor.clean(tweet)
 
@@ -22,7 +27,8 @@ def strip_punctuation(tweet):
 
 def strip_rt(tweet):
     tweet = tweet.replace('rt  ', '')
-    return tweet.replace(' rt ', '')
+    tweet = tweet.replace(' rt ', '')
+    return tweet.replace(' rt', '')
 
 
 def fix_contractions(tweet):
@@ -33,7 +39,12 @@ def duplicate_whitespace(tweet):
     return re.sub(' +', ' ', tweet)
 
 
+def fixIam(tweet):
+    return tweet.replace('i\'m', 'I\'m')
+
+
 def custom_preprocess(tweet):
+    tweet = fixIam(tweet)
     tweet = fix_contractions(tweet)
     tweet = strip_punctuation(tweet)
     tweet = strip_rt(tweet)
@@ -41,26 +52,18 @@ def custom_preprocess(tweet):
     return tweet
 
 
-class MyStreamListener(tweepy.StreamListener):
-    def on_status(self, status):
-        try:
-            tweet = status.extended_tweet['full_text']
-        except:
-            tweet = status.text
-        tweet = initialPreprocess(tweet)
-        tweet = custom_preprocess(tweet)
-        tweetArray = tweet.split(' ')
-        print(tweet)
-        for word in tweetArray:
-            if word in model.wv.vocab:
-                print('good')
+if __name__ == "__main__":
+    auth = tweepy.OAuthHandler(cfg.api_key, cfg.secret_key)
 
-auth = tweepy.OAuthHandler(cfg.api_key, cfg.secret_key)
+    auth.set_access_token(cfg.access_token, cfg.access_secret)
 
-auth.set_access_token(cfg.access_token, cfg.access_secret)
+    api = tweepy.API(auth)
+    limit = None
+    tweets = []
+    for tweet in tweepy.Cursor(api.search, q='query', lang='en').items(200):
+        tweets.append(tweet._json['text'])
 
-api = tweepy.API(auth)
-
-myStreamListener = MyStreamListener()
-myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
-myStream.filter(languages=["en"], track=['pizza'])
+    cleaned_tweets = []
+    for tweet in tweets:
+        cleaned_tweets.append(completelyProcess(tweet))
+    print(cleaned_tweets)
