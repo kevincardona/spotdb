@@ -11,6 +11,7 @@ model = Word2Vec.load("word2vec.model")
 
 
 def completelyProcess(tweet):
+    tweet = fixEncoding(tweet)
     tweet = initialPreprocess(tweet)
     return custom_preprocess(tweet)
 
@@ -47,7 +48,6 @@ def fixEncoding(tweet):
 
 def custom_preprocess(tweet):
     tweet = fixIam(tweet)
-    tweet = fixEncoding(tweet)
     tweet = fix_contractions(tweet)
     tweet = strip_punctuation(tweet)
     tweet = strip_rt(tweet)
@@ -71,7 +71,9 @@ if __name__ == "__main__":
         cleaned_tweets.append(completelyProcess(tweet))
     print(cleaned_tweets)
 
-    bad_tweet = "I love music. I'm cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com"
+    bad_tweet = 'I love music. I\'m cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com'
     print("Bad Tweet: " + bad_tweet)
+    bad_tweet = str(bad_tweet.encode('utf-7'), 'utf-7')
+    print(bad_tweet)
     processed_tweet = completelyProcess(bad_tweet)
     print("Processed tweet: " + processed_tweet)
