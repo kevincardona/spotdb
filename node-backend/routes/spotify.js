@@ -51,12 +51,17 @@ var authorized = (req, res) => {
         },
         json: true
     }
+
     request.post(options, function(error, response, body) {
         access_token = body.access_token;
         refresh_token = body.refresh_token;
         expires_in = body.expires_in;
-        //console.log(body)
+        console.log(body)
+        //if (response.statusCode == 200) {
+          //  response.redirect('http://localhost:3000')
+        //}
     })
+
 
 }
 
