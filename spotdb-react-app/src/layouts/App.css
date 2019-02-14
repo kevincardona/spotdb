@@ -1,40 +1,28 @@
+/* Global App Styles */
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i');
+
+/* Default page style */
 body {
   background-color: #282c34;
+  
+  /* Text */
   color: #F3F3F3;
+  font: 400 1rem/1.5 "Noto Sans", sans-serif;
   text-align: center;
-  font-family: "Noto Sans", sans-serif;
+  overflow-wrap: break-word;
 }
 
-.App {
-  text-align: center;
-  width: 100vw; 
-}
+/* 
+	Used to wrap all Routes content.
+	Sets full width, but makes sure height is at least a big 
+	enough to place Footer at bottom using flex-box
+*/
+.main-content {
+	width: 100vw;
+	min-height: calc(100vh - 6rem);
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }

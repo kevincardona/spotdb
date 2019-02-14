@@ -1,1 +1,19 @@
+.Account {
+	margin: 3vh 15vw;
+	flex-grow: 1;
+}
 
+@media (max-width: 750px) {
+	.Account {
+		margin: 3vh 0;
+	}
+} 
+
+.Account {
+	overflow-wrap: break-word;
+}
+
+.Account-name {
+	font-size: 2em;
+	font-weight: bold;
+}

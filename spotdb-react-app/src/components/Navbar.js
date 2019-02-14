@@ -71,7 +71,7 @@ class Navbar extends React.Component {
 									onKeyDown={this.onQueryKeyDown} />
 				</div>
 				<div className={mobileMenuVisible ? "Navbar-last " : "Navbar-last hidden"}>
-					{this.props.isLoggedIn 
+					{this.props.userName
 						? <Link to="/account" className="Navbar-login Navbar-account">Account</Link>
 						: <Link to="/login" className="Navbar-login">Login</Link>
 					}

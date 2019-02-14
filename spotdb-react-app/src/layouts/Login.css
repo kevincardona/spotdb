@@ -4,24 +4,28 @@
 	align-content: center;
 
 	width: 100vw;
-	height: 100vh;
+	min-height: calc(100vh - 3.3rem);
 	/*background-color: #2ecdb7;*/
 	background-color: #408685;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 	font-weight: bold;
 }
 
 .Login a {
+	max-width: 80vw;
+	max-height: 80%;
+
 	text-decoration: none;
 }
 
 .Login-button {
 	display: flex;
 
-	padding: 40px 40px;
+	padding: 1.5em;
 
 	/*background-color: #C1DCE5;*/
 	background-color: white;
+	/*background: radial-gradient(circle farthest-corner at 0, white 33%, #3E3F52 50%);*/
 	box-shadow: 2px 2px 4px 0px #173734;
 	border-radius: 15px;
 }
@@ -31,12 +35,30 @@
 }
 
 .Login-button-logo {
-	max-height: 20vh;
+	height: 4em;
+	width: 4em;
+	margin: auto 1.5em auto 0;
 }
 
 .Login-link {
-	padding: 5vh 0;
-	line-height: 5vh;
+	margin: auto 0;
+	line-height: 1.5em;
 
 	color: #282c34;
+}
+
+@media (max-width: 750px) {
+	.Login {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 330px) {
+	.Login-button {
+		flex-direction: column;
+	}
+
+	.Login-button-logo {
+		margin: 0 auto 1.5em auto;
+	}
 }

@@ -1,1 +1,31 @@
- 
+.Search {
+	margin: 3vh 15vw;
+	flex-grow: 1;
+}
+
+@media (max-width: 750px) {
+	.Search {
+		margin: 3vh 0;
+	}
+}
+
+.Search-list {
+	/*display: grid;*/
+}
+
+.Search-item {
+	list-style: none;
+	display: grid;
+	grid-auto-flow: column;
+	width: 100%;
+	background: #3E3F52;
+	padding: 16px 24px;
+	margin: 16px 0;
+}
+
+.Search-album-art {
+	width: 56px;
+	height: 56px;
+	padding: 5px;
+	background-color: black;
+}
