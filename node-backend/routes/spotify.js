@@ -12,6 +12,10 @@ var spotify_client_secret = process.env.SPOTIFY_API_SECRET;
 var access_token;
 var refresh_token;
 var expires_in;
+var userName;
+var birthday;
+var followers;
+var following;
 
 //var scopes = ['user-read-private', 'user-read-email'];
 var login = (req, res) => {

@@ -28,9 +28,10 @@ class Authorized extends Component {
     //   }
 
     render() {
-        // console.log(this.props)
-        // var apiKey = this.props.location.search // Unused
-        // var callbackUri = 'http://localhost:5000/authorized' + apiKey // Unused
+        console.log(window.location)
+        var apiKey = window.location.search
+        var callbackUri = 'http://localhost:5000/authorized' + apiKey
+        window.location = callbackUri
         // window.location.href = 'http://localhost:3000' // THIS IS REPLACED with the Redirect Component below
         return (
           <div>
