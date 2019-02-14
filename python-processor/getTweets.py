@@ -6,8 +6,6 @@ import contractions
 from string import punctuation
 from nltk.tokenize import TweetTokenizer
 from gensim.models import Word2Vec
-
-
 tknzr = TweetTokenizer(strip_handles=True)
 model = Word2Vec.load("word2vec.model")
 
@@ -43,8 +41,13 @@ def fixIam(tweet):
     return tweet.replace('i\'m', 'I\'m')
 
 
+def fixEncoding(tweet):
+    return str(tweet.encode('ascii', 'ignore'), 'ascii')
+
+
 def custom_preprocess(tweet):
     tweet = fixIam(tweet)
+    tweet = fixEncoding(tweet)
     tweet = fix_contractions(tweet)
     tweet = strip_punctuation(tweet)
     tweet = strip_rt(tweet)
@@ -60,10 +63,15 @@ if __name__ == "__main__":
     api = tweepy.API(auth)
     limit = None
     tweets = []
-    for tweet in tweepy.Cursor(api.search, q='query', lang='en').items(200):
+    for tweet in tweepy.Cursor(api.search, q='Drake', lang='en').items(10):
         tweets.append(tweet._json['text'])
 
     cleaned_tweets = []
     for tweet in tweets:
         cleaned_tweets.append(completelyProcess(tweet))
     print(cleaned_tweets)
+
+    bad_tweet = "I love music. I'm cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com"
+    print("Bad Tweet: " + bad_tweet)
+    processed_tweet = completelyProcess(bad_tweet)
+    print("Processed tweet: " + processed_tweet)
