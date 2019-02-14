@@ -1,0 +1,37 @@
+.FooterNav {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+
+	width: 100vw;
+	min-height: 2.7rem;
+
+	font-weight: lighter;
+	border-top: 1px solid #6A7891;
+}
+
+.FooterNav > * {
+	padding: 5px;
+	margin: 0 10px;
+
+	font-size: 0.9rem;
+
+	color: #6A7891;
+	text-decoration: none;
+}
+.FooterNav > a:hover {
+	text-decoration: underline;
+}
+
+@media (max-width: 440px) {
+	.FooterNav {
+		min-height: 3.7rem;
+	}
+}
+@media (max-width: 220px) {
+	.FooterNav {
+		min-height: 7.7rem;
+	}
+}

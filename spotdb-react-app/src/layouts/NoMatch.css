@@ -1,1 +1,11 @@
+.NoMatch {
+	margin: 3vh 15vw;
+	flex-grow: 1;
+}
+
+@media (max-width: 750px) {
+	.NoMatch {
+		margin: 3vh 0;
+	}
+} 
  

@@ -257,18 +257,10 @@ export default class SongMap extends Component {
  
   render() {
     return (
-        <div>
-            SpotDB
-            <div id="toolbar">
-                <div className="toolbar-container">
-                    SpotDB
-                </div>
-            </div>
+        <div className="SongMap">
             <div id="map-container">
                 <div id="map">
                     <image className="loader" src="%PUBLIC_URL%/loader.svg"></image>
-                </div>
-                <div id="side-panel">
                 </div>
             </div>
         </div>
