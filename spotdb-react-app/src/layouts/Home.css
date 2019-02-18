@@ -35,6 +35,7 @@
 
 .Home-spotdb-tweets {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	/*margin-top: 32px;*/
 	border: 1px solid #6E7095;

@@ -2,6 +2,7 @@ import React from 'react';
 import '../layouts/Me.css';
 import PopupBanner from '../components/PopupBanner';
 import logo from '../assets/logo.svg';
+import TwitterTweet from '../components/TwitterTweet';
 
 class Me extends React.Component {
 	state = {
@@ -9,10 +10,20 @@ class Me extends React.Component {
 		birthday: "6/24/97",
 		follower_count: 1,
 		following_count: 41,
+		tweets: [
+			{
+				text: "This Cardi B/Bruno Mars Please Me is a whoooole mood 😩.",
+				picture: "",
+				name: "Honey 🌺🌸",
+				user: "mimiJai__",
+				date: "February 16, 2019",
+				url: "https://twitter.com/mimiJai__/status/1096798069029511168"
+			},
+		],
 	}
 
 	render() {
-		const { name } = this.state;
+		const { name, tweets } = this.state;
 
 		return (
 			<div>
@@ -26,32 +37,12 @@ class Me extends React.Component {
 
 					{/* This is the template for the Tweet info */}
 					<div>
-					<div className="Home-artist-title">Lady Gaga</div>
-					<div className="Home-spotdb-tweets">
-					<div className="Home-tweet-list">
-					<div className="Home-tweet">
-					Wow! #spotdb #goinggaga
-					</div>
-					</div>
-					<div className="Home-tweet-right-column">
-					<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
-					<span className="Home-tweeter">@spotdb</span>
-					</div>
-					</div>
-					</div>
-					<div>
-					<div className="Home-artist-title">Bruno Mars</div>
-					<div className="Home-spotdb-tweets">
-					<div className="Home-tweet-list">
-					<div className="Home-tweet">
-					24 Carrots made of Gold? #spotdb #pun-a-licious
-					</div>
-					</div>
-					<div className="Home-tweet-right-column">
-					<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
-					<span className="Home-tweeter">@spotdb</span>
-					</div>
-					</div>
+						<div className="Home-artist-title">Bruno Mars</div>
+						<div className="Home-spotdb-tweets">
+							{tweets.map((item) => (
+								<TwitterTweet text={item.text} picture={item.picture} name={item.name} user={item.user} date={item.date} url={item.url} />
+							))}
+							<iframe src="https://open.spotify.com/embed/track/3Vo4wInECJQuz9BIBMOu8i" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>						</div>
 					</div>
 
 
