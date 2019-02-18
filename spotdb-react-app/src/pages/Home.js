@@ -17,8 +17,17 @@ class Home extends React.Component {
 						<Link to="/about">Learn More</Link>
 					</div>
 
+					<a 	className="twitter-timeline" 
+							data-theme="light" 
+							data-link-color="#2ecdb7" 
+							data-tweet-limit="3"
+							href="https://twitter.com/spotdb?ref_src=twsrc%5Etfw">
+						Tweets by spotdb
+					</a>
+
 
 					{/* This is the Personal twitter feed */}
+
 					<div className="Home-spotdb-tweets" style={{marginTop: '24px',}}>
 						<div className="Home-tweet-list">
 							<div className="Home-tweet">
@@ -30,7 +39,6 @@ class Home extends React.Component {
 							<span className="Home-tweeter">@spotdb</span>
 						</div>
 					</div>
-
 
 					{/* This is the template for the Tweet info */}
 					<div>

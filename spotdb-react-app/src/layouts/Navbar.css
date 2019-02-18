@@ -69,7 +69,8 @@
 	line-height: 3.3rem;
 	font-size: 1.05rem;
 	/* Looks */
-	color: #2ecdb7;																								/* Logo text color */
+	color: #2ECDB7;																								/* Logo text color */
+	/*color: #1DADA3;	*/
 	user-select: none;
 }
 .Navbar-mobile-menu {
