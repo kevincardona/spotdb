@@ -1,8 +1,5 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 var request = require('request')
-//var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-//var FormData = require('form-data');
-//var Buffer = require('buffer/').Buffer
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -13,7 +10,6 @@ var access_token;
 var refresh_token;
 var expires_in;
 
-//var scopes = ['user-read-private', 'user-read-email'];
 var login = (req, res) => {
     var scopes = 'user-read-private user-read-email'
     
@@ -24,36 +20,56 @@ var login = (req, res) => {
       '&redirect_uri=' + encodeURIComponent('http://localhost:3000/authorized'));
 }
 
-/* var getaccess = (req, res) => {
-    //var code = res.body.code;
-    console.log(req.body);
-    console.log('------------')
-    console.log(res.body);
-} */
-
 var authorized = (req, res) => {
-    var code = req.query.code; 
-    var state = req.query.state;
-
+    console.log(req.body);
+    console.log('code '  + req.body.code + ' test2 ' + req.query.code)
     var options = {
         url: 'https://accounts.spotify.com/api/token',
         form: {
-            code: code,
+            code: req.body.code,
             redirect_uri: 'http://localhost:3000/authorized',
-            grant_type: 'authorization_code'
-        },
-        headers: {
-            'Authorization': 'Basic ' + (new Buffer(spotify_client_id + ':' + spotify_client_secret).toString('base64'))
+            grant_type: 'authorization_code',
+            client_id: spotify_client_id,
+            client_secret: spotify_client_secret
         },
         json: true
     }
     request.post(options, function(error, response, body) {
-        access_token = body.access_token;
-        refresh_token = body.refresh_token;
-        expires_in = body.expires_in;
-        //console.log(body)
-    })
+        console.log(response.body)
+        if (error) {
+            return res.json({success: false, err: error})
+        }
+        access_token = response.body.access_token;
+        refresh_token = response.body.refresh_token;
+        expires_in = response.body.expires_in;
 
+        var options = {
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+                'Authorization': "Bearer " + access_token
+            },
+            json: true
+        }
+        request.get(options, (error, response1, body) => {
+            if (error) {
+                return res.json({success: false, err: error})
+            }
+            return res.json({success: true, token: response.body.access_token, id: response1.body.id, display_name: response1.body.display_name});  
+        })
+    })
+}
+
+var get = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+            'Authorization': "Bearer " + access_token
+        },
+        json: true
+    }
+    request.get(options, (error, response, body) => {
+        console.log(body)
+    })
 }
 
 var accountInfo = (req, res) => {
@@ -81,7 +97,6 @@ var search = (req, res) => {
         console.log(body.artists)
     })
 }
-
 
 module.exports = {
     login: login,
