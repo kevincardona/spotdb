@@ -17,3 +17,10 @@
 	font-size: 2em;
 	font-weight: bold;
 }
+
+.Account-profile-pic {
+	overflow: hidden;
+	width: 150px;
+	height: 150px;
+	border-radius: 500px;
+}

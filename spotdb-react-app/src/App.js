@@ -14,14 +14,17 @@ class App extends Component {
 	// This is the global state that will be shared throughout the app.
 	state = {
 		userName: this.props.cookies.get('userName') || "", // Find if a cookie says someone is logged in OR set empty in if not found
+		userId: this.props.cookies.get('userId') || ""
 	}
 
 	// This takes the name of the logged in user. "" <- empty string means nobody logged in.
-	userAuthorized = (value) => {
+	userAuthorized = (value, id) => {
 		this.setState({
-			userName: value
+			userName: value,
+			userId: id
 		});
 		this.props.cookies.set('userName', value); // This sets the name of the logged in user as a cookie
+		this.props.cookies.set('userId', id);
 	}
 
   render() {
@@ -29,8 +32,9 @@ class App extends Component {
     		<CookiesProvider>
 		      <BrowserRouter>
 		      	{/* Passing global state info and function references to the rest of the app */}
-		        <Routes 
-		      		userName={this.state.userName} 
+						<Routes 
+							userName={this.state.userName} 
+							userId={this.state.userId}
 		      		userAuthorized={this.userAuthorized} 
 		      	/>
 		      </BrowserRouter>
