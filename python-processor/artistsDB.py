@@ -7,10 +7,10 @@ names = ['Drake', 'Lady Gaga', 'Justin Bieber', 'Rush', 'Chance the Rapper',
 posts = []
 
 # add posts
-for name in names:
-    post = {"name": name}
-    posts.append(post)
-post_ids = collection.insert_many(posts)
+# for name in names:
+#     post = {"name": name}
+#     posts.append(post)
+# post_ids = collection.insert_many(posts)
 
 # see all posts in collection
 for post in collection.find():

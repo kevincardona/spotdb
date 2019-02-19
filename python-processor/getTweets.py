@@ -1,4 +1,6 @@
 import config as cfg
+import time
+from pymongo import MongoClient
 import tweepy
 import re
 import preprocessor
@@ -56,21 +58,38 @@ def custom_preprocess(tweet):
 
 
 if __name__ == "__main__":
+    # auth
     auth = tweepy.OAuthHandler(cfg.api_key, cfg.secret_key)
-
     auth.set_access_token(cfg.access_token, cfg.access_secret)
-
     api = tweepy.API(auth)
-    limit = None
-    tweets = []
-    for tweet in tweepy.Cursor(api.search, q='Drake', lang='en').items(10):
-        tweets.append(tweet._json['text'])
 
-    cleaned_tweets = []
-    for tweet in tweets:
-        cleaned_tweets.append(completelyProcess(tweet))
-    print(cleaned_tweets)
+    # connect to mongo
+    client = MongoClient()
+    db = client.local
+    collection = db.artists
 
+    # get tweets
+    for post in collection.find():
+        tweets = []
+        artistCollection = db.post['name']
+        for tweet in tweepy.Cursor(api.search, q=post['name'], lang='en').items(10):
+            tweet_Data = {
+                'time': tweet._json['created_at'],
+                'text': tweet._json['text']
+            }
+            tweets.append(tweet_Data)
+
+        # clean tweets
+        cleaned_tweets = []
+        for tweet in tweets:
+            tweet['text'] = completelyProcess(tweet['text'])
+            cleaned_tweets.append(tweet)
+        artistCollection.insert_many(cleaned_tweets)
+
+        for post in artistCollection.find():
+            print(post)
+
+    # tests
     bad_tweet = 'I love music. I\'m cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com'
     print("Bad Tweet: " + bad_tweet)
     bad_tweet = str(bad_tweet.encode('utf-7'), 'utf-7')
