@@ -26,15 +26,15 @@ class App extends Component {
 
   render() {
     return (
-    		<CookiesProvider>
-		      <BrowserRouter>
-		      	{/* Passing global state info and function references to the rest of the app */}
-		        <Routes 
-		      		userName={this.state.userName} 
-		      		userAuthorized={this.userAuthorized} 
-		      	/>
-		      </BrowserRouter>
-      	</CookiesProvider>
+  		<CookiesProvider>
+	      <BrowserRouter>
+	      	{/* Passing global state info and function references to the rest of the app */}
+	        <Routes 
+	      		userName={this.state.userName} 
+	      		userAuthorized={this.userAuthorized} 
+	      	/>
+	      </BrowserRouter>
+    	</CookiesProvider>
     );
   }
 }

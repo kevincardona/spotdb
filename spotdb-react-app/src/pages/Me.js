@@ -1,5 +1,6 @@
 import React from 'react';
 import '../layouts/Me.css';
+import loadjs from 'loadjs';
 import PopupBanner from '../components/PopupBanner';
 import logo from '../assets/logo.svg';
 import TwitterTweet from '../components/TwitterTweet';
@@ -22,6 +23,10 @@ class Me extends React.Component {
 		],
 	}
 
+	componentWillMount() {
+		loadjs('https://platform.twitter.com/widgets.js');
+	}
+
 	render() {
 		const { name, tweets } = this.state;
 
@@ -40,7 +45,7 @@ class Me extends React.Component {
 						<div className="Home-artist-title">Bruno Mars</div>
 						<div className="Home-spotdb-tweets">
 							{tweets.map((item) => (
-								<TwitterTweet text={item.text} picture={item.picture} name={item.name} user={item.user} date={item.date} url={item.url} />
+								<TwitterTweet key={item.url} text={item.text} picture={item.picture} name={item.name} user={item.user} date={item.date} url={item.url} />
 							))}
 							<iframe src="https://open.spotify.com/embed/track/3Vo4wInECJQuz9BIBMOu8i" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>						</div>
 					</div>

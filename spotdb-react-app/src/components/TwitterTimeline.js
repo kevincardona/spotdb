@@ -3,13 +3,17 @@ import '../layouts/Twitter.css';
 
 const TwitterTimeline = ({ user }) => {
 	return (
-		<a 	className="twitter-timeline" 
-				data-theme="dark" 
-				data-link-color="#2ECDB7" 
-				data-tweet-limit="2"
-				href={"https://twitter.com/" + user}>
-			Tweets by {user}
-		</a>
+		<div className="TwitterTimeline">
+			<a 	className="twitter-timeline" 
+					data-theme="dark" 
+					data-link-color="#2ECDB7" 
+					data-tweet-limit="2"
+					data-width="550"
+					data-align="center"
+					href={"https://twitter.com/" + user}>
+				Tweets by {user}
+			</a>
+		</div>
 	);
 };
 

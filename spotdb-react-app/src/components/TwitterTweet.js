@@ -3,17 +3,19 @@ import '../layouts/Twitter.css';
 
 const TwitterTweet = ({ text, picture, name, user, date, url }) => {
 	return (
-		<blockquote className="twitter-tweet" 
-				data-theme="dark" 
-				data-link-color="#2ECDB7"
-				data-width="550"
-				data-align="center">
-			<p lang="en" dir="ltr">
-				{text}
-				{picture && <a href={picture}>{picture}</a>}
-			</p>
-			&mdash; {name} (@{user}) <a href={url}>{date}</a>
-		</blockquote>
+		<div className="TwitterTweet">
+			<blockquote className="twitter-tweet" 
+					data-theme="dark" 
+					data-link-color="#2ECDB7"
+					data-width="550"
+					data-align="center">
+				<p lang="en" dir="ltr">
+					{text}
+					{picture && <a href={picture}>{picture}</a>}
+				</p>
+				&mdash; {name} (@{user}) <a href={url}>{date}</a>
+			</blockquote>
+		</div>
 	);
 };
 

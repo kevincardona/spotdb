@@ -1,15 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import loadjs from 'loadjs';
 import '../layouts/Home.css';
 import logo from '../assets/logo.svg';
 import TwitterTimeline from '../components/TwitterTimeline';
-import TwitterTweet from '../components/TwitterTweet';
+// import TwitterTweet from '../components/TwitterTweet';
 
 class Home extends React.Component {
 	// Home will use state to hold tweet info
 	state = {}
 
+	componentWillMount() {
+		loadjs('https://platform.twitter.com/widgets.js');
+		// var elements = document.getElementsByClassName("Icon");
+		// for (var i = 0; i < elements.length; i++ ) {
+  //   	elements[i].style.display = "none";
+		// }
+	}
+
 	render() {
+
 		return (
 				<div className="Home">
 
@@ -26,6 +36,8 @@ class Home extends React.Component {
 					</div>
 
 					{/* This is the template for the Tweet info */}
+
+
 					<div>
 						<div className="Home-artist-title">Lady Gaga</div>
 						<div className="Home-spotdb-tweets">
