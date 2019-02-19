@@ -11,23 +11,27 @@ class Home extends React.Component {
 
 	//Authorization Stuff
 	componentDidMount() {
-        const parsed = queryString.parse(window.location.search);
-        const body = {
-          code: parsed.code
-        }
-        apiPost('/authorized', body).then((data) => {
-          console.log(data);
-          if(data.success && data.token && data.display_name && data.id) {
-            localStorage.setItem('token', data.token);
-            this.props.userAuthorized(data.display_name, data.id);
-          } else {
-            console.log('poop');
-            this.props.userAuthorized("");
-          }
-        }).catch((error) => {
-          console.log(error);
-        }).then(() => {
-        })
+				const parsed = queryString.parse(window.location.search);
+
+				//If a user is logging in
+				if (parsed.code) {
+					const body = {
+						code: parsed.code
+					}
+					
+					apiPost('/authorized', body).then((data) => {
+						console.log(data);
+						if(data.success && data.token && data.display_name && data.id) {
+							localStorage.setItem('token', data.token);
+							this.props.userAuthorized(data.display_name, data.id);
+						} else {
+							this.props.userAuthorized("");
+						}
+					}).catch((error) => {
+						console.log(error);
+					}).then(() => {
+					})
+				}
     }
 
 	render() {
