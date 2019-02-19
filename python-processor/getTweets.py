@@ -1,5 +1,4 @@
 import config as cfg
-import time
 from pymongo import MongoClient
 import tweepy
 import re
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     # get tweets
     for post in collection.find():
         tweets = []
-        artistCollection = db.post['name']
+        artistCollection = db[post['name']]
         for tweet in tweepy.Cursor(api.search, q=post['name'], lang='en').items(10):
             tweet_Data = {
                 'time': tweet._json['created_at'],
@@ -86,13 +85,9 @@ if __name__ == "__main__":
             cleaned_tweets.append(tweet)
         artistCollection.insert_many(cleaned_tweets)
 
-        for post in artistCollection.find():
-            print(post)
-
     # tests
     bad_tweet = 'I love music. I\'m cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com'
-    print("Bad Tweet: " + bad_tweet)
     bad_tweet = str(bad_tweet.encode('utf-7'), 'utf-7')
-    print(bad_tweet)
+    print("Bad Tweet: " + bad_tweet)
     processed_tweet = completelyProcess(bad_tweet)
     print("Processed tweet: " + processed_tweet)
