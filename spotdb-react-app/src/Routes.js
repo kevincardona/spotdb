@@ -6,7 +6,6 @@ import FooterNav from './components/FooterNav';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SongMap from './pages/SongMap';
-import Authorized from './pages/Authorized';
 import Me from './pages/Me';
 import Account from './pages/Account';
 import About from './pages/About';
@@ -19,7 +18,7 @@ import NoMatch from './pages/NoMatch';
 	This component is funcitonal and has no state
 	but it renders all the visible page content	
 */
-const Routes = ({userName, userAuthorized}) => (
+const Routes = ({userName, userAuthorized, userId}) => (
 	<div id="Routes">
 		<Navbar userName={userName} />
 		<div className="main-content">
@@ -30,7 +29,7 @@ const Routes = ({userName, userAuthorized}) => (
 				<Route exact path="/home" render={() => (<Redirect to="/" />)} /> {/* This simply redirects back to the Home page */}
 				<Route exact path="/me" render={() => <Me userName={userName} />} /> {/* Using the render prop we can pass props to the component rendered by the Route */}
 				<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
-	      <Route exact path="/authorized" render={() => <Authorized userAuthorized={userAuthorized} />} />
+	      		<Route exact path="/authorized" render={() => <Home userAuthorized={userAuthorized}  />} />
 
 	    	{/* These pages don't have the FooterNav */}
 				<Route exact path="/map" component={SongMap} />

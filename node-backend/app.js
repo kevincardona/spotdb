@@ -2,9 +2,10 @@ var express     = require('express');
 var app         = express();
 var bodyParser  = require('body-parser');
 var routes      = require('./routes');
+var cors        = require('cors');
 var port        = process.env.PORT || 5000;
 
-
+app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 //All endpoints are defined in ./routes/index.js

@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     res.send({success: 'true', message: 'Connected to SpotDB server.'})
 });
 router.get('/login', spotify.login);
-router.get('/authorized', spotify.authorized);
+router.post('/authorized', spotify.authorized);
 router.get('/accountinfo', spotify.accountInfo)
 router.get('/search', spotify.search);
 
