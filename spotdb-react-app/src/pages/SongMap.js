@@ -1,269 +1,116 @@
 import React, { Component } from 'react';
 import '../layouts/SongMap.css';
+import loader from '../assets/loader.svg';
+import Map from '../layouts/MapTheme'
+import { apiPost, apiGet } from '../util/api';
 
 export default class SongMap extends Component {
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const map = new window.google.maps.Map(document.getElementById('map'), {
-                     center: {lat: position.coords.latitude, lng: position.coords.longitude},
-                     zoom: 14,
-                     disableDefaultUI: true,
-                     styles: [
-                        {
-                            "featureType": "all",
-                            "elementType": "all",
-                            "stylers": [
-                                {
-                                    "saturation": "32"
-                                },
-                                {
-                                    "lightness": "-3"
-                                },
-                                {
-                                    "visibility": "on"
-                                },
-                                {
-                                    "weight": "1.18"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "administrative",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape",
-                            "elementType": "geometry",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.man_made",
-                            "elementType": "all",
-                            "stylers": [
-                                {
-                                    "saturation": "-70"
-                                },
-                                {
-                                    "lightness": "14"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.man_made",
-                            "elementType": "geometry.fill",
-                            "stylers": [
-                                {
-                                    "visibility": "on"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.man_made",
-                            "elementType": "geometry.stroke",
-                            "stylers": [
-                                {
-                                    "visibility": "on"
-                                },
-                                {
-                                    "color": "#c5c8be"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.natural",
-                            "elementType": "geometry.fill",
-                            "stylers": [
-                                {
-                                    "visibility": "on"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.natural",
-                            "elementType": "geometry.stroke",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.natural",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.natural.terrain",
-                            "elementType": "geometry.fill",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "landscape.natural.terrain",
-                            "elementType": "geometry.stroke",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "poi",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road",
-                            "elementType": "geometry",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road",
-                            "elementType": "geometry.fill",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road",
-                            "elementType": "geometry.stroke",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road",
-                            "elementType": "labels.text",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "road.local",
-                            "elementType": "geometry.fill",
-                            "stylers": [
-                                {
-                                    "visibility": "simplified"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "transit",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "water",
-                            "elementType": "all",
-                            "stylers": [
-                                {
-                                    "saturation": "100"
-                                },
-                                {
-                                    "lightness": "-14"
-                                }
-                            ]
-                        },
-                        {
-                            "featureType": "water",
-                            "elementType": "labels",
-                            "stylers": [
-                                {
-                                    "visibility": "off"
-                                },
-                                {
-                                    "lightness": "12"
-                                }
-                            ]
-                        }
-                    ]
-                 });
-
-                 var image = {
-                    url: 'pin.svg',
-                    // This marker is 20 pixels wide by 32 pixels high.
-                    size: new window.google.maps.Size(128, 128),
-                    scaledSize: new window.google.maps.Size(64, 64),
-                    // The origin for this image is (0, 0).
-                    origin: new window.google.maps.Point(0, 0),
-                    // The anchor for this image is the base of the flagpole at (0, 32).
-                    anchor: new window.google.maps.Point(0, 0)
-                };
-            
-                var overlay;
-                var beachMarker = new window.google.maps.Marker({
-                    position: {lat: position.coords.latitude, lng: position.coords.longitude},
-                    map: map,
-                    icon: image
-                });
-            
-            }
-        )
+    constructor(props) {
+        super(props);
+        this.state = {hasLocation: true, city: '', state: '', zip: ''};
     }
+    createMap(position) {
+        this.setState({hasLocation: true});
+        const map = new window.google.maps.Map((document.getElementById('map')), {
+            center: {lat: position.coords.latitude, lng: position.coords.longitude},
+            zoom: 14,
+            disableDefaultUI: true,
+            styles: Map
+        });
 
+        var image = {
+            url: 'pin.svg',
+            // This marker is 20 pixels wide by 32 pixels high.
+            size: new window.google.maps.Size(128, 128),
+            scaledSize: new window.google.maps.Size(32, 32),
+            // The origin for this image is (0, 0).
+            origin: new window.google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new window.google.maps.Point(16, 32)
+        };
+    
+        var beachMarker = new window.google.maps.Marker({
+            position: {lat: position.coords.latitude, lng: position.coords.longitude},
+            map: map,
+            icon: image
+        });
+    }
+    componentDidMount() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.createMap(position);
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    var last_location = [lat, lon]
+                    const body = {
+                        last_location: last_location
+                    }
+                    //Update users last location
+                    apiPost('/sethome', body).then((data) => {
+                        console.log(data);
+                    }).catch((error)=> {
+                        console.log(error);
+                    })
+
+                    apiGet(`/getaddress?lat=${lat}&lon=${lon}`).then((data) => {
+                        if (data.success) {
+                            var rcity = data.address.city;
+                            var rstate = data.address.state;
+                            var rzip = data.address.zip;
+                            this.setState({city: rcity, state: rstate, zip: rzip});
+                        }
+                    }).catch((error)=> {
+                        console.log(error);
+                    })
+                },
+                (error) => {
+                    this.setState({hasLocation: false});
+                }
+            )
+        } else {
+            apiGet('/gethome').then((data) => {
+                if (data.success) {
+                    var position = {
+                        coords: {
+                            latitude: data.position[0],
+                            longitude: data.position[1]
+                        }
+                    }
+                    this.createMap(data.position);
+                }
+            }).catch((error)=> {
+                console.log(error);
+            })
+        }
+    }
  
   render() {
-    return (
-        <div className="SongMap">
-            <div id="map-container">
-                <div id="map">
-                    <image className="loader" src="%PUBLIC_URL%/loader.svg"></image>
+    const {hasLocation, city, state, zip} = this.state;
+    if (hasLocation) {
+        return (
+            <div className="SongMap">
+                <div id="map-container">
+                    <div id="map">
+                        <div className="center">
+                            <img id="loader" src={loader} alt="Loading..."/>
+                        </div>
+                    </div>
+                    <div className="bottom-panel">
+                        <div className="bottom-header">
+                            {city}, {state}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-  }
+        );
+    } else {
+        return (
+            <div>
+                <h3 className="center">In order to use the map, you need to allow<br/> location permissions for this site.</h3>
+                <br/>
+            </div>
+        )
+    }
+}
 }
