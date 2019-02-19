@@ -2,13 +2,28 @@ import React from 'react';
 import '../layouts/Me.css';
 import PopupBanner from '../components/PopupBanner';
 import logo from '../assets/logo.svg';
+import { apiGet } from '../util/api';
+
 
 class Me extends React.Component {
-	state = {
-		name: this.props.userName || "John Smith",	// Gets userName passed from App.js, or use 'John Smith' if not logged in
-		birthday: "6/24/97",
-		follower_count: 1,
-		following_count: 41,
+	constructor(props) {
+		super(props);
+		this.state = {
+			profilePicture: "",
+			name: this.props.userName || "No Name",
+			birthday: "",
+			follower_count: "",
+			following_count: "",
+		};
+	}
+
+	componentDidMount() {
+		apiGet('/accountinfo').then((data) => {
+			this.setState({follower_count: data.user.followers.total,
+			profilePicture: data.user.images[0].url, birthday: data.user.birthdate})
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	render() {
