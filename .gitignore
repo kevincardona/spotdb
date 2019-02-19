@@ -2,5 +2,4 @@
 .env
 *config.py*
 *pycache*
-*word2vec*
 node_modules
