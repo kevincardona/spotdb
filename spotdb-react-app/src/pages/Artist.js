@@ -1,6 +1,7 @@
 import React from 'react';
 import '../layouts/Artist.css';
 import PopupBanner from '../components/PopupBanner';
+import { apiGet } from '../util/api';
 
 class Artist extends React.Component {
 	/*
@@ -14,6 +15,17 @@ class Artist extends React.Component {
 			name: "",
 			popularity: 0,
 		},
+	}
+
+	componentDidMount() {
+		const urlParams = new URLSearchParams(window.location.search);
+		var artistId = urlParams.get("id")
+		//console.log(artistId)
+		apiGet('/artist?query='+artistId).then((data) => {
+			this.setState({artist: {name: data.name, popularity: data.popularity}})
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	render() {

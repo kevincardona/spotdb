@@ -49,7 +49,7 @@ class Search extends React.Component {
 					{this.state.results.map((item,i) => (
 							<li key={item.id} className="Search-item">
 								<img src={item.img} alt="Album artwork" className="Search-album-art" />
-								<Link to={"/artist/" + item.title} ><span>{item.title}</span></Link>
+								<Link to={"/artist/" + item.title + "?id=" + item.id} ><span>{item.title}</span></Link>
 								<i>{item.info}</i>
 							</li>
 						))}

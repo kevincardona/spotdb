@@ -142,9 +142,34 @@ var search = (req, res) => {
     })
 }
 
+var artist = (req, res) => {
+    var queryStr = querystring.stringify(req.query)
+    queryStr = queryStr.substring(6, queryStr.length-3)
+    console.log(queryStr)
+    //queryStr = queryStr.substring(6, queryStr.length-3)
+    //console.log(queryStr)
+    var options = {
+        url: 'https://api.spotify.com/v1/artists/'+queryStr,
+        headers: {
+            'Authorization': "Bearer " + req.header('token')
+        },
+        json: true
+    }
+    //console.log(options.url)
+    request.get(options, (error, response, body) => {
+        console.log(body)
+        if (error) {
+            return res.json({success: false, error: error});
+        } 
+        //return res.json({success: true, user: body.artists})
+    })
+}
+
+
 module.exports = {
     login: login,
     search: search,
     authorized: authorized,
-    accountInfo: accountInfo
+    accountInfo: accountInfo,
+    artist: artist
 }

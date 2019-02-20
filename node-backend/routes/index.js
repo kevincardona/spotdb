@@ -10,6 +10,7 @@ router.get('/login', spotify.login);
 router.post('/authorized', spotify.authorized);
 router.get('/search', spotify.search);
 router.get('/getaddress', util.getAddress); //Gets lat/lon in query and returns address
+router.get('/artist', spotify.artist);
 
 // Requires User to Be Logged In
 router.get('/accountinfo', spotify.accountInfo)
