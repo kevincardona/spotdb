@@ -2,6 +2,7 @@ var request = require('request')
 var config      = require('../config');
 var mongoose    = require('mongoose');
 const UserModel = require('../models/user.js').User;
+const querystring = require('querystring')
 mongoose.connect(config.mongo_url);
 mongoose.Promise = global.Promise;
 
@@ -121,15 +122,23 @@ var accountInfo = (req, res) => {
 }
 
 var search = (req, res) => {
+    var queryStr = querystring.stringify(req.query)
+    queryStr = queryStr.substring(6, queryStr.length-3)
+    //console.log(queryStr)
     var options = {
-        url: 'https://api.spotify.com/v1/search?q='+req.query.q+'&type='+req.query.type,
+        url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=artist',
         headers: {
             'Authorization': "Bearer " + req.header('token')
         },
         json: true
     }
+    //console.log(options.url)
     request.get(options, (error, response, body) => {
         console.log(body.artists)
+        if (error) {
+            return res.json({success: false, error: error});
+        } 
+        return res.json({success: true, user: body.artists})
     })
 }
 
