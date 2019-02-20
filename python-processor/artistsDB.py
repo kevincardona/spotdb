@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 client = MongoClient()
-db = client.local
+db = client.spotdb
 collection = db.artists
 names = ['Drake', 'Lady Gaga', 'Justin Bieber', 'Rush', 'Chance the Rapper',
          'Ski Mask the Slump God', 'Kanye', 'Migos', 'Green Day']

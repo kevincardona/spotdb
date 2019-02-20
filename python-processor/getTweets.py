@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     # connect to mongo
     client = MongoClient()
-    db = client.local
+    db = client.spotdb
     collection = db.artists
 
     # get tweets
