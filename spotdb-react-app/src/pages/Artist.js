@@ -22,7 +22,8 @@ class Artist extends React.Component {
 		var artistId = urlParams.get("id")
 		//console.log(artistId)
 		apiGet('/artist?query='+artistId).then((data) => {
-			this.setState({artist: {name: data.name, popularity: data.popularity}})
+			this.setState({artist: {id: data.user.id, name: data.user.name, popularity: data.user.popularity}})
+			//console.log(this.state)
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -36,7 +37,7 @@ class Artist extends React.Component {
 				{/* This banner should only show if you go to '/artist' */}
 				{ !artist.id && <PopupBanner text="No artist is selected." /> }
 				<div className="Artist">
-					<h1>Artist page for {artist.id}</h1>
+					<h1>Artist page for {artist.name}</h1>
 				</div>
 			</div>
 		);

@@ -100,7 +100,7 @@ var get = (req, res) => {
         json: true
     }
     request.get(options, (error, response, body) => {
-        console.log(body)
+        //console.log(body)
     })
 }
 
@@ -113,7 +113,7 @@ var accountInfo = (req, res) => {
         json: true
     }
     request.get(options, (error, response, body) => {
-        console.log(body)
+        //console.log(body)
         if (error) {
             return res.json({success: false, loggedin: false, error: error});
         }
@@ -157,11 +157,29 @@ var artist = (req, res) => {
     }
     //console.log(options.url)
     request.get(options, (error, response, body) => {
-        console.log(body)
+        //console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         } 
-        //return res.json({success: true, user: body.artists})
+        return res.json({success: true, user: body})
+    })
+}
+
+var topArtists = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/me/top/artists',
+        headers: {
+            'Authorization': "Bearer " + req.header('token')
+        },
+        json: true
+    }
+    //console.log(options.url)
+    request.get(options, (error, response, body) => {
+        //console.log(body)
+        if (error) {
+            return res.json({success: false, error: error});
+        } 
+        return res.json({success: true, user: body})
     })
 }
 
@@ -171,5 +189,6 @@ module.exports = {
     search: search,
     authorized: authorized,
     accountInfo: accountInfo,
-    artist: artist
+    artist: artist,
+    topArtists: topArtists
 }

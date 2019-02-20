@@ -29,9 +29,38 @@ class Search extends React.Component {
 			const a = this.state.results.slice();
 			var i;
 			for (i = 0; i < 4; i++) {
-				a[i] = {id: data.user.items[i].id, title: data.user.items[i].name, info: "Popularity: "+ data.user.items[i].popularity, img: data.user.items[i].images[0].url};
+				if (data.user.items[i] == null) {
+					break;
+				}
+				var id;
+				if (data.user.items[i].id == null) {
+					id = 0;
+				} else {
+					id = data.user.items[i].id
+				}
+				var name;
+				if (data.user.items[i].name == null) {
+					name = "None"
+				} else {
+					name = data.user.items[i].name
+				}
+				var pop;
+				if (data.user.items[i].popularity == null) {
+					pop = 0;
+				} else {
+					pop = data.user.items[i].popularity
+				}
+				var artImg;
+				if (data.user.items[i].images[0] == null) {
+					artImg = spotify_logo
+				} else {
+					artImg = data.user.items[i].images[0].url
+				}
+				
+				a[i] = {id: id, title: name, info: "Popularity: "+ pop, img: artImg};
 			}
 			this.setState({results: a});
+			this.forceUpdate();
 		}).catch((err) => {
 			console.log(err);
 		})
