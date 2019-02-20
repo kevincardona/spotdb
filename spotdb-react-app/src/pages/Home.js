@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../layouts/Home.css';
 import logo from '../assets/logo.svg';
-import {apiPost} from '../util/api';
+import {apiPost, apiGet} from '../util/api';
 const queryString = require('query-string');
 
 class Home extends React.Component {
@@ -18,7 +18,7 @@ class Home extends React.Component {
 					const body = {
 						code: parsed.code
 					}
-					
+
 					apiPost('/authorized', body).then((data) => {
 						console.log(data);
 						if(data.success && data.token && data.display_name && data.id) {
@@ -32,6 +32,12 @@ class Home extends React.Component {
 					}).then(() => {
 					})
 				}
+
+				apiGet('/getTweets').then((data) => {
+					console.log(data);
+				}).catch((error) => {
+					console.log(error);
+				})
     }
 
 	render() {
@@ -88,8 +94,6 @@ class Home extends React.Component {
 							</div>
 						</div>
 					</div>
-					
-
 				</div>
 		);
 	}
