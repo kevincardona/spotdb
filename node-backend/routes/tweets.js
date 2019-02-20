@@ -6,9 +6,8 @@ var getTweets = (req, res) => {
   console.log('here');
   mongoose.connect(config.mongo_url);
   var db = mongoose.connection;
-  db.local.collectionNames(function (err, names) {
-    console.log(names);
-  })
+  console.log(mongoose.connection.db);
+  console.log(mongoose.connection.artists);
   db.once('open', function() {
     return res.json({success: true, message: "Connected to mongoose"});
 
