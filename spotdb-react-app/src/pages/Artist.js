@@ -1,6 +1,7 @@
 import React from 'react';
 import '../layouts/Artist.css';
 import PopupBanner from '../components/PopupBanner';
+import { apiGet } from '../util/api';
 
 class Artist extends React.Component {
 	/*
@@ -16,6 +17,18 @@ class Artist extends React.Component {
 		},
 	}
 
+	componentDidMount() {
+		const urlParams = new URLSearchParams(window.location.search);
+		var artistId = urlParams.get("id")
+		//console.log(artistId)
+		apiGet('/artist?query='+artistId).then((data) => {
+			this.setState({artist: {id: data.user.id, name: data.user.name, popularity: data.user.popularity}})
+			//console.log(this.state)
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
 	render() {
 		const { artist } = this.state;
 
@@ -24,7 +37,7 @@ class Artist extends React.Component {
 				{/* This banner should only show if you go to '/artist' */}
 				{ !artist.id && <PopupBanner text="No artist is selected." /> }
 				<div className="Artist">
-					<h1>Artist page for {artist.id}</h1>
+					<h1>Artist page for {artist.name}</h1>
 				</div>
 			</div>
 		);

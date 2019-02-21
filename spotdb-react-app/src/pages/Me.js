@@ -9,25 +9,32 @@ class Me extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			profilePicture: "",
 			name: this.props.userName || "No Name",
-			birthday: "",
-			follower_count: "",
-			following_count: "",
+			artists: [{id: "", artistname: "", img: ""},{id: "", artistname: "", img: ""},{id: "", artistname: "", img: ""}]
 		};
 	}
 
 	componentDidMount() {
-		apiGet('/accountinfo').then((data) => {
-			this.setState({follower_count: data.user.followers.total,
-			profilePicture: data.user.images[0].url, birthday: data.user.birthdate})
+		apiGet('/topartists').then((data) => {
+			//data.user.item[index]
+			//console.log(data)
+			const a = this.state.artists.slice();
+			var i;
+			for (i = 0; i < 4; i++) {
+				a[i] = {id: data.user.items[i].id, artistname: data.user.items[i].name, img: data.user.items[i].images[0].url};
+			}
+			this.setState({artists: a});
+			//this.forceUpdate();
+			//console.log(this.state)
 		}).catch((err) => {
 			console.log(err);
 		})
-	}
+	} 
 
 	render() {
 		const { name } = this.state;
+		const artistArr = this.state.artists;
+		console.log(artistArr)
 
 		return (
 			<div>
@@ -41,7 +48,7 @@ class Me extends React.Component {
 
 					{/* This is the template for the Tweet info */}
 					<div>
-					<div className="Home-artist-title">Lady Gaga</div>
+					<div className="Home-artist-title">{artistArr[0].artistname}</div>
 					<div className="Home-spotdb-tweets">
 					<div className="Home-tweet-list">
 					<div className="Home-tweet">
@@ -49,13 +56,13 @@ class Me extends React.Component {
 					</div>
 					</div>
 					<div className="Home-tweet-right-column">
-					<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
+					<img src={artistArr[0].img} alt="SpotDB Logo" className="Home-spotdb-logo" />
 					<span className="Home-tweeter">@spotdb</span>
 					</div>
 					</div>
 					</div>
 					<div>
-					<div className="Home-artist-title">Bruno Mars</div>
+					<div className="Home-artist-title">{artistArr[1].artistname}</div>
 					<div className="Home-spotdb-tweets">
 					<div className="Home-tweet-list">
 					<div className="Home-tweet">
@@ -63,7 +70,7 @@ class Me extends React.Component {
 					</div>
 					</div>
 					<div className="Home-tweet-right-column">
-					<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
+					<img src={artistArr[1].img} alt="SpotDB Logo" className="Home-spotdb-logo" />
 					<span className="Home-tweeter">@spotdb</span>
 					</div>
 					</div>
