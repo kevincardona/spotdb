@@ -4,7 +4,9 @@ var user        = require('./user');
 var util        = require('./util');
 var tweets      = require('./tweets');
 
-
+router.get('/', (req, res) => {
+    res.send({success: 'true', message: 'Connected to SpotDB server.'})
+});
 router.get('/login', spotify.login);
 router.post('/authorized', spotify.authorized);
 router.get('/search', spotify.search);
