@@ -1,13 +1,12 @@
 from pymongo import MongoClient
+import config as cfg
 client = MongoClient()
-db = client.local
+db = client.spotdb
 collection = db.artists
-names = ['Drake', 'Lady Gaga', 'Justin Bieber', 'Rush', 'Chance the Rapper',
-         'Ski Mask the Slump God', 'Kanye', 'Migos', 'Green Day']
 posts = []
 
 # add posts
-# for name in names:
+# for name in cfg.artist_names:
 #     post = {"name": name}
 #     posts.append(post)
 # post_ids = collection.insert_many(posts)
