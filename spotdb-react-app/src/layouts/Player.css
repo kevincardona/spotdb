@@ -11,12 +11,13 @@
 .player-header {
     background: #3E3F52;
     width: 100vw;
-    height: 150px;
-    line-height: 10px;
+    height: auto;
+    line-height: 15px;
     margin: 0;
     font-size: 15px;
     color: white;
     padding-top: 15px;
+    padding-bottom: 10px;
 }
 
 .player-song {

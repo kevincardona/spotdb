@@ -21,6 +21,7 @@
     "mongoose": "^5.4.13",
     "node-spotify-api": "^1.0.7",
     "nodemon": "^1.18.9",
+    "query-string": "^6.2.0",
     "spotify-web-api-node": "^4.0.0",
     "xmlhttprequest": "^1.8.0"
   }
