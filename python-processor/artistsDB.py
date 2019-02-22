@@ -6,10 +6,10 @@ collection = db.artists
 posts = []
 
 # add posts
-# for name in cfg.artist_names:
-#     post = {"name": name}
-#     posts.append(post)
-# post_ids = collection.insert_many(posts)
+for name in cfg.artist_names:
+    post = {"name": name}
+    posts.append(post)
+post_ids = collection.insert_many(posts)
 
 # see all posts in collection
 for post in collection.find():
