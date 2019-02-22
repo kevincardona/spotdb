@@ -4,8 +4,7 @@ const ArtistModel = require('../models/artist.js').Artist;
 
 
 var getTweets = (req, res) => {
-  console.log('here');
-  mongoose.connect(config.mongo_url);
+  mongoose.connect('mongodb://localhost:27017/spotdb');
   var db = mongoose.connection;
   ArtistModel.find({}, (err, data) =>{
     res.send(data);
