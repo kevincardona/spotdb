@@ -74,7 +74,7 @@ export default class Player extends Component {
                             }
                     </div>
                     <div className="player-body">
-                            {listeners > 0 &&
+                            {listeners > 0 && cover_image != "" &&
                                 <div>{listeners}<br/>SpotDB users listening to this song</div>
                             }
                     </div>
