@@ -7,31 +7,35 @@ const queryString = require('query-string');
 
 class Home extends React.Component {
 	// Home will use state to hold tweet info
+
+	constructor(props) {
+		super(props);
+	}
+
 	state = {}
 
 	//Authorization Stuff
 	componentDidMount() {
-				const parsed = queryString.parse(window.location.search);
+		const parsed = queryString.parse(window.location.search);
 
-				//If a user is logging in
-				if (parsed.code) {
-					const body = {
-						code: parsed.code
-					}
-					
-					apiPost('/authorized', body).then((data) => {
-						console.log(data);
-						if(data.success && data.token && data.display_name && data.id) {
-							localStorage.setItem('token', data.token);
-							this.props.userAuthorized(data.display_name, data.id);
-						} else {
-							this.props.userAuthorized("");
-						}
-					}).catch((error) => {
-						console.log(error);
-					}).then(() => {
-					})
+		//If a user is logging in
+		if (parsed.code) {
+			const body = {
+				code: parsed.code
+			}
+			apiPost('/authorized', body).then((data) => {
+				console.log(data);
+				if(data.success && data.token && data.display_name && data.id) {
+					localStorage.setItem('token', data.token);
+					this.props.userAuthorized(data.display_name, data.id);
+				} else {
+					this.props.userAuthorized("");
 				}
+			}).catch((error) => {
+				console.log(error);
+			}).then(() => {
+			})
+		}
     }
 
 	render() {

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import '../layouts/SongMap.css';
 import loader from '../assets/loader.svg';
-import Map from '../layouts/MapTheme'
+import Map from '../layouts/MapTheme';
 import { apiPost, apiGet } from '../util/api';
+import { Redirect } from 'react-router-dom';
+import Player from '../components/Player';
 
 export default class SongMap extends Component {
     constructor(props) {
         super(props);
-        this.state = {hasLocation: true, city: '', state: '', zip: ''};
+        this.state = {redirect: false, hasLocation: true, city: '', state: '', zip: ''};
     }
     createMap(position) {
         this.setState({hasLocation: true});
@@ -35,7 +37,17 @@ export default class SongMap extends Component {
             icon: image
         });
     }
+    componentWillMount() {
+        apiGet(`/authenticate`).then((data) => {
+            console.log(data);
+            if (!data.success) { this.state.redirect=true; }
+        }).catch((error)=> {
+            console.log(error);
+        })
+    }
+
     componentDidMount() {
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -86,7 +98,13 @@ export default class SongMap extends Component {
     }
  
   render() {
-    const {hasLocation, city, state, zip} = this.state;
+    const {redirect, hasLocation, city, state, zip} = this.state;
+    if (redirect) {
+        return (
+            <Redirect to="/login"></Redirect>
+        )
+    }
+
     if (hasLocation) {
         return (
             <div className="SongMap">
@@ -96,11 +114,7 @@ export default class SongMap extends Component {
                             <img id="loader" src={loader} alt="Loading..."/>
                         </div>
                     </div>
-                    <div className="bottom-panel">
-                        <div className="bottom-header">
-                            {city}, {state}
-                        </div>
-                    </div>
+                    <Player location={city + ', ' + state}/>
                 </div>
             </div>
         );

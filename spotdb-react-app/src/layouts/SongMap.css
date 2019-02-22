@@ -4,13 +4,14 @@
     margin: 0px;
     background-color:	#f9f9f9;
     overflow: hidden;
+    user-select: none;
 }
 
 #map {
     position: relative;
     float: left;
-    width: 100%;
-    height: calc(100% - 130px);
+    width: calc(100% - 200px);
+    height: calc(100% - 50px);
     background: lightgray;
     overflow: hidden;
     user-select: none;
@@ -45,28 +46,6 @@
     background:#616970;
     box-shadow: 4px 4px 4px 1px;
     opacity: 1;
-}
-
-.bottom-panel {
-    display: inline;
-    box-shadow: 1px -1px 3px 0px 1#5e5e5e;
-    position: relative;
-    float: right;
-    z-index: 1;
-    background:#616970;
-    margin-top: -30px;
-    height: 130px;
-    width: 100vw;
-}
-
-.bottom-header {
-    background: #3E3F52;
-    width: 100vw;
-    height: 30px;
-    line-height: 30px;
-    margin: 0;
-    font-size: 15px;
-    color: white;
 }
 
 .center {
