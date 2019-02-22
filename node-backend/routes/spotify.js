@@ -34,7 +34,7 @@ var get = (req, res) => {
     var options = {
         url: 'https://api.spotify.com/v1/me',
         headers: {
-            'Authorization': "Bearer " + req.decoded.token
+            'Authorization': "Bearer " + req.decoded.spotify_token
         },
         json: true
     }
@@ -62,11 +62,11 @@ var accountInfo = (req, res) => {
 var search = (req, res) => {
     var queryStr = querystring.stringify(req.query)
     queryStr = queryStr.substring(6, queryStr.length-3)
-    //console.log(queryStr)
+    console.log(queryStr)
     var options = {
         url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=artist',
         headers: {
-            'Authorization': "Bearer " + req.decoded.token
+            'Authorization': "Bearer " + req.decoded.spotify_token
         },
         json: true
     }
@@ -89,7 +89,7 @@ var artist = (req, res) => {
     var options = {
         url: 'https://api.spotify.com/v1/artists/'+queryStr,
         headers: {
-            'Authorization': "Bearer " + req.header('token')
+            'Authorization': "Bearer " + req.decoded.spotify_token
         },
         json: true
     }
@@ -152,7 +152,7 @@ var topArtists = (req, res) => {
     var options = {
         url: 'https://api.spotify.com/v1/me/top/artists',
         headers: {
-            'Authorization': "Bearer " + req.header('token')
+            'Authorization': "Bearer " + req.decoded.spotify_token
         },
         json: true
     }
