@@ -34,8 +34,8 @@ class Navbar extends React.Component {
 	};
 
 	onQuerySubmit = () => {
-		this.props.history.push({pathname: '/search', search: '?query=' + this.state.searchQuery});
-		window.location.reload()
+		this.props.history.push('/search/' + this.state.searchQuery);
+		// window.location.reload()
 	};
 
 	onMobileMenuClick = () => {
