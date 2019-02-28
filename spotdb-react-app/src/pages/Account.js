@@ -26,7 +26,7 @@ class Account extends React.Component {
 	}
 
 	onLogoutClick = () => {
-		this.props.userAuthorized("");
+		this.props.userAuthorized("", "");
 	};
 
 	render() {

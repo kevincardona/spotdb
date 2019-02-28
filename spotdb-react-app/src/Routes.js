@@ -29,7 +29,7 @@ const Routes = ({userName, userAuthorized, userId}) => (
 				<Route exact path="/home" render={() => (<Redirect to="/" />)} /> {/* This simply redirects back to the Home page */}
 				<Route exact path="/me" render={() => <Me userName={userName} />} /> {/* Using the render prop we can pass props to the component rendered by the Route */}
 				<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
-	      		<Route exact path="/authorized" render={() => <Home userAuthorized={userAuthorized}  />} />
+	      <Route exact path="/authorized" render={() => <Home userAuthorized={userAuthorized}  />} />
 
 	    	{/* These pages don't have the FooterNav */}
 				<Route exact path="/map" component={SongMap} />
