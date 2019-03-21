@@ -29,19 +29,19 @@ const Routes = ({userName, userAuthorized, userId}) => (
 				<Route exact path="/home" render={() => (<Redirect to="/" />)} /> {/* This simply redirects back to the Home page */}
 				<Route exact path="/me" render={() => <Me userName={userName} />} /> {/* Using the render prop we can pass props to the component rendered by the Route */}
 				<Route exact path="/account" render={() => <Account userName={userName} userAuthorized={userAuthorized} />} />
-	      		<Route exact path="/authorized" render={() => <Home userAuthorized={userAuthorized}  />} />
+				<Route exact path="/authorized" render={() => <Home userAuthorized={userAuthorized}  />} />
 
-	    	{/* These pages don't have the FooterNav */}
+				{/* These pages don't have the FooterNav */}
 				<Route exact path="/map" component={SongMap} />
 				<Route exact path="/login" component={Login} />
 				
 				{/* Pages that GETs Spotify data based on URL parameters */}
 				<Route exact path="/search" component={Search} />	
-	      <Route exact path="/artist" component={Artist} />
-	      <Route exact path="/artist/:id" component={Artist} /> {/* The ':id' means the component will get passed a url parameter */}
+				<Route exact path="/search/:query" component={Search} />	
+				<Route exact path="/artist/:artist_id" component={Artist} /> {/* The ':id' means the component will get passed a url parameter */}
 
-	    	{/* Static Information pages */}
-	      <Route exact path="/about" component={About} />
+				{/* Static Information pages */}
+				<Route exact path="/about" component={About} />
 				<Route exact path="/terms" render={() => <TextPage textFile="terms_and_conditions.txt" />} />
 				<Route exact path="/privacy" render={() => <TextPage textFile="privacy_policy.txt" />} />
 
