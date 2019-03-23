@@ -1,0 +1,50 @@
+.player-panel {
+    overflow: hidden;
+    position: relative;
+    box-shadow: 1px -1px 3px 0px 1#5e5e5e;
+    float: right;
+    background:#616970;
+    height: calc(100vh - 3.3rem);
+    width: 200px;
+}
+
+.player-header {
+    background: #3E3F52;
+    width: 100vw;
+    height: auto;
+    line-height: 15px;
+    margin: 0;
+    font-size: 15px;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.player-song {
+    margin-top: 100px;
+    text-align: center;
+    width: 200px;
+}
+
+.player-song-artist {
+    font-size: 8px;
+    line-height: 17px;
+    color: lightgray;
+    text-align: center;
+}
+
+.player-body {
+    padding: auto;
+    float: left;
+    height: 100px;
+    width: 200px;
+    font-size: 10px;
+    padding: 10px 10px 10px 0px;
+}
+
+.player-song-image {
+    float: left;
+    width: 100px;
+    height: auto;
+    margin-left: 50px;
+}

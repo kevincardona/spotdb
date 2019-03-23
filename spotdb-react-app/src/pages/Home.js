@@ -7,11 +7,16 @@ const queryString = require('query-string');
 
 class Home extends React.Component {
 	// Home will use state to hold tweet info
+
+	constructor(props) {
+		super(props);
+	}
+
 	state = {}
 
 	//Authorization Stuff
 	componentDidMount() {
-				const parsed = queryString.parse(window.location.search);
+		const parsed = queryString.parse(window.location.search);
 
 				//If a user is logging in
 				if (parsed.code) {

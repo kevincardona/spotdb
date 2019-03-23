@@ -8,8 +8,9 @@ var config      = require('./config');
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
 //All endpoints are defined in ./routes/index.js
 app.use('/', routes);
-app.listen(config.port, () => {
+var server = app.listen(config.port, () => {
     console.log('Server started on port ' + config.port);
-})
+});

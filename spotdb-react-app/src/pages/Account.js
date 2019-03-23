@@ -27,6 +27,7 @@ class Account extends React.Component {
 
 	onLogoutClick = () => {
 		this.props.userAuthorized("");
+		localStorage.setItem('token', null)
 	};
 
 	render() {
