@@ -25,4 +25,4 @@ export function apiPost(endpoint, data = {}) {
     return fetch(`${API_URL}${endpoint}/`, options).then((res) => res.json()).catch((error) => {
       return error;
     });
-}  
+}

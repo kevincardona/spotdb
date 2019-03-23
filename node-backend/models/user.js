@@ -18,6 +18,9 @@ const userSchema = new Schema({
     },
     top_artist: {
         type: String
+    },
+    last_song: {
+        type: String
     }
 })
 

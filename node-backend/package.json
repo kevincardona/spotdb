@@ -15,10 +15,13 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "form-data": "^2.3.3",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.5.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.13",
     "node-spotify-api": "^1.0.7",
     "nodemon": "^1.18.9",
+    "query-string": "^6.2.0",
     "spotify-web-api-node": "^4.0.0",
     "xmlhttprequest": "^1.8.0"
   }
