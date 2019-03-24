@@ -59,10 +59,49 @@ var accountInfo = (req, res) => {
     })
 }
 
+var saveSong = (req, res) => {
+    //first check to see they search for a song (aka if song option is checked before search)
+    //to get songId, you can get 'key' from window (html)
+    var songId = querystring.stringify(req.query)
+    songId = songId.substring(6, songId.length-3) //FIGURE OUT ACTUAL SUBSTRING INDICES
+    var options = {
+        url: 'https://api.spotify.com/v1/me/tracks/'+songId,
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
+    request.post(options, function(error, response, body) {
+        if (error) {
+            return res.json({success: false, err: error})
+        }
+        console.log(response.body)
+    })
+}
+
+var library = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/me/tracks?market=ES&limit=5',
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
+    request.get(options, (error, response, body) => {
+        console.log(body)
+        if (error) {
+            return res.json({success: false, error: error});
+        }
+        //console.log(body);
+        return res.json({success: true, user: body})
+    })
+}
+
 var search = (req, res) => {
     var queryStr = querystring.stringify(req.query)
     queryStr = queryStr.substring(6, queryStr.length-3)
-    console.log(queryStr)
+    //console.log(queryStr)
+    //used for artist search
     var options = {
         url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=artist',
         headers: {
@@ -70,9 +109,17 @@ var search = (req, res) => {
         },
         json: true
     }
+    //used for song search
+    var options2 = {
+        url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=track',
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
     //console.log(options.url)
     request.get(options, (error, response, body) => {
-        console.log(body.artists)
+        //console.log(body.artists)
         if (error) {
             return res.json({success: false, error: error});
         }
@@ -81,13 +128,11 @@ var search = (req, res) => {
 }
 
 var artist = (req, res) => {
-    var queryStr = querystring.stringify(req.query)
-    queryStr = queryStr.substring(6, queryStr.length-3)
-    console.log(queryStr)
-    //queryStr = queryStr.substring(6, queryStr.length-3)
-    //console.log(queryStr)
+    var id = req.query.query;
+    id = id.substring(0,id.length - 1)
+    console.log(id)
     var options = {
-        url: 'https://api.spotify.com/v1/artists/'+queryStr,
+        url: 'https://api.spotify.com/v1/artists/'+id,
         headers: {
             'Authorization': "Bearer " + req.decoded.spotify_token
         },
@@ -95,7 +140,7 @@ var artist = (req, res) => {
     }
     //console.log(options.url)
     request.get(options, (error, response, body) => {
-        //console.log(body)
+        console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         }
@@ -173,5 +218,7 @@ module.exports = {
     currentListeners: currentListeners,
     accountInfo: accountInfo,
     artist: artist,
-    topArtists: topArtists
+    topArtists: topArtists,
+    saveSong: saveSong,
+    library: library
 }
