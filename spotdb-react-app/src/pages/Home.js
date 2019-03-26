@@ -12,10 +12,29 @@ class Home extends React.Component {
 		super(props);
 	}
 
-	state = {}
+	state = {
+		artists: []
+	};
+
+	retrieveArtists = () => {
+		apiGet('/getTweets').then((data) => {
+				console.log('here');
+				this.setState({
+					artists: data.map((item) => {
+						return item.name
+					})
+				})
+				console.log(this.state);
+		}).catch((error) => {
+			console.log(error);
+		})
+	}
 
 	//Authorization Stuff
 	componentDidMount() {
+
+		this.retrieveArtists();
+
 		const parsed = queryString.parse(window.location.search);
 
 				//If a user is logging in
@@ -25,7 +44,6 @@ class Home extends React.Component {
 					}
 
 					apiPost('/authorized', body).then((data) => {
-						console.log(data);
 						if(data.success && data.token && data.display_name && data.id) {
 							localStorage.setItem('token', data.token);
 							this.props.userAuthorized(data.display_name, data.id);
@@ -37,18 +55,13 @@ class Home extends React.Component {
 					}).then(() => {
 					})
 				}
-
-				apiGet('/getTweets').then((data) => {
-					console.log(data);
-				}).catch((error) => {
-					console.log(error);
-				})
     }
 
 	render() {
+		const { artists } = this.state;
+
 		return (
 				<div className="Home">
-
 					{/* /About Link */}
 					<div className="Home-learn-more">
 						<span><b>What</b> is SpotDB?</span>
@@ -68,38 +81,25 @@ class Home extends React.Component {
 							<span className="Home-tweeter">@spotdb</span>
 						</div>
 					</div>
-
-
 					{/* This is the template for the Tweet info */}
-					<div>
-						<div className="Home-artist-title">Lady Gaga</div>
-						<div className="Home-spotdb-tweets">
-							<div className="Home-tweet-list">
-								<div className="Home-tweet">
-									Wow! #spotdb #goinggaga
+					{/* This map function returns for every element in an array so you can show dynamic data */}
+						{artists.map((item) => (
+							<div key={item}>
+								<div className="Home-artist-title">{item}</div>
+								<div className="Home-spotdb-tweets">
+									<div className="Home-tweet-list">
+										<div className="Home-tweet">
+											Wow! #spotdb #goinggaga
+										</div>
+									</div>
+									<div className="Home-tweet-right-column">
+										<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
+										<span className="Home-tweeter">@spotdb</span>
+									</div>
 								</div>
 							</div>
-							<div className="Home-tweet-right-column">
-								<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
-								<span className="Home-tweeter">@spotdb</span>
-							</div>
-						</div>
+						))}
 					</div>
-					<div>
-						<div className="Home-artist-title">Bruno Mars</div>
-						<div className="Home-spotdb-tweets">
-							<div className="Home-tweet-list">
-								<div className="Home-tweet">
-									24 Carrots made of Gold? #spotdb #pun-a-licious
-								</div>
-							</div>
-							<div className="Home-tweet-right-column">
-								<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
-								<span className="Home-tweeter">@spotdb</span>
-							</div>
-						</div>
-					</div>
-				</div>
 		);
 	}
 }
