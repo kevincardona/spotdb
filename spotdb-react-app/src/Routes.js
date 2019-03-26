@@ -14,6 +14,9 @@ import Search from "./pages/Search";
 import Artist from "./pages/Artist";
 import NoMatch from "./pages/NoMatch";
 
+/* ADDED FOR TESTING */
+import Library from "./pages/Library";
+
 /* 	
 	This component is funcitonal and has no state
 	but it renders all the visible page content	
@@ -25,13 +28,9 @@ const Routes = ({ userName, userAuthorized, userId }) => (
       <Switch>
         {/* Main Content / Navbar Pages */}
         <Route exact path="/" component={Home} />
-        <Route exact path="/home" render={() => <Redirect to="/" />} />{" "}
+        <Route exact path="/home" render={() => <Redirect to="/" />} />
         {/* This simply redirects back to the Home page */}
-        <Route
-          exact
-          path="/me"
-          render={() => <Me userName={userName} />}
-        />{" "}
+        <Route exact path="/me" render={() => <Me userName={userName} />} />
         {/* Using the render prop we can pass props to the component rendered by the Route */}
         <Route
           exact
@@ -51,8 +50,9 @@ const Routes = ({ userName, userAuthorized, userId }) => (
         {/* Pages that GETs Spotify data based on URL parameters */}
         <Route exact path="/search" component={Search} />
         <Route exact path="/search/:query" component={Search} />
-        <Route exact path="/artist/:artist_id" component={Artist} />{" "}
+        <Route exact path="/artist/:artist_id" component={Artist} />
         {/* The ':id' means the component will get passed a url parameter */}
+        <Route exact path="/library" component={Library} />
         {/* Static Information pages */}
         <Route exact path="/about" component={About} />
         <Route

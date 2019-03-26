@@ -2,7 +2,7 @@ const mongoose      = require('mongoose');
 const Schema        = mongoose.Schema;
 const config        = require('../config');
 
-const userSchema = new Schema({
+const artistSchema = new Schema({
     name: {
         type: String
     }
@@ -10,5 +10,5 @@ const userSchema = new Schema({
 
 mongoose.connect(config.mongo_url);
 
-const Artist = mongoose.model('Artist', userSchema);
+const Artist = mongoose.model('Artist', artistSchema);
 exports.Artist = Artist;
