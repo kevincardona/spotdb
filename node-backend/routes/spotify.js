@@ -10,15 +10,6 @@ mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-var spotify_client_id = process.env.SPOTIFY_API_ID;
-var spotify_client_secret = process.env.SPOTIFY_API_SECRET;
-var access_token;
-var refresh_token;
-var expires_in;
-var userName;
-var birthday;
-var followers;
-var following;
 
 var login = (req, res) => {
     var scopes = 'user-read-private user-read-email user-read-birthdate user-read-email playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative playlist-modify-public playlist-modify-private user-follow-read user-follow-modify user-read-playback-state user-read-currently-playing user-modify-playback-state user-read-recently-played'
@@ -156,14 +147,20 @@ var topArtists = (req, res) => {
         },
         json: true
     }
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-        //console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         }
         return res.json({success: true, user: body})
     })
+}
+
+var topLocalTrack = (req, res) => {
+    if (!req.body.zip) {
+        return res.json({success: false, message: "Insufficient body information"});
+    }
+    
+
 }
 
 module.exports = {
