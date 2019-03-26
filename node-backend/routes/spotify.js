@@ -65,7 +65,7 @@ var saveSong = (req, res) => {
     var songId = querystring.stringify(req.query)
     songId = songId.substring(6, songId.length-3) //FIGURE OUT ACTUAL SUBSTRING INDICES
     var options = {
-        url: 'https://api.spotify.com/v1/me/tracks/'+songId,
+        url: 'https://api.spotify.com/v1/me/tracks/'+songId, //try to hardcode ID and add to library
         headers: {
             'Authorization': "Bearer " + req.decoded.spotify_token
         },
@@ -88,12 +88,12 @@ var library = (req, res) => {
         json: true
     }
     request.get(options, (error, response, body) => {
-        console.log(body)
+        //console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         }
-        //console.log(body);
-        return res.json({success: true, user: body})
+        console.log(body.items);
+        return res.json({success: true, user: body.items})
     })
 }
 
