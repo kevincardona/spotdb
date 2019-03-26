@@ -17,8 +17,7 @@ class Home extends React.Component {
 	};
 
 	retrieveArtists = () => {
-		apiGet('/getTweets').then((data) => {
-				console.log('here');
+		apiGet('/getTweetInfo').then((data) => {
 				this.setState({
 					artists: data.map((item) => {
 						return item.name

@@ -3,7 +3,7 @@ var config        = require('../config');
 const ArtistModel = require('../models/artist.js').Artist;
 
 
-var getTweets = (req, res) => {
+var getTweetInfo = (req, res) => {
   mongoose.connect('mongodb://localhost:27017/spotdb');
   var db = mongoose.connection;
   ArtistModel.find({}, (err, data) =>{
@@ -12,7 +12,7 @@ var getTweets = (req, res) => {
 };
 
 var functions = {
-  getTweets: getTweets
+  getTweetInfo: getTweetInfo
 }
 
 module.exports = functions;
