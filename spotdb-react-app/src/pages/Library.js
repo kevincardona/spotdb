@@ -5,30 +5,27 @@ import spotify_logo from '../assets/Spotify_Icon_RGB_Green.png';
 import { apiGet } from '../util/api';
 import PopupBanner from '../components/PopupBanner';
 
-class Search extends React.Component {
+class Library extends React.Component {
 	state = {
 		query: this.props.match.params.query || "",
-		prevApiQuery: "",
 		// This is the array of results we get from the Spotify API
 		results : [],
 		error: false
 	};
 
-	searchSpotify = (query) => {
-		apiGet('/search?query=' + query).then((data) => {
+	librarySpotify = () => {
+		apiGet('/library').then((data) => {
 			if (data.success) {
-				//console.log(data)
+				console.log(data)
 				this.setState({
-					prevApiQuery: query,
-					results: data.user.items,
+					results: data.user,
 					error: false
 				})
 			}
 			else {
 				this.setState({
 					error: true,
-					prevApiQuery: query,
-					results: data.user.items
+					results: data.user
 				})
 			}
 		})
@@ -40,25 +37,28 @@ class Search extends React.Component {
 		};
 	}
 
-	render() {
-		const { query, prevApiQuery, results, error } = this.state;
+    componentDidMount() {
+        this.librarySpotify()
+    }
 
-		if (query !== prevApiQuery) {
-			this.searchSpotify(query)
-		}
+	render() {
+		const { query, results, error } = this.state;
+
+		/*if (results !== "") {
+            this.librarySpotify()
+        }*/
 
 		return (
 			<div>
 				{ error && <PopupBanner text="There was an error, try logging in again." /> }
-				<div className="Search">
-					<h1>This will process query parameters</h1>
-					<h2>query = "{query}"</h2>
-					<ul className="Search-list">
+				<div className="Library">
+					<h1>Song Library</h1>
+					<ul className="Library-list">
 						{/* This map function returns for every element in an array so you can show dynamic data */}
 						{results.map((item) => (
-								<li key={item.id} className="Search-item">
-									<img src={item.images.length > 0 ? item.images[0].url : ""} alt="Artist profile" className="Search-album-art" />
-									<Link to={"/artist/" + item.id} ><span>{item.name}</span></Link>
+								<li key={item.track.id} className="Library-item">
+									<img src={item.track.album.images.length > 0 ? item.track.album.images[0].url : ""} alt="Artist profile" className="Search-album-art" />
+									<Link to={"/artist/" + item.track.artists[0].id} ><span>{item.track.name}</span></Link>
 									<i>{item.popularity}</i>
 								</li>
 							))}
@@ -69,4 +69,4 @@ class Search extends React.Component {
 	}
 }
 
-export default Search;
+export default Library;

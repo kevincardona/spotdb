@@ -14,6 +14,9 @@ import Search from './pages/Search';
 import Artist from './pages/Artist';
 import NoMatch from './pages/NoMatch';
 
+/* ADDED FOR TESTING */
+import Library from './pages/Library';
+
 /* 	
 	This component is funcitonal and has no state
 	but it renders all the visible page content	
@@ -39,6 +42,7 @@ const Routes = ({userName, userAuthorized, userId}) => (
 				<Route exact path="/search" component={Search} />	
 				<Route exact path="/search/:query" component={Search} />	
 				<Route exact path="/artist/:artist_id" component={Artist} /> {/* The ':id' means the component will get passed a url parameter */}
+				<Route exact path='/library' component={Library} />
 
 				{/* Static Information pages */}
 				<Route exact path="/about" component={About} />
