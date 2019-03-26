@@ -1,5 +1,5 @@
 .Artist * {
-	animation: fade-in 0.6s linear;
+  animation: fade-in 0.6s linear;
 }
 
 @keyframes fade-in {
@@ -11,13 +11,30 @@
   }
 }
 
-.Artist {
-	margin: 3vh 15vw;
-	flex-grow: 1;
+/* .Artist {
+  margin: 3vh 15vw;
+  flex-grow: 1;
 }
 
 @media (max-width: 750px) {
-	.Artist {
-		margin: 3vh 0;
-	}
+  .Artist {
+    margin: 3vh 0;
+  }
+} */
+
+.Artist > *:first-child {
+  margin-top: 0;
+}
+
+.Artist .Artist-profile-image {
+  margin: 20px auto;
+  width: 320px;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.Artist .full-hero {
+  width: 320px;
+  height: 320px;
 }
