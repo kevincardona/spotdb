@@ -16,7 +16,6 @@ class Search extends React.Component {
 
 	searchSpotify = (query) => {
 		apiGet('/search?query=' + query).then((data) => {
-		//apiGet('/library').then((data) => {
 			if (data.success) {
 				//console.log(data)
 				this.setState({
