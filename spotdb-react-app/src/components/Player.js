@@ -10,7 +10,8 @@ export default class Player extends Component {
             song: "",
             artist: "",
             listeners: 0,
-            song_id: null
+            song_id: null,
+            location: ""
         }
     }
 
@@ -25,10 +26,14 @@ export default class Player extends Component {
         }).catch((error)=> {
             console.log(error);
         })
-
+        
         setInterval (() => {
             this.update();
         }, 2000)
+    }
+
+    componentDidMount() {
+        this.setState({location: this.props.location});
     }
 
     update() {
@@ -54,7 +59,7 @@ export default class Player extends Component {
     }
 
     render () {
-        const { song, artist, cover_image, listeners} = this.state;
+        const { song, artist, cover_image, listeners, location} = this.state;
         var style = {
             fontSize: '10px',
             margin: '0',
@@ -77,6 +82,8 @@ export default class Player extends Component {
                             {listeners > 0 && cover_image != "" &&
                                 <div>{listeners}<br/>SpotDB users listening to this song</div>
                             }
+
+                            {this.props.location}
                     </div>
                 </div>
             </div>

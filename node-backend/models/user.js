@@ -8,9 +8,9 @@ const userSchema = new Schema({
     spotify_token: String,
     spotify_refresh_token: String,
     location: {
-        latlon: [Number],
-        zip: String
+        latlon: [Number]
     },
+    zip: String,
     top_artists: [{
         id: String,
         name: String
@@ -19,7 +19,8 @@ const userSchema = new Schema({
         id: String,
         name: String
     }],
-    last_song: String
+    last_song: String,
+    last_song_name: String
 
 })
 

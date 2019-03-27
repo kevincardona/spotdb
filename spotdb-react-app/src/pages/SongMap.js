@@ -9,7 +9,7 @@ import Player from '../components/Player';
 export default class SongMap extends Component {
     constructor(props) {
         super(props);
-        this.state = {redirect: false, hasLocation: true, city: '', state: '', zip: ''};
+        this.state = {redirect: false, hasLocation: true, city: '', state: '', zip: '', listeners: []};
     }
     createMap(position) {
         this.setState({hasLocation: true});
@@ -30,7 +30,7 @@ export default class SongMap extends Component {
             // The anchor for this image is the base of the flagpole at (0, 32).
             anchor: new window.google.maps.Point(16, 32)
         };
-    
+
         var beachMarker = new window.google.maps.Marker({
             position: {lat: position.coords.latitude, lng: position.coords.longitude},
             map: map,
@@ -40,10 +40,26 @@ export default class SongMap extends Component {
     componentWillMount() {
         apiGet(`/authenticate`).then((data) => {
             console.log(data);
-            if (!data.success) { this.state.redirect=true; }
+            if (!data.success) { this.state.redirect=true;
+                const { history } = this.props
+                history.pushState(null, '/login');
+            }
         }).catch((error)=> {
             console.log(error);
         })
+
+        setInterval( () => {
+            if (this.state.zip) {
+                apiPost(`/locallisteners`, {zip: this.state.zip}).then((data) => {
+                    try {
+                        this.setState({listeners: data.listeners});
+                    } catch (err) {}
+                }).catch((error)=> {
+                    console.log(error);
+                })
+            }
+        }, 2000);
+
     }
 
     componentDidMount() {
@@ -55,15 +71,6 @@ export default class SongMap extends Component {
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
                     var last_location = [lat, lon]
-                    const body = {
-                        last_location: last_location
-                    }
-                    //Update users last location
-                    apiPost('/sethome', body).then((data) => {
-                        console.log(data);
-                    }).catch((error)=> {
-                        console.log(error);
-                    })
 
                     apiGet(`/getaddress?lat=${lat}&lon=${lon}`).then((data) => {
                         if (data.success) {
@@ -74,7 +81,19 @@ export default class SongMap extends Component {
                         }
                     }).catch((error)=> {
                         console.log(error);
+                    }).then (() => {
+                        const body = {
+                            last_location: last_location,
+                            zip: this.state.zip
+                        }
+                        //Update users last location
+                        apiPost('/sethome', body).then((data) => {
+                            console.log(data);
+                        }).catch((error)=> {
+                            console.log(error);
+                        })
                     })
+
                 },
                 (error) => {
                     this.setState({hasLocation: false});
@@ -96,9 +115,9 @@ export default class SongMap extends Component {
             })
         }
     }
- 
+
   render() {
-    const {redirect, hasLocation, city, state, zip} = this.state;
+    const {redirect, hasLocation, city, state, zip, listeners} = this.state;
     if (redirect) {
         return (
             <Redirect to="/login"></Redirect>
@@ -114,7 +133,8 @@ export default class SongMap extends Component {
                             <img id="loader" src={loader} alt="Loading..."/>
                         </div>
                     </div>
-                    <Player location={city + ', ' + state}/>
+
+                    <Player location={city && state && (city + ', ' + state)}/>
                 </div>
             </div>
         );

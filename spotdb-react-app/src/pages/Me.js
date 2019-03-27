@@ -17,7 +17,7 @@ class Me extends React.Component {
 	componentDidMount() {
 		apiGet('/topartists').then((data) => {
 			//data.user.item[index]
-			//console.log(data)
+			console.log(data)
 			const a = this.state.artists.slice();
 			var i;
 			for (i = 0; i < 4; i++) {

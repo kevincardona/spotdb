@@ -24,5 +24,6 @@ router.get('/getHome', user.getHome);
 router.post('/sethome', user.setHome);
 router.get('/listening', spotify.listening);
 router.post('/currentlisteners', spotify.currentListeners);
+router.post('/locallisteners', spotify.localListeners);
 
 module.exports = router;

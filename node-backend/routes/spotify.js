@@ -112,6 +112,7 @@ var listening = (req, res) => {
             if (!error) {
                 try {
                 result.last_song = body.item.id;
+                result.last_song_name = body.item.name;
                 } catch (err) {
                     return res.json({success: false});
                 }
@@ -139,6 +140,42 @@ var currentListeners = (req, res) => {
     });
 }
 
+var localListeners = (req, res) => {
+    var list = UserModel.find({zip: req.body.zip }, (err, list) => {
+        if (err)
+            return res.json({success: false, message: 'Failed to gather local listeners'});
+
+        var locations = list.map(user => user.location);
+        var songs = list.map(user => user.last_song_name);
+        var counts = list.reduce((p, c) => {
+          var name = c.last_song_name;
+          if (!p.hasOwnProperty(name)) {
+            p[name] = 0;
+          }
+          p[name]++;
+          return p;
+        }, {});
+        return res.json({success: true, locations: locations, songs: songs, top_songs: counts});
+    })
+
+
+    /*.select({location: 1, zip: 1, top_tracks: 1}).then( (result) => {
+        return res.json({success: true, listeners: result});
+    }).catch((err) => {
+        return res.json({success: false, message: 'Failed to gather local listeners'});
+    });*/
+
+    /*
+        , function(error, result) {
+        if (!error) {
+            return res.json({success: true, listeners: result});
+        } else {
+            return res.json({success: false, message: 'Failed to gather local listener count'});
+        }
+    });
+    */
+}
+
 var topArtists = (req, res) => {
     var options = {
         url: 'https://api.spotify.com/v1/me/top/artists',
@@ -151,16 +188,28 @@ var topArtists = (req, res) => {
         if (error) {
             return res.json({success: false, error: error});
         }
-        return res.json({success: true, user: body})
+        UserModel.findOne({spotify_id: req.decoded.spotify_id}, function(error, result) {
+            
+            if (!error) {
+                try {
+                    result.last_song = body.item.id;
+                    console.log(body.item.id);
+                } catch (err) {
+                    console.log(err);
+                    return res.json({success: false});
+                }
+                //result.last_song = body.user.item.name;
+
+                result.save(function(error) {
+                    if (!error) {
+                        return res.json({success: true, user: body})
+                    } else {
+                        return res.json({success: false, error: error});
+                    }
+                });
+            }
+        });
     })
-}
-
-var topLocalTrack = (req, res) => {
-    if (!req.body.zip) {
-        return res.json({success: false, message: "Insufficient body information"});
-    }
-    
-
 }
 
 module.exports = {
@@ -168,6 +217,7 @@ module.exports = {
     search: search,
     listening: listening,
     currentListeners: currentListeners,
+    localListeners: localListeners,
     accountInfo: accountInfo,
     artist: artist,
     topArtists: topArtists
