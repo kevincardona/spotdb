@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 router.get('/login', spotify.login);
 router.post('/authorized', user.authorize);
 router.get('/getaddress', util.getAddress); //Gets lat/lon in query and returns address
-router.get('/getTweets', tweets.getTweets);
+router.get('/getTweetInfo', tweets.getTweetInfo);
 
 
 // Anything below requires user to be logged in
