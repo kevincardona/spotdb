@@ -12,13 +12,17 @@ class Artist extends React.Component {
   state = {
     urlId: this.props.match.params.artist_id || "",
     artist: {},
+    albums: [],
+    tracks: [],
     error: false,
-    invalidIdError: false
+    invalidIdError: false,
+    selectedAlbum: "7DF5fyCAcAilUhClk48jjH",
+    shownAlbum: ""
   };
 
   getArtist = id => {
+    console.log("GET Artist : getArtist : 24");
     apiGet("/artist?query=" + id).then(data => {
-      console.log(data);
       if (data.success) {
         if (data.user.error) {
           this.setState({
@@ -48,6 +52,37 @@ class Artist extends React.Component {
         });
       }
     });
+
+    apiGet("/artistalbums?query=" + id).then(data => {
+      if (data.success) {
+        if (!data.user.error) {
+          // SUCCESS
+          this.setState({
+            albums: data.user.items
+          });
+        }
+      }
+    });
+  };
+
+  getAlbum = id => {
+    console.log("GET Album : getAlbum : 69");
+    apiGet("/albumtracks?query=" + id).then(data => {
+      if (data.success) {
+        if (!data.user.error) {
+          this.setState({
+            tracks: data.user.items
+          });
+        }
+      }
+    });
+  };
+
+  selectAlbum = id => {
+    console.log(id);
+    this.setState({
+      selectedAlbum: id
+    });
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -57,13 +92,26 @@ class Artist extends React.Component {
   }
 
   render() {
-    const { urlId, artist, error, invalidIdError } = this.state;
+    const {
+      urlId,
+      artist,
+      albums,
+      tracks,
+      error,
+      invalidIdError,
+      selectedAlbum,
+      shownAlbum
+    } = this.state;
 
     if (urlId !== artist.id) {
       this.getArtist(urlId);
     }
-
-    console.log(artist);
+    if (selectedAlbum && selectedAlbum !== shownAlbum) {
+      this.getAlbum(selectedAlbum);
+      this.setState({
+        shownAlbum: selectedAlbum
+      });
+    }
 
     if (artist) {
       return (
@@ -87,6 +135,45 @@ class Artist extends React.Component {
             {artist.popularity && <p>Popularity of {artist.popularity}</p>}
             {artist.followers && <p>Followers: {artist.followers.total}</p>}
             {artist.genres && <p>Genres: {artist.genres.join(", ")}</p>}
+
+            <h2>Albums</h2>
+            <ul className="Album-list">
+              {/* This map function returns for every element in an array so you can show dynamic data */}
+              {albums.map(album => (
+                <li
+                  key={album.id}
+                  className={
+                    "Album-item " + (album.id === selectedAlbum && " selected ")
+                  }
+                  onClick={() => this.selectAlbum(album.id)}
+                >
+                  <div>
+                    {album.images.length > 0 && (
+                      <img
+                        src={album.images[0].url}
+                        alt={album.name + " album art"}
+                        className="Album-image"
+                      />
+                    )}
+                    <h3>{album.name}</h3>
+                    {album.id === selectedAlbum && (
+                      <ul className="Album-list Track-list">
+                        {tracks && <h4>Tracks:</h4>}
+                        {tracks &&
+                          tracks.map((track, index) => (
+                            <li
+                              key={track.id}
+                              className="Album-item Track-item"
+                            >
+                              {index + 1 + ". "} <b>{track.name}</b>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       );
