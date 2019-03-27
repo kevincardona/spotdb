@@ -88,8 +88,11 @@ var library = (req, res) => {
     if (error) {
       return res.json({ success: false, error: error });
     }
-    console.log(body.items);
-    return res.json({ success: true, user: body.items });
+    let cleaned = { items: [] };
+    for (let i of body.items) {
+      cleaned.items.push(i.track);
+    }
+    return res.json({ success: true, user: cleaned });
   });
 };
 

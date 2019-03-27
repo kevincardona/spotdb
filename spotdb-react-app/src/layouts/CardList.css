@@ -1,0 +1,56 @@
+.CardList {
+  padding: 0;
+  margin: 2em 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-items: center; */
+  /* align-content: center; */
+}
+
+.CardList-item {
+  list-style: none;
+  background: #3e3f52;
+  border-radius: 5px;
+}
+.CardList-item.selected {
+  background: #9496bd;
+}
+.CardList-item {
+  margin: 0 0.5em 1em 0.5em;
+  width: 232px; /* HEY! */
+}
+.CardList-item div {
+  height: calc(100% - 72px);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* align-content: center; */
+}
+.CardList-item div * {
+  margin: 0;
+}
+.CardList-item h3,
+.CardList-item h4,
+.CardList-item p {
+  color: white;
+  text-decoration: none;
+}
+.CardList-item div {
+  text-decoration: none;
+}
+.CardList-item:hover {
+  background: #24252c;
+}
+.CardList-item.selected:hover {
+  background: #7a7da7;
+}
+img.CardList-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 0;
+  margin-bottom: 36px;
+}
