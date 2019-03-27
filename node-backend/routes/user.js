@@ -16,7 +16,8 @@ var authenticate = (req, res, next) => {
 
 	jwt.verify(token, config.secret, function(err, decoded) {
 		if (err) {
-			return res.send({ success: false, message: 'Failed to authenticate token', loggedin: false });
+            console.log(err)
+            return res.json({ success: false, message: 'Failed to authenticate token', loggedin: false });
 		} else {
 			req.decoded = decoded;
 			next();
@@ -40,7 +41,7 @@ var authorize = (req, res) => {
         json: true
     }
     request.post(options, function(error, response, body) {
-        console.log(response.body)
+        //console.log(response.body)
         if (error) {
             return res.json({success: false, err: error})
         }
@@ -69,7 +70,8 @@ var authorize = (req, res) => {
                         result.spotify_id = response1.body.id;
                         result.username = response1.body.display_name;
                     }
-                    result.token = response.body.access_token;
+                    result.spotify_refresh_token = response.body.refresh_token;
+                    result.spotify_token = response.body.access_token;
                     // Save the document
                     var token_items = 
                         {
@@ -77,7 +79,7 @@ var authorize = (req, res) => {
                             display_name: response1.body.display_name,
                             spotify_token: response.body.access_token
                         }
-                    var token = jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 60 * 60 })
+                    var token = jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 60*60}) // 60*60})
 
                     result.save(function(error) {
                         if (!error) {
@@ -115,7 +117,10 @@ var setHome = (req, res) => {
                 if (body.items)
                     if (body.items[0].external_urls.spotify)
                         user.top_artist = body.items[0].external_urls.spotify;
-                user.last_location = req.body.last_location;
+                user.location.latlon = req.body.last_location;
+                if (req.body.zip) {
+                    user.location.zip = req.body.zip;
+                }
                 user.save(function(err) {
                     if (err)
                         return res.json({success: false, error: err});
@@ -133,7 +138,7 @@ var getHome = (req, res) => {
     UserModel.findOne({spotify_id: req.decoded.spotify_id}, function (err, user) {
         if (err || !user)
             return res.json({success: false, error: err});
-        return res.json({success: true, last_location: user.last_location});
+        return res.json({success: true, last_location: user.location.latlon, zip: user.location.zip});
     })
 }
 

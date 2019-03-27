@@ -2,7 +2,7 @@ const mongoose      = require('mongoose');
 const Schema        = mongoose.Schema;
 const config        = require('../config');
 
-const userSchema = new Schema({
+const artistSchema = new Schema({
     name: {
         type: String
     },
@@ -11,5 +11,6 @@ const userSchema = new Schema({
 
 mongoose.connect('mongodb://localhost:27017/spotdb');
 
-const Artist = mongoose.model('Score', userSchema);
+const Artist = mongoose.model('Score', artistSchema);
+
 exports.Artist = Artist;
