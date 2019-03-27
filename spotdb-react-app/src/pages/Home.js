@@ -18,9 +18,10 @@ class Home extends React.Component {
 
 	retrieveArtists = () => {
 		apiGet('/getTweetInfo').then((data) => {
+			console.log(data);
 				this.setState({
 					artists: data.map((item) => {
-						return item.name
+						return item
 					})
 				})
 				console.log(this.state);
@@ -83,12 +84,12 @@ class Home extends React.Component {
 					{/* This is the template for the Tweet info */}
 					{/* This map function returns for every element in an array so you can show dynamic data */}
 						{artists.map((item) => (
-							<div key={item}>
-								<div className="Home-artist-title">{item}</div>
+							<div key={item.name}>
+								<div className="Home-artist-title">{item.name}</div>
 								<div className="Home-spotdb-tweets">
 									<div className="Home-tweet-list">
 										<div className="Home-tweet">
-											Wow! #spotdb #goinggaga
+											Artist Twitter Score: {item.combined}
 										</div>
 									</div>
 									<div className="Home-tweet-right-column">

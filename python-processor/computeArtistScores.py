@@ -39,3 +39,4 @@ if __name__ == "__main__":
     entryCollection = db.scores
     entryCollection.delete_many({})
     entryCollection.insert_many(newEntries)
+    entryCollection.find().sort("name", -1)
