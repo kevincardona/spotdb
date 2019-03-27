@@ -1,18 +1,15 @@
 .Search {
-	margin: 3vh 15vw;
-	flex-grow: 1;
+  margin: 3vh 15vw;
+  flex-grow: 1;
 }
 
 @media (max-width: 750px) {
-	.Search {
-		margin: 3vh 0;
-	}
+  .Search {
+    margin: 3vh 0;
+  }
 }
 
-.Search-list {
-	/*display: grid;*/
-}
-
+/*
 .Search-item {
 	list-style: none;
 	display: grid;
@@ -28,4 +25,66 @@
 	height: 56px;
 	padding: 5px;
 	background-color: black;
+} */
+
+.Search-list {
+  padding: 0;
+  margin: 2em 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-items: center; */
+  /* align-content: center; */
+}
+
+.Search-item {
+  list-style: none;
+  background: #3e3f52;
+  border-radius: 5px;
+}
+
+/* .Search-list > *:first-child {
+  margin-top: 0;
+} */
+/* .Search-list > *:last-child {
+  margin-bottom: 0;
+} */
+.Search-item {
+  margin: 0 0.5em 1em 0.5em;
+  width: 232px; /* HEY! */
+}
+
+.Search-item a {
+  height: calc(100% - 72px);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* align-content: center; */
+}
+.Search-item a * {
+  margin: 0;
+}
+.Search-item h3,
+.Search-item p {
+  color: white;
+  text-decoration: none;
+}
+.Search-item a {
+  text-decoration: none;
+}
+.Search-item a:hover {
+  background: #24252c;
+}
+.Search .Search-image {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin-bottom: 36px;
+}
+
+.Search .Search-image.album {
+  border-radius: 0;
 }
