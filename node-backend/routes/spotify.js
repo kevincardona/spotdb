@@ -10,15 +10,6 @@ mongoose.Promise = global.Promise;
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
-var spotify_client_id = process.env.SPOTIFY_API_ID;
-var spotify_client_secret = process.env.SPOTIFY_API_SECRET;
-var access_token;
-var refresh_token;
-var expires_in;
-var userName;
-var birthday;
-var followers;
-var following;
 
 var login = (req, res) => {
     var scopes = 'user-read-private user-read-email user-read-birthdate user-read-email playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative playlist-modify-public playlist-modify-private user-follow-read user-follow-modify user-read-playback-state user-read-currently-playing user-modify-playback-state user-read-recently-played'
@@ -59,10 +50,49 @@ var accountInfo = (req, res) => {
     })
 }
 
+var saveSong = (req, res) => {
+    //first check to see they search for a song (aka if song option is checked before search)
+    //to get songId, you can get 'key' from window (html)
+    var songId = querystring.stringify(req.query)
+    songId = songId.substring(6, songId.length-3) //FIGURE OUT ACTUAL SUBSTRING INDICES
+    var options = {
+        url: 'https://api.spotify.com/v1/me/tracks/'+songId, //try to hardcode ID and add to library
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
+    request.post(options, function(error, response, body) {
+        if (error) {
+            return res.json({success: false, err: error})
+        }
+        console.log(response.body)
+    })
+}
+
+var library = (req, res) => {
+    var options = {
+        url: 'https://api.spotify.com/v1/me/tracks?market=ES&limit=5',
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
+    request.get(options, (error, response, body) => {
+        //console.log(body)
+        if (error) {
+            return res.json({success: false, error: error});
+        }
+        console.log(body.items);
+        return res.json({success: true, user: body.items})
+    })
+}
+
 var search = (req, res) => {
     var queryStr = querystring.stringify(req.query)
     queryStr = queryStr.substring(6, queryStr.length-3)
-    console.log(queryStr)
+    //console.log(queryStr)
+    //used for artist search
     var options = {
         url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=artist',
         headers: {
@@ -70,9 +100,17 @@ var search = (req, res) => {
         },
         json: true
     }
+    //used for song search
+    var options2 = {
+        url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=track',
+        headers: {
+            'Authorization': "Bearer " + req.decoded.spotify_token
+        },
+        json: true
+    }
     //console.log(options.url)
     request.get(options, (error, response, body) => {
-        console.log(body.artists)
+        //console.log(body.artists)
         if (error) {
             return res.json({success: false, error: error});
         }
@@ -81,13 +119,11 @@ var search = (req, res) => {
 }
 
 var artist = (req, res) => {
-    var queryStr = querystring.stringify(req.query)
-    queryStr = queryStr.substring(6, queryStr.length-3)
-    console.log(queryStr)
-    //queryStr = queryStr.substring(6, queryStr.length-3)
-    //console.log(queryStr)
+    var id = req.query.query;
+    id = id.substring(0,id.length - 1)
+    console.log(id)
     var options = {
-        url: 'https://api.spotify.com/v1/artists/'+queryStr,
+        url: 'https://api.spotify.com/v1/artists/'+id,
         headers: {
             'Authorization': "Bearer " + req.decoded.spotify_token
         },
@@ -95,7 +131,7 @@ var artist = (req, res) => {
     }
     //console.log(options.url)
     request.get(options, (error, response, body) => {
-        //console.log(body)
+        console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         }
@@ -156,14 +192,20 @@ var topArtists = (req, res) => {
         },
         json: true
     }
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-        //console.log(body)
         if (error) {
             return res.json({success: false, error: error});
         }
         return res.json({success: true, user: body})
     })
+}
+
+var topLocalTrack = (req, res) => {
+    if (!req.body.zip) {
+        return res.json({success: false, message: "Insufficient body information"});
+    }
+    
+
 }
 
 module.exports = {
@@ -173,5 +215,7 @@ module.exports = {
     currentListeners: currentListeners,
     accountInfo: accountInfo,
     artist: artist,
-    topArtists: topArtists
+    topArtists: topArtists,
+    saveSong: saveSong,
+    library: library
 }

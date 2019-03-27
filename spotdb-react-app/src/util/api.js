@@ -1,4 +1,6 @@
 import {API_URL} from '../config';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export function apiGet(endpoint) {
     const HEADERS = {
@@ -6,9 +8,14 @@ export function apiGet(endpoint) {
         'Content-Type': 'application/json',
         'token': localStorage.getItem('token')
     }
-    return fetch(`${API_URL}${endpoint}/`, {headers: HEADERS}).then((res) => res.json()).catch(function(error) {
+    var result = fetch(`${API_URL}${endpoint}/`, {headers: HEADERS}).then((res) => res.json()).catch(function(error) {
       return error;
     });
+
+    if (!result.loggedin)
+      return result;
+    else
+      return result;
 }
 
 export function apiPost(endpoint, data = {}) {
@@ -22,7 +29,13 @@ export function apiPost(endpoint, data = {}) {
       },
       body: JSON.stringify(data)
     }
-    return fetch(`${API_URL}${endpoint}/`, options).then((res) => res.json()).catch((error) => {
+    var result = fetch(`${API_URL}${endpoint}/`, options).then((res) => res.json()).catch((error) => {
       return error;
     });
+
+    if (!result.loggedin)
+      return result;
+    else
+      return result;
+
 }

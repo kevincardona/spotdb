@@ -3,25 +3,24 @@ const Schema        = mongoose.Schema;
 const config        = require('../config');
 
 const userSchema = new Schema({
-    spotify_id: {
-        type: String
+    spotify_id: String,
+    username: String,
+    spotify_token: String,
+    spotify_refresh_token: String,
+    location: {
+        latlon: [Number],
+        zip: String
     },
-    username: {
-        type: String
-    },
-    token: {
-        type: String
-    },
-    last_location: {
-        type: [Number],
-        default: null
-    },
-    top_artist: {
-        type: String
-    },
-    last_song: {
-        type: String
-    }
+    top_artists: [{
+        id: String,
+        name: String
+    }],
+    top_tracks: [{
+        id: String,
+        name: String
+    }],
+    last_song: String
+
 })
 
 mongoose.connect(config.mongo_url);
