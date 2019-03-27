@@ -51,9 +51,9 @@ class Me extends React.Component {
 
         <div className="Me">
           <div className="Me-hero">These are {name}'s Favorite Artists!</div>
-          <CardList list={artists} />
+          <CardList list={artists} links />
           <div className="Me-hero">These are {name}'s Tracks!</div>
-          <CardList list={library} />
+          <CardList list={library} links />
         </div>
       </div>
     );

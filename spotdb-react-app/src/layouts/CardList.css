@@ -21,7 +21,7 @@
   margin: 0 0.5em 1em 0.5em;
   width: 232px; /* HEY! */
 }
-.CardList-item div {
+.CardList-item a {
   height: calc(100% - 72px);
   padding: 36px;
   display: flex;
@@ -30,7 +30,7 @@
   align-items: center;
   /* align-content: center; */
 }
-.CardList-item div * {
+.CardList-item a * {
   margin: 0;
 }
 .CardList-item h3,
@@ -39,7 +39,7 @@
   color: white;
   text-decoration: none;
 }
-.CardList-item div {
+.CardList-item a {
   text-decoration: none;
 }
 .CardList-item:hover {
