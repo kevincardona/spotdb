@@ -30,7 +30,7 @@ def createEntry(name):
 
 if __name__ == "__main__":
     # connect to mongo
-    client = MongoClient()
+    client = MongoClient('mongodb://spotdb-admin:SuperSecr3tPasswordb@ds249035.mlab.com:49035/spotdb')
     db = client.spotdb
     collection = db.artists
     newEntries = []

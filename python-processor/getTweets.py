@@ -59,7 +59,7 @@ if __name__ == "__main__":
     api = tweepy.API(auth, wait_on_rate_limit=True)
 
     # connect to mongo
-    client = MongoClient()
+    client = MongoClient('mongodb://spotdb-admin:SuperSecr3tPasswordb@ds249035.mlab.com:49035/spotdb')
     db = client.spotdb
     collection = db.artists
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         artistCollection.delete_many({})
 
         for tweet in tweepy.Cursor(api.search, q=post['name'],
-                                   lang='en').items(400):
+                                   lang='en').items(100):
             tweet_Data = {
                 'time': tweet._json['created_at'],
                 'text': tweet._json['text']
