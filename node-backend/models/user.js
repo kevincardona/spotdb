@@ -13,14 +13,19 @@ const userSchema = new Schema({
     zip: String,
     top_artists: [{
         id: String,
-        name: String
+        name: String,
+        image_url: String
     }],
     top_tracks: [{
         id: String,
-        name: String
+        name: String,
+        image_url: String
     }],
-    last_song: String,
-    last_song_name: String
+    last_song: {
+        id: String,
+        name: String,
+        image_url: String
+    }
 
 })
 

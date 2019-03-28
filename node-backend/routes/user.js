@@ -98,7 +98,7 @@ var authorize = (req, res) => {
 
 
 var setHome = (req, res) => {
-    console.log('hey');
+    console.log("updating home")
     UserModel.findOne({spotify_id: req.decoded.spotify_id}, function (err, user) {
         if (!user) {
             return res.json({success: false, message: "No token provided", user:user, loggedin: false});
@@ -113,27 +113,23 @@ var setHome = (req, res) => {
             },
             json: true
         }
+        try {
         request.get(options, (error, response, body) => {
             if (error)
                 return res.json({success: false, error: error, message: response});
-            try {
-                if (body.items)
-                    if (body.items[0].external_urls.spotify)
-                        user.top_artist = body.items[0].external_urls.spotify;
-                user.location.latlon = req.body.last_location;
-                user.zip = req.body.zip;
-
-                user.save(function(err) {
-                    if (err)
-                        return res.json({success: false, error: err});
-                    return res.json({success: true, message: 'Successfully updated home'});
-                })
-            } catch (error) {
-                var err = error;
-                console.log(err);
-                return res.json({success: false, message:'Exception caught'});
-            }
+            console.log("updating zip : " + req.body.position.zip);
+            user.location.latlon = req.body.last_location;
+            user.zip = req.body.position.zip;
+            user.top_artist = body.items[0].external_urls.spotify;
+            user.save(function(err) {
+                if (err)
+                    return res.json({success: false, error: err});
+                return res.json({success: true, message: 'Successfully updated home'});
+            })
         })
+        } catch (err) {
+            return res.json({success: false, error: err});
+        }
     })
 }
 

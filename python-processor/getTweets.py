@@ -5,10 +5,6 @@ import re
 import preprocessor
 import contractions
 from string import punctuation
-from nltk.tokenize import TweetTokenizer
-from gensim.models import Word2Vec
-tknzr = TweetTokenizer(strip_handles=True)
-model = Word2Vec.load("word2vec.model")
 
 
 def completelyProcess(tweet):
@@ -60,7 +56,7 @@ if __name__ == "__main__":
     # auth
     auth = tweepy.OAuthHandler(cfg.api_key, cfg.secret_key)
     auth.set_access_token(cfg.access_token, cfg.access_secret)
-    api = tweepy.API(auth)
+    api = tweepy.API(auth, wait_on_rate_limit=True)
 
     # connect to mongo
     client = MongoClient()
@@ -71,11 +67,16 @@ if __name__ == "__main__":
     for post in collection.find():
         tweets = []
         artistCollection = db[post['name']]
-        for tweet in tweepy.Cursor(api.search, q=post['name'], lang='en').items(10):
+
+        # clear all the old tweets
+        artistCollection.delete_many({})
+
+        for tweet in tweepy.Cursor(api.search, q=post['name'],
+                                   lang='en').items(400):
             tweet_Data = {
                 'time': tweet._json['created_at'],
                 'text': tweet._json['text']
-            }
+                }
             tweets.append(tweet_Data)
 
         # clean tweets
@@ -86,8 +87,9 @@ if __name__ == "__main__":
         artistCollection.insert_many(cleaned_tweets)
 
     # tests
-    bad_tweet = 'I love music. I\'m cool \U0001F600 \U0001F300 \U0001F680 \U0001F1E0. http://twitter.com'
-    bad_tweet = str(bad_tweet.encode('utf-7'), 'utf-7')
-    print("Bad Tweet: " + bad_tweet)
-    processed_tweet = completelyProcess(bad_tweet)
-    print("Processed tweet: " + processed_tweet)
+    # bad_tweet = 'I love music. I\'m cool \U0001F600 \U0001F300 \U0001F680
+    # \U0001F1E0. http://twitter.com'
+    # bad_tweet = str(bad_tweet.encode('utf-7'), 'utf-7')
+    # print("Bad Tweet: " + bad_tweet)
+    # processed_tweet = completelyProcess(bad_tweet)
+    # print("Processed tweet: " + processed_tweet)
