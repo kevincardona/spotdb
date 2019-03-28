@@ -101,7 +101,6 @@ var library = (req, res) => {
     json: true
   };
   request.get(options, (error, response, body) => {
-    //console.log(body)
     if (error) {
       return res.json({ success: false, error: error });
     }

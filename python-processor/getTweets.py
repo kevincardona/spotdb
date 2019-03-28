@@ -14,6 +14,7 @@ def completelyProcess(tweet):
 
 
 def initialPreprocess(tweet):
+    print(preprocessor)
     return preprocessor.clean(tweet)
 
 

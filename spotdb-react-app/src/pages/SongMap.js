@@ -21,7 +21,7 @@ export default class SongMap extends Component {
             city: '',
             state: '',
             zip: '',
-            position: {city: null, state: null},
+            position: null,
             listeners: [],
             map: null,
             locations: null,
@@ -90,7 +90,6 @@ export default class SongMap extends Component {
             map: map
         });
 
-
         this.localListeners();
     }
 
@@ -135,7 +134,9 @@ export default class SongMap extends Component {
                             tposition.zip = data.address.zip;
                             
                             this.setState({
-                                position: tposition
+                                position: tposition,
+                                city: data.address.city,
+                                state: data.address.state
                             });
                             this.createMap(tposition);
                         }
@@ -198,7 +199,7 @@ export default class SongMap extends Component {
     }
 
     render() {
-        const { redirect, hasLocation, position, top_songs, top_artists} = this.state;
+        const { redirect, hasLocation, position, top_songs, top_artists, city, state} = this.state;
         if (redirect) {
             return (
                 <Redirect to="/login"></Redirect>
@@ -214,7 +215,9 @@ export default class SongMap extends Component {
                                 <img id="loader" src={loader} alt="Loading..."/>
                             </div>
                         </div>
-                        <Player location={position.city + ', ' + position.state} top_songs={top_songs} top_artists={top_artists} />
+                        {state &&
+                        <Player location={city + ', ' + state} top_songs={top_songs} top_artists={top_artists} />
+                        }
                     </div>
                 </div>
             );
