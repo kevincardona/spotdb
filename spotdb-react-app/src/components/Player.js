@@ -7,7 +7,6 @@ function SongList(props) {
     const top_songs = props.top_songs;
 
     var song_list = [];
-    console.log(top_songs);
     for (var key in top_songs) {
         song_list.push({
             id: key,
@@ -41,9 +40,7 @@ export default class Player extends Component {
 
     componentWillMount() {
         apiGet(`/listening`).then((data) => {
-            console.log(data);
             if (!data.success) {
-                console.log('Failed to get listening!');
                 return;
             }
             try {
