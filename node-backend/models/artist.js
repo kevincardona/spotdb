@@ -12,5 +12,4 @@ const artistSchema = new Schema({
 mongoose.connect('mongodb://localhost:27017/spotdb');
 
 const Artist = mongoose.model('Score', artistSchema);
-
 exports.Artist = Artist;

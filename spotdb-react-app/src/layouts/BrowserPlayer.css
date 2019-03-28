@@ -1,0 +1,12 @@
+.BrowserPlayer {
+  width: 100vw;
+  height: 24px;
+  background-color: dimgray;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.BrowserPlayer div {
+  min-height: 42px;
+}

@@ -18,6 +18,10 @@ var authenticate = (req, res, next) => {
 		if (err) {
             return res.json({ success: false, message: 'Failed to authenticate token', loggedin: false });
 		} else {
+
+            
+
+
 			req.decoded = decoded;
 			next();
 		}
@@ -78,7 +82,7 @@ var authorize = (req, res) => {
                             display_name: response1.body.display_name,
                             spotify_token: response.body.access_token
                         }
-                    jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 60*60}, (err, token) => {
+                    jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 99999}, (err, token) => {
                         if (err)
                             return res.json({ success: false, message: "Failed to sign jwt"});
 
@@ -113,7 +117,6 @@ var setHome = (req, res) => {
             },
             json: true
         }
-        try {
         request.get(options, (error, response, body) => {
             if (error)
                 return res.json({success: false, error: error, message: response});
@@ -127,9 +130,6 @@ var setHome = (req, res) => {
                 return res.json({success: true, message: 'Successfully updated home'});
             })
         })
-        } catch (err) {
-            return res.json({success: false, error: err});
-        }
     })
 }
 

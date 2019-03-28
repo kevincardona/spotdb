@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { apiGet, apiPost } from '../util/api';
+import { Link } from "react-router-dom";
 import '../layouts/Player.css';
 
 function SongList(props) {
     const top_songs = props.top_songs;
 
     var song_list = [];
-
+    console.log(top_songs);
     for (var key in top_songs) {
         song_list.push({
-            name: key,
-            count: top_songs[key]
+            id: key,
+            name: top_songs[key].name,
+            count: top_songs[key].count,
+            artist: top_songs[key].artist
         });
     }
     const listItems = song_list.map((song) =>
-      <div>{song.count} listening to {song.name}</div>
+      <div>{song.count} listening to <Link to={"/artist/" + song.artist}>{song.name}</Link></div>
     );
     return (
         <div>

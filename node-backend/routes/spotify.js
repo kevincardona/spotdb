@@ -7,19 +7,24 @@ const querystring = require('querystring')
 mongoose.connect(config.mongo_url);
 mongoose.Promise = global.Promise;
 
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
 var login = (req, res) => {
-    var scopes = 'user-read-private user-read-email user-read-birthdate user-read-email playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative playlist-modify-public playlist-modify-private user-follow-read user-follow-modify user-read-playback-state user-read-currently-playing user-modify-playback-state user-read-recently-played'
+  var scopes =
+    "user-read-private user-read-email user-read-birthdate user-read-email playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative playlist-modify-public playlist-modify-private user-follow-read user-follow-modify user-read-playback-state user-read-currently-playing user-modify-playback-state user-read-recently-played";
 
-    res.redirect('https://accounts.spotify.com/authorize' +
-        '?response_type=code' +
-        '&client_id=' + process.env.SPOTIFY_API_ID +
-        (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-        '&redirect_uri=' + encodeURIComponent('http://localhost:3000/authorized'));
-}
+  res.redirect(
+    "https://accounts.spotify.com/authorize" +
+      "?response_type=code" +
+      "&client_id=" +
+      process.env.SPOTIFY_API_ID +
+      (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
+      "&redirect_uri=" +
+      encodeURIComponent("http://localhost:3000/authorized")
+  );
+};
 
 /*
 var get = (req, res) => {
@@ -36,24 +41,30 @@ var get = (req, res) => {
 */
 
 var accountInfo = (req, res) => {
-    var options = {
-        url: 'https://api.spotify.com/v1/me',
-        headers: {
-            'Authorization': "Bearer " + req.decoded.spotify_token
-        },
-        json: true
-    }
+  var options = {
+    url: "https://api.spotify.com/v1/me",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
     request.get(options, (error, response, body) => {
         if (error) {
-            return res.json({
-                success: false,
-                loggedin: false,
-                error: error
-            });
+        return res.json({ success: false, loggedin: false, error: error });
         }
-        return res.json({
-            success: true,
-            user: body
+
+        request.get(options, (error, response, body) => {
+            if (error) {
+                return res.json({
+                    success: false,
+                    loggedin: false,
+                    error: error
+                });
+            }
+            return res.json({
+                success: true,
+                user: body
+            })
         })
     })
 }
@@ -77,61 +88,64 @@ var saveSong = (req, res) => {
                 err: error
             })
         }
+        return res.json({ success: true, user: body });
     })
 }
+
 
 var library = (req, res) => {
-    var options = {
-        url: 'https://api.spotify.com/v1/me/tracks?market=ES&limit=5',
-        headers: {
-            'Authorization': "Bearer " + req.decoded.spotify_token
-        },
-        json: true
+  var options = {
+    url: "https://api.spotify.com/v1/me/tracks?market=ES&limit=5",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.get(options, (error, response, body) => {
+    //console.log(body)
+    if (error) {
+      return res.json({ success: false, error: error });
     }
-    request.get(options, (error, response, body) => {
-        if (error) {
-            return res.json({
-                success: false,
-                error: error
-            });
-        }
-        return res.json({
-            success: true,
-            user: body.items
-        })
-    })
-}
+    let cleaned = { items: [] };
+    for (let i of body.items) {
+      cleaned.items.push(i.track);
+    }
+    return res.json({ success: true, user: cleaned });
+  });
+};
 
 var search = (req, res) => {
-    var queryStr = querystring.stringify(req.query)
-    queryStr = queryStr.substring(6, queryStr.length - 3)
+    var queryStr = querystring.stringify(req.query);
+    queryStr = queryStr.substring(6, queryStr.length - 3);
+    //console.log(queryStr)
+    //used for artist search
     var options = {
-        url: 'https://api.spotify.com/v1/search?q=' + queryStr + '&type=artist',
-        headers: {
-            'Authorization': "Bearer " + req.decoded.spotify_token
-        },
-        json: true
-    }
+      url:
+        "https://api.spotify.com/v1/search?q=" +
+        queryStr +
+        "&type=artist,album,track&limit=8",
+      headers: {
+        Authorization: "Bearer " + req.decoded.spotify_token
+      },
+      json: true
+    };
+    //used for song search
     var options2 = {
-        url: 'https://api.spotify.com/v1/search?q=' + queryStr + '&type=track',
-        headers: {
-            'Authorization': "Bearer " + req.decoded.spotify_token
-        },
-        json: true
-    }
+      url: "https://api.spotify.com/v1/search?q=" + queryStr + "&type=track",
+      headers: {
+        Authorization: "Bearer " + req.decoded.spotify_token
+      },
+      json: true
+    };
+    //console.log(options.url)
     request.get(options, (error, response, body) => {
-        if (error) {
-            return res.json({
-                success: false,
-                error: error
-            });
-        }
-        return res.json({
-            success: true,
-            user: body.artists
-        })
-    })
-}
+      //console.log(body.artists)
+      if (error) {
+        return res.json({ success: false, error: error });
+      }
+      return res.json({ success: true, user: body });
+    });
+};
 
 var artist = (req, res) => {
     var id = req.query.query;
@@ -160,6 +174,50 @@ var artist = (req, res) => {
     })
 }
 
+var artistAlbums = (req, res) => {
+    var id = req.query.query;
+    id = id.substring(0, id.length - 1);
+    console.log(id);
+    var options = {
+      url: "https://api.spotify.com/v1/artists/" + id + "/albums",
+      headers: {
+        Authorization: "Bearer " + req.decoded.spotify_token
+      },
+      json: true
+    };
+    //console.log(options.url)
+    request.get(options, (error, response, body) => {
+      console.log(body);
+      if (error) {
+        return res.json({ success: false, error: error });
+      }
+      console.log(body);
+      return res.json({ success: true, user: body });
+    });
+};
+
+var albumTracks = (req, res) => {
+    var id = req.query.query;
+    id = id.substring(0, id.length - 1);
+    console.log(id);
+    var options = {
+      url: "https://api.spotify.com/v1/albums/" + id + "/tracks",
+      headers: {
+        Authorization: "Bearer " + req.decoded.spotify_token
+      },
+      json: true
+    };
+    //console.log(options.url)
+    request.get(options, (error, response, body) => {
+      console.log(body);
+      if (error) {
+        return res.json({ success: false, error: error });
+      }
+      return res.json({ success: true, user: body });
+    });
+};
+
+
 var listening = (req, res) => {
     var options = {
         url: 'https://api.spotify.com/v1/me/player/currently-playing',
@@ -182,6 +240,7 @@ var listening = (req, res) => {
                 try {
                     result.last_song.id = body.item.id;
                     result.last_song.name = body.item.name;
+                    result.last_song.artist = body.item.artists[0].id;
                     result.last_song.image_url = body.item.album.images[0].url;
                 } catch (error1) {
                     console.log(err);
@@ -241,21 +300,23 @@ var localListeners = (req, res) => {
 
         var locations = list.map(user => user.location);
         var songs = list.map(user => user.last_song);
-        var song_counts = new Proxy({}, {get: (target, name) => name in target ? target[name] : 0})
+        var song_counts = {};
         var artist_counts = new Proxy({}, {get: (target, name) => name in target ? target[name] : 0})
-        
+
         for (var i = 0; i < list.length; i++) {
-            song_counts[songs[i].name]++;
-        }
-        /*var song_counts = list.reduce((p, c) => {
-            var name = c.last_song.name;
-            if (!p.hasOwnProperty(name)) {
-                p[name] = 0;
+            if (song_counts[songs[i].id]) {
+                song_counts[songs[i].id].count++
+            } else {
+                var song = {
+                    id: songs[i].id,
+                    name: songs[i].name,
+                    artist: songs[i].artist,
+                    count: 1
+                }
+                song_counts[songs[i].id] = song;
             }
-            p[name]++;
-            return p;
-        }, {});
-        */
+            //(song_counts[songs[i]])
+        }
         var artist_counts = list.reduce((p, c) => {
             if (c.top_artists.length > 0) {
                 var name = c.top_artists[0];
@@ -266,7 +327,7 @@ var localListeners = (req, res) => {
                 return p;
             }
         }, {});
-        console.log(song_counts);
+        //console.log(song_counts);
         return res.json({
             success: true,
             locations: locations,
@@ -278,61 +339,66 @@ var localListeners = (req, res) => {
 }
 
 var topArtists = (req, res) => {
-    var options = {
-        url: 'https://api.spotify.com/v1/me/top/artists',
-        headers: {
-            'Authorization': "Bearer " + req.decoded.spotify_token
-        },
-        json: true
-    }
+  var options = {
+    url: "https://api.spotify.com/v1/me/top/artists",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
     request.get(options, (error, response, body) => {
         if (error) {
-            return res.json({
-                success: false,
-                error: error
-            });
+            return res.json({ success: false, error: error });
         }
-        UserModel.findOne({
-            spotify_id: req.decoded.spotify_id
-        }, function (error, result) {
-
-            if (!error) {
-                try {
-                    var top_artists = [];
-                    for (var i = 0; i < 5 && i < body.items.length - 1; i++) {
-                        var temp = {
-                            id: body.items[i].id,
-                            name: body.items[i].name,
-                            image_url: body.items[i].images[0].url
-                        }
-                        top_artists.push(temp);
-                    }
-                    result.top_artists = top_artists;
-
-                    //(top_artists);
-                } catch (err) {
-                    console.log(err);
-                    return res.json({
-                        success: false
-                    });
-                }
-
-                result.save(function (error) {
-                    if (!error) {
-                        return res.json({
-                            success: true,
-                            user: body
-                        })
-                    } else {
-                        return res.json({
-                            success: false,
-                            error: error
-                        });
-                    }
+        request.get(options, (error, response, body) => {
+            if (error) {
+                return res.json({
+                    success: false,
+                    error: error
                 });
             }
-        });
-    })
+            UserModel.findOne({
+                spotify_id: req.decoded.spotify_id
+            }, function (error, result) {
+
+                if (!error) {
+                    try {
+                        var top_artists = [];
+                        for (var i = 0; i < 5 && i < body.items.length - 1; i++) {
+                            var temp = {
+                                id: body.items[i].id,
+                                name: body.items[i].name,
+                                image_url: body.items[i].images[0].url
+                            }
+                            top_artists.push(temp);
+                        }
+                        result.top_artists = top_artists;
+
+                        //(top_artists);
+                    } catch (err) {
+                        console.log(err);
+                        return res.json({
+                            success: false
+                        });
+                    }
+
+                    result.save(function (error) {
+                        if (!error) {
+                            return res.json({
+                                success: true,
+                                user: body
+                            })
+                        } else {
+                            return res.json({
+                                success: false,
+                                error: error
+                            });
+                        }
+                    });
+                }
+            });
+        })
+    });
 }
 
 module.exports = {
@@ -343,6 +409,8 @@ module.exports = {
     localListeners: localListeners,
     accountInfo: accountInfo,
     artist: artist,
+    albumTracks: albumTracks,
+    artistAlbums: artistAlbums,
     topArtists: topArtists,
     saveSong: saveSong,
     library: library

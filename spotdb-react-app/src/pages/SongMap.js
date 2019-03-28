@@ -92,7 +92,6 @@ export default class SongMap extends Component {
             map: map
         });
 
-        this.setState({position: position})
 
         this.localListeners();
     }
@@ -174,7 +173,9 @@ export default class SongMap extends Component {
                             latitude: data.position[0],
                             longitude: data.position[1]
                         },
-                        zip: data.zip
+                        zip: data.zip,
+                        city: data.city,
+                        state: data.state
                     }
                     this.createMap(data.position);
                 }
@@ -184,21 +185,15 @@ export default class SongMap extends Component {
         }
 
         setInterval(() => {
-            console.log("AGAIN");
             if (!this.state.map || markers.length <= 0)
                 return
             this.localListeners(() => {
-                console.log('adding stufff');
-                //marker_index = marker_index%marker_indexer.length;
-                //markers[marker_indexer[marker_index]].setMap(null);
                 if (last_marker)
                     last_marker.setMap(null);
                 marker_index = (marker_index+1)%marker_indexer.length;
                 if (markers.length <= 0) {
-                    console.log('markers lenght <= 0')
                     return;
                 }
-                console.log("marker index " + marker_index)
                 last_marker = markers[marker_indexer[marker_index]]
                 last_marker.setMap(this.state.map);
 

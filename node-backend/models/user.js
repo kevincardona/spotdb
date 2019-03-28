@@ -24,7 +24,8 @@ const userSchema = new Schema({
     last_song: {
         id: String,
         name: String,
-        image_url: String
+        image_url: String,
+        artist: String
     }
 
 })
