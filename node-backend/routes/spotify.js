@@ -58,22 +58,28 @@ var accountInfo = (req, res) => {
 var saveSong = (req, res) => {
   //first check to see they search for a song (aka if song option is checked before search)
   //to get songId, you can get 'key' from window (html)
-  console.log("SAVING SONG")
-  console.log(req);
-  var songId = querystring.stringify(req.query);
+  var songId = req.query.id;
   //songId = songId.substring(6, songId.length - 3); //FIGURE OUT ACTUAL SUBSTRING INDICES
   var options = {
-    url: "https://api.spotify.com/v1/me/tracks/" + songId, //try to hardcode ID and add to library
+    url: "https://api.spotify.com/v1/me/tracks?ids=" + songId,
     headers: {
       Authorization: "Bearer " + req.decoded.spotify_token
     },
     json: true
   };
-  request.post(options, function(error, response, body) {
+  var options2 = {
+      method: 'PUT',
+      uurl: "https://api.spotify.com/v1/me/tracks?ids=" + songId,
+      headers: {
+        Authorization: "Bearer " + req.decoded.spotify_token
+      },
+      json: true
+  }
+  request(options2, function(error, response, body) {
     if (error) {
       return res.json({ success: false, err: error });
     }
-    //console.log(response.body);
+    console.log(response.body);
   });
 };
 
