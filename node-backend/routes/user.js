@@ -16,9 +16,12 @@ var authenticate = (req, res, next) => {
 
 	jwt.verify(token, config.secret, function(err, decoded) {
 		if (err) {
-            console.log(err)
             return res.json({ success: false, message: 'Failed to authenticate token', loggedin: false });
 		} else {
+
+            
+
+
 			req.decoded = decoded;
 			next();
 		}
@@ -79,15 +82,18 @@ var authorize = (req, res) => {
                             display_name: response1.body.display_name,
                             spotify_token: response.body.access_token
                         }
-                    var token = jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 60*60}) // 60*60})
+                    jwt.sign(token_items, config.secret, {algorithm: 'HS256', expiresIn: 99999}, (err, token) => {
+                        if (err)
+                            return res.json({ success: false, message: "Failed to sign jwt"});
 
-                    result.save(function(error) {
-                        if (!error) {
-                            return res.json({success: true, token: token, id: response1.body.id, display_name: response1.body.display_name}); 
-                        } else {
-                            throw error;
-                        }
-                    });
+                        result.save(function(error) {
+                            if (!error) {
+                                return res.json({success: true, token: token, id: response1.body.id, display_name: response1.body.display_name}); 
+                            } else {
+                                return res.json({success: false, error: error})
+                            }
+                        });
+                    })
                 }
             });
         })
@@ -96,6 +102,7 @@ var authorize = (req, res) => {
 
 
 var setHome = (req, res) => {
+    console.log("updating home")
     UserModel.findOne({spotify_id: req.decoded.spotify_id}, function (err, user) {
         if (!user) {
             return res.json({success: false, message: "No token provided", user:user, loggedin: false});
@@ -113,23 +120,15 @@ var setHome = (req, res) => {
         request.get(options, (error, response, body) => {
             if (error)
                 return res.json({success: false, error: error, message: response});
-            try {
-                if (body.items)
-                    if (body.items[0].external_urls.spotify)
-                        user.top_artist = body.items[0].external_urls.spotify;
-                user.location.latlon = req.body.last_location;
-                if (req.body.zip) {
-                    user.location.zip = req.body.zip;
-                }
-                user.save(function(err) {
-                    if (err)
-                        return res.json({success: false, error: err});
-                    return res.json({success: true, message: 'Successfully updated home'});
-                })
-            } catch (error) {
-                var err = error;
-                return res.json({success: false, message:'Exception caught'});
-            }
+            user.location.latlon = req.body.last_location;
+            if (req.body.position)
+            user.zip = req.body.position.zip;
+            user.top_artist = body.items[0].external_urls.spotify;
+            user.save(function(err) {
+                if (err)
+                    return res.json({success: false, error: err});
+                return res.json({success: true, message: 'Successfully updated home'});
+            })
         })
     })
 }

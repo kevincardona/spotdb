@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 import { apiGet, apiPost } from '../util/api';
+import { Link } from "react-router-dom";
 import '../layouts/Player.css';
+
+function SongList(props) {
+    const top_songs = props.top_songs;
+
+    var song_list = [];
+    console.log(top_songs);
+    for (var key in top_songs) {
+        song_list.push({
+            id: key,
+            name: top_songs[key].name,
+            count: top_songs[key].count,
+            artist: top_songs[key].artist
+        });
+    }
+    const listItems = song_list.map((song) =>
+      <div>{song.count} listening to <Link to={"/artist/" + song.artist}>{song.name}</Link></div>
+    );
+    return (
+        <div>
+            {listItems}
+        </div>
+    );
+  }
 
 export default class Player extends Component {
     constructor (props) {
@@ -10,25 +34,37 @@ export default class Player extends Component {
             song: "",
             artist: "",
             listeners: 0,
-            song_id: null
+            song_id: null,
+            location: ""
         }
     }
 
     componentWillMount() {
         apiGet(`/listening`).then((data) => {
+            console.log(data);
+            if (!data.success) {
+                console.log('Failed to get listening!');
+                return;
+            }
             try {
-                this.state.artist = data.user.item.album.artists[0].name
-                this.state.song = data.user.item.name;
+                this.state.artist = data.item.album.artists[0].name
+                this.state.song = data.item.name;
                 this.state.cover_image = data.user.item.album.images[0].url;
                 this.state.song_id = data.user.item.id;
-            } catch (err) {}
+                
+            } catch (err) {
+                
+            }
         }).catch((error)=> {
-            console.log(error);
         })
-
+        
         setInterval (() => {
             this.update();
         }, 2000)
+    }
+
+    componentDidMount() {
+        this.setState({location: this.props.location});
     }
 
     update() {
@@ -53,8 +89,10 @@ export default class Player extends Component {
         })
     }
 
+    
+
     render () {
-        const { song, artist, cover_image, listeners} = this.state;
+        const { song, artist, cover_image, listeners, location} = this.state;
         var style = {
             fontSize: '10px',
             margin: '0',
@@ -74,8 +112,14 @@ export default class Player extends Component {
                             }
                     </div>
                     <div className="player-body">
+                        <h1>Global Listeners</h1>
                             {listeners > 0 && cover_image != "" &&
                                 <div>{listeners}<br/>SpotDB users listening to this song</div>
+                            }
+                        <br></br>
+                        <h1>Local Listeners</h1>{this.props.location}
+                            {this.props.top_songs &&
+                            <SongList top_songs={this.props.top_songs} />
                             }
                     </div>
                 </div>
