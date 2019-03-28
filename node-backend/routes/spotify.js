@@ -92,7 +92,7 @@ var library = (req, res) => {
         if (error) {
             return res.json({success: false, error: error});
         }
-        console.log(body.items);
+        //console.log(body.items);
         return res.json({success: true, user: body.items})
     })
 }
@@ -102,6 +102,7 @@ var search = (req, res) => {
     queryStr = queryStr.substring(6, queryStr.length-3)
     //console.log(queryStr)
     //used for artist search
+    //check to see if song option is checked off, if it is then use options2, if not use options
     var options = {
         url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=artist',
         headers: {
@@ -109,7 +110,7 @@ var search = (req, res) => {
         },
         json: true
     }
-    //used for song search
+    /* used for song search */
     var options2 = {
         url: 'https://api.spotify.com/v1/search?q='+queryStr+'&type=track',
         headers: {
