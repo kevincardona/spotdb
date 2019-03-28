@@ -315,7 +315,6 @@ var localListeners = (req, res) => {
                 }
                 song_counts[songs[i].id] = song;
             }
-            //(song_counts[songs[i]])
         }
         var artist_counts = list.reduce((p, c) => {
             if (c.top_artists.length > 0) {

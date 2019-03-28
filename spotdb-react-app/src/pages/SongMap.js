@@ -151,6 +151,7 @@ export default class SongMap extends Component {
                         }
                         //Update users last location
                         console.log(body);
+                        if (this.state.position)
                         apiPost('/sethome', body).then((data) => {
                             console.log(data);
                         }).catch((error) => {
