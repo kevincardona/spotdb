@@ -1,0 +1,22 @@
+.button {
+  display: inline-block;
+
+  padding: 1.5em;
+
+  /*background-color: #C1DCE5;*/
+  background-color: rgb(47, 146, 130);
+  /*background: radial-gradient(circle farthest-corner at 0, white 33%, #3E3F52 50%);*/
+  box-shadow: 2px 2px 4px 0px #173734;
+  border-radius: 15px;
+}
+.button:hover {
+  background-color: #b4ced7;
+  box-shadow: inset 0px 0px 4px 2px #173734;
+}
+
+.button-text {
+  margin: auto 0;
+  line-height: 1.5em;
+
+  color: #ffffff;
+}
