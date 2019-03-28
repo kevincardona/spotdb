@@ -102,7 +102,6 @@ var library = (req, res) => {
     json: true
   };
   request.get(options, (error, response, body) => {
-    //console.log(body)
     if (error) {
       return res.json({ success: false, error: error });
     }
@@ -117,7 +116,6 @@ var library = (req, res) => {
 var search = (req, res) => {
     var queryStr = querystring.stringify(req.query);
     queryStr = queryStr.substring(6, queryStr.length - 3);
-    //console.log(queryStr)
     //used for artist search
     var options = {
       url:
@@ -137,9 +135,7 @@ var search = (req, res) => {
       },
       json: true
     };
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-      //console.log(body.artists)
       if (error) {
         return res.json({ success: false, error: error });
       }
@@ -150,7 +146,6 @@ var search = (req, res) => {
 var artist = (req, res) => {
     var id = req.query.query;
     id = id.substring(0, id.length - 1)
-    //console.log(id)
     var options = {
         url: 'https://api.spotify.com/v1/artists/' + id,
         headers: {
@@ -158,9 +153,7 @@ var artist = (req, res) => {
         },
         json: true
     }
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-        //console.log(body)
         if (error) {
             return res.json({
                 success: false,
@@ -177,7 +170,6 @@ var artist = (req, res) => {
 var artistAlbums = (req, res) => {
     var id = req.query.query;
     id = id.substring(0, id.length - 1);
-    console.log(id);
     var options = {
       url: "https://api.spotify.com/v1/artists/" + id + "/albums",
       headers: {
@@ -185,13 +177,10 @@ var artistAlbums = (req, res) => {
       },
       json: true
     };
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-      console.log(body);
       if (error) {
         return res.json({ success: false, error: error });
       }
-      console.log(body);
       return res.json({ success: true, user: body });
     });
 };
@@ -199,7 +188,6 @@ var artistAlbums = (req, res) => {
 var albumTracks = (req, res) => {
     var id = req.query.query;
     id = id.substring(0, id.length - 1);
-    console.log(id);
     var options = {
       url: "https://api.spotify.com/v1/albums/" + id + "/tracks",
       headers: {
@@ -207,9 +195,7 @@ var albumTracks = (req, res) => {
       },
       json: true
     };
-    //console.log(options.url)
     request.get(options, (error, response, body) => {
-      console.log(body);
       if (error) {
         return res.json({ success: false, error: error });
       }
@@ -279,7 +265,6 @@ var currentListeners = (req, res) => {
                 listeners: result
             });
         } else {
-            console.log(error)
             return res.json({
                 success: false,
                 message: 'Failed to gather current listener count'
@@ -326,7 +311,7 @@ var localListeners = (req, res) => {
                 return p;
             }
         }, {});
-        //console.log(song_counts);
+
         return res.json({
             success: true,
             locations: locations,

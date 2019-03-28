@@ -44,7 +44,6 @@ var authorize = (req, res) => {
         json: true
     }
     request.post(options, function(error, response, body) {
-        //console.log(response.body)
         if (error) {
             return res.json({success: false, err: error})
         }
@@ -102,7 +101,6 @@ var authorize = (req, res) => {
 
 
 var setHome = (req, res) => {
-    console.log("updating home")
     UserModel.findOne({spotify_id: req.decoded.spotify_id}, function (err, user) {
         if (!user) {
             return res.json({success: false, message: "No token provided", user:user, loggedin: false});
