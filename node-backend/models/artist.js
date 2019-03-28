@@ -9,7 +9,7 @@ const artistSchema = new Schema({
     good: {}, bad: {}, combined: {}
 })
 
-mongoose.connect('mongodb://localhost:27017/spotdb');
+mongoose.connect(config.mongo_url);
 
 const Artist = mongoose.model('Score', artistSchema);
 exports.Artist = Artist;
