@@ -106,6 +106,7 @@ class Search extends React.Component {
               </li>
             ))}
           </ul>
+          {/* Favorite / Tempo / Duration / Loudness */}
           <h2>Tracks</h2>
           <ul className="Search-list">
             {/* This map function returns for every element in an array so you can show dynamic data */}

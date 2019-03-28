@@ -156,6 +156,7 @@ class Artist extends React.Component {
                       />
                     )}
                     <h3>{album.name}</h3>
+                    {/* Favorite / Tempo / Duration / Loudness */}
                     {album.id === selectedAlbum && (
                       <ul className="Album-list Track-list">
                         {tracks && <h4>Tracks:</h4>}
