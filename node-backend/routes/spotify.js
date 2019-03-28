@@ -58,8 +58,10 @@ var accountInfo = (req, res) => {
 var saveSong = (req, res) => {
   //first check to see they search for a song (aka if song option is checked before search)
   //to get songId, you can get 'key' from window (html)
+  console.log("SAVING SONG")
+  console.log(req);
   var songId = querystring.stringify(req.query);
-  songId = songId.substring(6, songId.length - 3); //FIGURE OUT ACTUAL SUBSTRING INDICES
+  //songId = songId.substring(6, songId.length - 3); //FIGURE OUT ACTUAL SUBSTRING INDICES
   var options = {
     url: "https://api.spotify.com/v1/me/tracks/" + songId, //try to hardcode ID and add to library
     headers: {
@@ -71,7 +73,7 @@ var saveSong = (req, res) => {
     if (error) {
       return res.json({ success: false, err: error });
     }
-    console.log(response.body);
+    //console.log(response.body);
   });
 };
 
@@ -132,7 +134,7 @@ var search = (req, res) => {
 var artist = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
-  console.log(id);
+  //console.log(id);
   var options = {
     url: "https://api.spotify.com/v1/artists/" + id,
     headers: {
@@ -142,7 +144,7 @@ var artist = (req, res) => {
   };
   //console.log(options.url)
   request.get(options, (error, response, body) => {
-    console.log(body);
+    //console.log(body);
     if (error) {
       return res.json({ success: false, error: error });
     }
@@ -153,7 +155,7 @@ var artist = (req, res) => {
 var artistAlbums = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
-  console.log(id);
+  //console.log(id);
   var options = {
     url: "https://api.spotify.com/v1/artists/" + id + "/albums",
     headers: {
@@ -163,7 +165,7 @@ var artistAlbums = (req, res) => {
   };
   //console.log(options.url)
   request.get(options, (error, response, body) => {
-    console.log(body);
+    //console.log(body);
     if (error) {
       return res.json({ success: false, error: error });
     }
@@ -174,7 +176,7 @@ var artistAlbums = (req, res) => {
 var albumTracks = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
-  console.log(id);
+  //console.log(id);
   var options = {
     url: "https://api.spotify.com/v1/albums/" + id + "/tracks",
     headers: {
@@ -184,7 +186,7 @@ var albumTracks = (req, res) => {
   };
   //console.log(options.url)
   request.get(options, (error, response, body) => {
-    console.log(body);
+    //console.log(body);
     if (error) {
       return res.json({ success: false, error: error });
     }

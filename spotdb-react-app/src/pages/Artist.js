@@ -2,6 +2,7 @@ import React from "react";
 import "../layouts/Artist.css";
 import PopupBanner from "../components/PopupBanner";
 import { apiGet } from "../util/api";
+import { apiPost } from "../util/api";
 
 class Artist extends React.Component {
   /*
@@ -77,6 +78,16 @@ class Artist extends React.Component {
       }
     });
   };
+
+  /*saveSong = id => {
+    apiPost('/saveSong?query=' + id).then(data => {
+      if (data.success) {
+        if (!data.user.error) {
+          console.log('Success save');
+        }
+      }
+    })
+  }*/
 
   selectAlbum = id => {
     console.log(id);
