@@ -120,8 +120,8 @@ var setHome = (req, res) => {
         request.get(options, (error, response, body) => {
             if (error)
                 return res.json({success: false, error: error, message: response});
-            console.log("updating zip : " + req.body.position.zip);
             user.location.latlon = req.body.last_location;
+            if (req.body.position)
             user.zip = req.body.position.zip;
             user.top_artist = body.items[0].external_urls.spotify;
             user.save(function(err) {

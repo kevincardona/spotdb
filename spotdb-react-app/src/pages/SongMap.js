@@ -185,9 +185,11 @@ export default class SongMap extends Component {
             })
         }
 
+        console.log("before interval");
         setInterval(() => {
-            if (!this.state.map || markers.length <= 0)
+            if (!this.state.map)
                 return
+            console.log('listerner')
             this.localListeners(() => {
                 if (last_marker)
                     last_marker.setMap(null);
