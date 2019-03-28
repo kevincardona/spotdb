@@ -21,7 +21,7 @@ export default class SongMap extends Component {
             city: '',
             state: '',
             zip: '',
-            position: null,
+            position: {city: null, state: null},
             listeners: [],
             map: null,
             locations: null,
@@ -58,7 +58,7 @@ export default class SongMap extends Component {
                             lat: data.locations[i].latlon[0],
                             lng: data.locations[i].latlon[1]
                         },
-                        map: null,
+                        map: this.state.map,
                         icon: image
                     });
                     if (!markers[data.location_songs[i].name]) {
@@ -202,7 +202,7 @@ export default class SongMap extends Component {
 
 
             });
-        }, 5000)
+        }, 6000)
     }
 
     render() {
@@ -222,9 +222,7 @@ export default class SongMap extends Component {
                                 <img id="loader" src={loader} alt="Loading..."/>
                             </div>
                         </div>
-                        {position &&
                         <Player location={position.city + ', ' + position.state} top_songs={top_songs} top_artists={top_artists} />
-                        }
                     </div>
                 </div>
             );
