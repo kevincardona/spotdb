@@ -44,8 +44,6 @@ export default class SongMap extends Component {
                 });
                 //Create Markers for songs
                 for (var i = 0; i < data.locations.length; i++) {
-                    
-                    console.log(data.location_songs[i].name)
                     var image = {
                         url: data.location_songs[i].image_url,
                         size: new window.google.maps.Size(40, 40),
@@ -100,7 +98,6 @@ export default class SongMap extends Component {
 
     componentWillMount() {
         apiGet(`/authenticate`).then((data) => {
-            console.log(data);
             if (!data.success) {
                 this.state.redirect = true;
                 const {
@@ -149,11 +146,8 @@ export default class SongMap extends Component {
                             last_location: last_location,
                             position: this.state.position
                         }
-                        //Update users last location
-                        console.log(body);
                         if (this.state.position)
                         apiPost('/sethome', body).then((data) => {
-                            console.log(data);
                         }).catch((error) => {
                             console.log(error);
                         })
@@ -185,11 +179,9 @@ export default class SongMap extends Component {
             })
         }
 
-        console.log("before interval");
         setInterval(() => {
             if (!this.state.map)
                 return
-            console.log('listerner')
             this.localListeners(() => {
                 if (last_marker)
                     last_marker.setMap(null);
