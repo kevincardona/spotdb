@@ -9,6 +9,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
 //All endpoints are defined in ./routes/index.js
 app.use('/', routes);
 var server = app.listen(config.port, () => {

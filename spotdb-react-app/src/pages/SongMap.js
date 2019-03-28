@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../layouts/SongMap.css';
 import loader from '../assets/loader.svg';
 import Map from '../layouts/MapTheme';
@@ -6,78 +6,164 @@ import { apiPost, apiGet } from '../util/api';
 import { Redirect } from 'react-router-dom';
 import Player from '../components/Player';
 
+let location_marker;
+let marker_indexer = [];
+let markers = {};
+let marker_index = 0;
+let last_marker = null;
+
 export default class SongMap extends Component {
     constructor(props) {
         super(props);
-        this.state = {redirect: false, hasLocation: true, city: '', state: '', zip: ''};
+        this.state = {
+            redirect: false,
+            hasLocation: true,
+            city: '',
+            state: '',
+            zip: '',
+            position: null,
+            listeners: [],
+            map: null,
+            locations: null,
+            location_songs: null,
+            top_songs: null,
+            top_artists: null
+        };
     }
+
+    localListeners(callback) {
+        apiPost(`/locallisteners`, {
+            zip: this.state.position.zip
+        }).then((data) => {
+            try {
+                this.setState({
+                    locations: data.locations,
+                    location_songs: data.location_songs,
+                    top_songs: data.top_songs,
+                    top_artists: data.top_artists
+                });
+                //Create Markers for songs
+                for (var i = 0; i < data.locations.length; i++) {
+                    
+                    console.log(data.location_songs[i].name)
+                    var image = {
+                        url: data.location_songs[i].image_url,
+                        size: new window.google.maps.Size(40, 40),
+                        scaledSize: new window.google.maps.Size(40, 40),
+                        origin: new window.google.maps.Point(0, 0),
+                        anchor: new window.google.maps.Point(20, 20)
+                    };
+                    var marker = new window.google.maps.Marker({
+                        position: {
+                            lat: data.locations[i].latlon[0],
+                            lng: data.locations[i].latlon[1]
+                        },
+                        map: null,
+                        icon: image
+                    });
+                    if (!markers[data.location_songs[i].name]) {
+                        marker_indexer.push(data.location_songs[i].name);
+                    }
+                    markers[data.location_songs[i].name] = marker;
+                }
+                callback();
+            } catch (err) {
+                console.log(err);
+            }
+        });
+    }
+
+
     createMap(position) {
-        this.setState({hasLocation: true});
+        this.setState({
+            hasLocation: true
+        });
         const map = new window.google.maps.Map((document.getElementById('map')), {
-            center: {lat: position.coords.latitude, lng: position.coords.longitude},
+            center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            },
             zoom: 14,
             disableDefaultUI: true,
             styles: Map
         });
 
-        var image = {
-            url: 'pin.svg',
-            // This marker is 20 pixels wide by 32 pixels high.
-            size: new window.google.maps.Size(128, 128),
-            scaledSize: new window.google.maps.Size(32, 32),
-            // The origin for this image is (0, 0).
-            origin: new window.google.maps.Point(0, 0),
-            // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new window.google.maps.Point(16, 32)
-        };
-    
-        var beachMarker = new window.google.maps.Marker({
-            position: {lat: position.coords.latitude, lng: position.coords.longitude},
-            map: map,
-            icon: image
+        this.setState({
+            map: map
         });
+
+
+        this.localListeners();
     }
+
+    
+
     componentWillMount() {
         apiGet(`/authenticate`).then((data) => {
             console.log(data);
-            if (!data.success) { this.state.redirect=true; }
-        }).catch((error)=> {
+            if (!data.success) {
+                this.state.redirect = true;
+                const {
+                    history
+                } = this.props
+                history.pushState(null, '/login');
+            }
+        }).catch((error) => {
             console.log(error);
         })
     }
+
+
 
     componentDidMount() {
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    this.createMap(position);
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
                     var last_location = [lat, lon]
-                    const body = {
-                        last_location: last_location
-                    }
-                    //Update users last location
-                    apiPost('/sethome', body).then((data) => {
-                        console.log(data);
-                    }).catch((error)=> {
-                        console.log(error);
-                    })
 
                     apiGet(`/getaddress?lat=${lat}&lon=${lon}`).then((data) => {
+                        var tposition = {
+                            coords: position.coords,
+                            city: null,
+                            state: null,
+                            zip: null
+                        };
+
                         if (data.success) {
-                            var rcity = data.address.city;
-                            var rstate = data.address.state;
-                            var rzip = data.address.zip;
-                            this.setState({city: rcity, state: rstate, zip: rzip});
+                            tposition.city = data.address.city;
+                            tposition.state = data.address.state;
+                            tposition.zip = data.address.zip;
+                            
+                            this.setState({
+                                position: tposition
+                            });
+                            this.createMap(tposition);
                         }
-                    }).catch((error)=> {
+                    }).catch((error) => {
                         console.log(error);
+                    }).then(() => {
+                        const body = {
+                            last_location: last_location,
+                            position: this.state.position
+                        }
+                        //Update users last location
+                        console.log(body);
+                        if (this.state.position)
+                        apiPost('/sethome', body).then((data) => {
+                            console.log(data);
+                        }).catch((error) => {
+                            console.log(error);
+                        })
                     })
+
                 },
                 (error) => {
-                    this.setState({hasLocation: false});
+                    this.setState({
+                        hasLocation: false
+                    });
                 }
             )
         } else {
@@ -87,44 +173,68 @@ export default class SongMap extends Component {
                         coords: {
                             latitude: data.position[0],
                             longitude: data.position[1]
-                        }
+                        },
+                        zip: data.zip,
+                        city: data.city,
+                        state: data.state
                     }
                     this.createMap(data.position);
                 }
-            }).catch((error)=> {
+            }).catch((error) => {
                 console.log(error);
             })
         }
-    }
- 
-  render() {
-    const {redirect, hasLocation, city, state, zip} = this.state;
-    if (redirect) {
-        return (
-            <Redirect to="/login"></Redirect>
-        )
+
+        console.log("before interval");
+        setInterval(() => {
+            if (!this.state.map)
+                return
+            console.log('listerner')
+            this.localListeners(() => {
+                if (last_marker)
+                    last_marker.setMap(null);
+                marker_index = (marker_index+1)%marker_indexer.length;
+                if (markers.length <= 0) {
+                    return;
+                }
+                last_marker = markers[marker_indexer[marker_index]]
+                last_marker.setMap(this.state.map);
+
+
+            });
+        }, 5000)
     }
 
-    if (hasLocation) {
-        return (
-            <div className="SongMap">
-                <div id="map-container">
-                    <div id="map">
-                        <div className="center">
-                            <img id="loader" src={loader} alt="Loading..."/>
+    render() {
+        const { redirect, hasLocation, position, top_songs, top_artists} = this.state;
+        if (redirect) {
+            return (
+                <Redirect to="/login"></Redirect>
+            )
+        }
+    
+        if (hasLocation) {
+            return (
+                <div className="SongMap">
+                    <div id="map-container">
+                        <div id="map">
+                            <div className="center">
+                                <img id="loader" src={loader} alt="Loading..."/>
+                            </div>
                         </div>
+                        {position &&
+                        <Player location={position.city + ', ' + position.state} top_songs={top_songs} top_artists={top_artists} />
+                        }
                     </div>
-                    <Player location={city + ', ' + state}/>
                 </div>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <h3 className="center">In order to use the map, you need to allow<br/> location permissions for this site.</h3>
-                <br/>
-            </div>
-        )
+            );
+        } else {
+            return (
+                <div>
+                    <h3 className="center">In order to use the map, you need to allow<br/> location permissions for this site.</h3>
+                    <br/>
+                </div>
+            )
+        }
     }
-}
 }

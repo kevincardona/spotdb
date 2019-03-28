@@ -22,6 +22,7 @@ class Search extends React.Component {
     apiGet("/search?query=" + query).then(data => {
       console.log(data);
       if (data.success) {
+        console.log(data.user.items)
         this.setState({
           prevApiQuery: query,
           artist_results: data.user.artists.items,

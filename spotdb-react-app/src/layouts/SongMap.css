@@ -66,20 +66,9 @@
 	background-color: #219181;
 }
 
-@keyframes colorchange
-{
-      0%   {fill: red;}
-      25%  {fill: yellow;}
-      50%  {fill: blue;}
-      75%  {fill: green;}
-      100% {fill: red;}
+#map img[draggable="false"]{
+    padding: 30px;
+    border-radius: 10px;
+    z-index: 2;
 }
-
-@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
-{
-        0%   {fill: red;}
-        25%  {fill: yellow;}
-        50%  {fill: blue;}
-        75%  {fill: green;}
-        100% {fill: red;}
-}
+  
