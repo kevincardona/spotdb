@@ -77,7 +77,7 @@ var saveSong = (req, res) => {
 
 var library = (req, res) => {
   var options = {
-    url: "https://api.spotify.com/v1/me/tracks?market=ES&limit=5",
+    url: "https://api.spotify.com/v1/me/tracks?market=ES&limit=30",
     headers: {
       Authorization: "Bearer " + req.decoded.spotify_token
     },
