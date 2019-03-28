@@ -1,8 +1,7 @@
 import React from "react";
 import "../layouts/Artist.css";
 import PopupBanner from "../components/PopupBanner";
-import { apiGet } from "../util/api";
-import { apiPost } from "../util/api";
+import { apiGet, apiPost } from "../util/api";
 
 class Artist extends React.Component {
   /*
@@ -90,10 +89,15 @@ class Artist extends React.Component {
   }*/
 
   selectAlbum = id => {
-    console.log(id);
+    console.log("Album: " + id);
     this.setState({
       selectedAlbum: id
     });
+  };
+
+  saveSong = id => {
+    console.log("Track: " + id);
+    apiPost("/savesong?id=" + id);
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -167,6 +171,7 @@ class Artist extends React.Component {
                       />
                     )}
                     <h3>{album.name}</h3>
+                    {/* Favorite / Tempo / Duration / Loudness */}
                     {album.id === selectedAlbum && (
                       <ul className="Album-list Track-list">
                         {tracks && <h4>Tracks:</h4>}
@@ -177,6 +182,12 @@ class Artist extends React.Component {
                               className="Album-item Track-item"
                             >
                               {index + 1 + ". "} <b>{track.name}</b>
+                              <input
+                                type="button"
+                                value="Add"
+                                className="addTrack"
+                                onClick={() => this.saveSong(track.id)}
+                              />
                             </li>
                           ))}
                       </ul>

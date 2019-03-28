@@ -15,9 +15,7 @@ router.get('/getTweetInfo', tweets.getTweetInfo);
 
 // Anything below requires user to be logged in
 router.use(user.authenticate);
-router.get("/authenticate", (req, res) => {
-  return res.json({ success: true, authenticated: true });
-});
+router.get("/authenticate", (req, res) => {return res.json({ success: true, authenticated: true })});
 router.get("/search", spotify.search);
 router.get("/accountinfo", spotify.accountInfo);
 router.get("/artist", spotify.artist);
@@ -28,6 +26,7 @@ router.get("/getHome", user.getHome);
 router.post("/sethome", user.setHome);
 router.get("/listening", spotify.listening);
 router.post("/currentlisteners", spotify.currentListeners);
+router.post('/locallisteners', spotify.localListeners);
 router.post("/saveSong", spotify.saveSong);
 router.get("/library", spotify.library);
 module.exports = router;

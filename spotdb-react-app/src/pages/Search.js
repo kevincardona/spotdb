@@ -22,6 +22,7 @@ class Search extends React.Component {
     apiGet("/search?query=" + query).then(data => {
       console.log(data);
       if (data.success) {
+        console.log(data.user.items)
         this.setState({
           prevApiQuery: query,
           artist_results: data.user.artists.items,
@@ -106,6 +107,7 @@ class Search extends React.Component {
               </li>
             ))}
           </ul>
+          {/* Favorite / Tempo / Duration / Loudness */}
           <h2>Tracks</h2>
           <ul className="Search-list">
             {/* This map function returns for every element in an array so you can show dynamic data */}
