@@ -6,7 +6,7 @@ const artistSchema = new Schema({
     name: {
         type: String
     },
-    good: {}, bad: {}, combined: {}
+    good: {}, bad: {}, combined: {}, scores: {}
 })
 
 mongoose.connect(config.mongo_url);

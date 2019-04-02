@@ -11,6 +11,7 @@ def createEntry(name):
     artistCollection = db[name]
     cumGood = 0
     cumBad = 0
+    scores = []
     for tweet in artistCollection.find():
         tweetArray = tweet['text'].split(' ')
         for word in tweetArray:
@@ -18,11 +19,14 @@ def createEntry(name):
                 numWords += 1
                 cumGood += model.wv.similarity(word, "positive")
                 cumBad += model.wv.similarity(word, "bad")
+        score = cumGood+cumBad
+        scores.append(score)
     newEntry = {
         'name': name,
         'good': cumGood,
         'bad': cumBad,
-        'combined': cumGood - cumBad
+        'combined': cumGood - cumBad,
+        'scores': scores
     }
     print(newEntry)
     return newEntry

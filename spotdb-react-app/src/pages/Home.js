@@ -8,10 +8,6 @@ const queryString = require('query-string');
 class Home extends React.Component {
 	// Home will use state to hold tweet info
 
-	constructor(props) {
-		super(props);
-	}
-
 	state = {
 		artists: []
 	};
