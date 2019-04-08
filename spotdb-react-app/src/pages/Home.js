@@ -85,7 +85,7 @@ class Home extends React.Component {
 								<div className="Home-spotdb-tweets">
 									<div className="Home-tweet-list">
 										<div className="Home-tweet">
-											Artist Twitter Score: {item.combined}
+											Artist Twitter Score: {item.qualityScore}
 										</div>
 									</div>
 									<div className="Home-tweet-right-column">
