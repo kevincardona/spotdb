@@ -25,7 +25,7 @@ class Me extends React.Component {
         this.setState({ artists: data.user.items });
       })
       .catch(err => {
-        console.log(err);
+        console.err(err);
       });
   };
 
