@@ -90,6 +90,11 @@ class Artist extends React.Component {
     apiPost("/savesong?id=" + id);
   };
 
+  playSong = id => {
+    console.log("PLAY SONG");
+    apiPost("/play?id=" + id);
+  };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
       urlId: nextProps.match.params.artist_id || ""
@@ -170,6 +175,7 @@ class Artist extends React.Component {
                             <li
                               key={track.id}
                               className="Album-item Track-item"
+                              onClick={() => this.playSong(track.id)}
                             >
                               {index + 1 + ". "} <b>{track.name}</b>
                               <input

@@ -112,6 +112,13 @@ var pause = (req, res) => {
 };
 
 var play = (req, res) => {
+  var songId = "";
+  if (req.query && req.query.id) {
+    songId = req.query.id;
+    if (req.query.id.slice(-1) === "/") {
+      songId = req.query.id.substring(0, req.query.id.length - 1);
+    }
+  }
   var options = {
     url: "https://api.spotify.com/v1/me/player/play",
     headers: {
@@ -119,7 +126,14 @@ var play = (req, res) => {
     },
     json: true
   };
+  if (songId) {
+    options.body = {
+      uris: ["spotify:track:" + songId]
+    };
+  }
+  // console.log(options);
   request.put(options, function(error, response, body) {
+    // console.log(response.statusMessage);
     if (error) {
       return res.json({
         success: false,
