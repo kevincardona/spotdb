@@ -81,7 +81,45 @@ var saveSong = (req, res) => {
     json: true
   };
   request.put(options, function(error, response, body) {
-    console.log(response.statusMessage);
+    // console.log(response.statusMessage);
+    if (error) {
+      return res.json({
+        success: false,
+        err: error
+      });
+    }
+    return res.json({ success: true, user: body });
+  });
+};
+
+var pause = (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/pause",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.put(options, function(error, response, body) {
+    if (error) {
+      return res.json({
+        success: false,
+        err: error
+      });
+    }
+    return res.json({ success: true, user: body });
+  });
+};
+
+var play = (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/me/player/play",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.put(options, function(error, response, body) {
     if (error) {
       return res.json({
         success: false,
@@ -175,9 +213,12 @@ var artist = (req, res) => {
 var artistAlbums = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
-  console.log(id);
+  // (id);
   var options = {
-    url: "https://api.spotify.com/v1/artists/" + id + "/albums",
+    url:
+      "https://api.spotify.com/v1/artists/" +
+      id +
+      "/albums?include_groups=album,single",
     headers: {
       Authorization: "Bearer " + req.decoded.spotify_token
     },
@@ -185,11 +226,11 @@ var artistAlbums = (req, res) => {
   };
   //console.log(options.url)
   request.get(options, (error, response, body) => {
-    console.log(body);
+    // console.log(body);
     if (error) {
       return res.json({ success: false, error: error });
     }
-    console.log(body);
+    // console.log(body);
     return res.json({ success: true, user: body });
   });
 };
@@ -197,7 +238,7 @@ var artistAlbums = (req, res) => {
 var albumTracks = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
-  console.log(id);
+  // console.log(id);
   var options = {
     url: "https://api.spotify.com/v1/albums/" + id + "/tracks",
     headers: {
@@ -207,7 +248,7 @@ var albumTracks = (req, res) => {
   };
   //console.log(options.url)
   request.get(options, (error, response, body) => {
-    console.log(body);
+    // console.log(body);
     if (error) {
       return res.json({ success: false, error: error });
     }
@@ -242,7 +283,7 @@ var listening = (req, res) => {
             result.last_song.artist = body.item.artists[0].id;
             result.last_song.image_url = body.item.album.images[0].url;
           } catch (error1) {
-            console.log(err);
+            // console.log(err);
             return res.json({
               success: false,
               error: error1
@@ -423,5 +464,7 @@ module.exports = {
   artistAlbums: artistAlbums,
   topArtists: topArtists,
   saveSong: saveSong,
-  library: library
+  library: library,
+  play: play,
+  pause: pause
 };
