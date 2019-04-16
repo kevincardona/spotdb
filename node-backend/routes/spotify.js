@@ -144,6 +144,98 @@ var play = (req, res) => {
   });
 };
 
+var songAnalytics = (req, res) => {
+  var id = req.query.query
+  id = id.substring(0, id.length - 1);
+  var options = {
+    url: "https://api.spotify.com/v1/audio-analysis" + id,
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  var secondOptions = {
+    url: "https://api.spotify.com/v1/audio-features" + id,
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  }
+  /* json of secondOptions looks like: (seems this is better but on sprint planning i had the other analytics)
+  {
+    'danceability': float
+    'energy': float
+    'key': int
+    'loudness': float
+    'speechiness': float
+    'acousticness': float
+    'liveness': float
+    'valence': float
+    'tempo': float
+    'duration_ms': int
+  }
+  */
+  request.get(options, (error, response, body) => {
+    /* json of body looks like: (only important features)
+    {
+      'track': {
+        'duration': float
+        'tempo': float
+        'loudness': float
+        'key': int
+      }
+      'bars': [
+        {
+          'start': float
+          'duration': float
+          'confidence': float
+        }
+      ]
+      'sections': [
+        {
+          'start': float
+          'duration': float
+          'loudness': float
+          'tempo': float
+          'key': int
+        }
+      ]
+    }
+    */
+    if (error) {
+      return res.json({ success: false, error: error });
+    }
+    return res.json({ success: true, user: body });
+  });
+};
+
+var newReleases = (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/browse/new-releases",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.get(options, (error, response, body) => {
+    //console.log(body.albums.items[0].artists[0]);
+    //need body.albums.items[index] 
+    // json format for ^^ looks like: (only adding what is necessary)
+    /*
+    { 
+      artists: [HREF (OF ARTIST), ID, NAME, TYPE]
+      href: stringUrl
+      images: [url]
+      name: string
+    }
+    */
+    if (error) {
+      return res.json({ success: false, error: error });
+    }
+    return res.json({ success: true, user: body.albums });
+  });
+};
+
 var library = (req, res) => {
   var options = {
     url: "https://api.spotify.com/v1/me/tracks?market=ES&limit=20",
