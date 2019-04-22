@@ -362,6 +362,22 @@ var albumTracks = (req, res) => {
   });
 };
 
+var newAlbums = (req, res) => {
+  var options = {
+    url: "https://api.spotify.com/v1/browse/new-releases?country=US&limit=3",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.get(options, (error, response, body) => {
+    if (error) {
+      return res.json({ success: false, error: error });
+    }
+    return res.json({ success: true, user: body });
+  });
+};
+
 var listening = (req, res) => {
   var options = {
     url: "https://api.spotify.com/v1/me/player/currently-playing",
@@ -572,5 +588,6 @@ module.exports = {
   saveSong: saveSong,
   library: library,
   play: play,
-  pause: pause
+  pause: pause,
+  newAlbums: newAlbums
 };
