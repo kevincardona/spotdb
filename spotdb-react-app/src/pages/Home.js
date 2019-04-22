@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import "../layouts/Home.css";
 import logo from "../assets/logo.svg";
 import { apiPost, apiGet } from "../util/api";
+import CardList from "../components/CardList";
 const queryString = require("query-string");
 
 class Home extends React.Component {
   // Home will use state to hold tweet info
   state = {
-    artists: []
+    artists: [],
+    newAlbums: []
   };
 
   retrieveArtists = () => {
@@ -27,9 +29,22 @@ class Home extends React.Component {
       });
   };
 
+  getNewAlbums = () => {
+    apiGet("/newalbums")
+      .then(data => {
+        this.setState({
+          newAlbums: data.user.albums.items
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   //Authorization Stuff
   componentDidMount() {
     this.retrieveArtists();
+    this.getNewAlbums();
 
     const parsed = queryString.parse(window.location.search);
 
@@ -56,7 +71,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { artists } = this.state;
+    const { artists, newAlbums } = this.state;
 
     return (
       <div className="Home">
@@ -81,6 +96,14 @@ class Home extends React.Component {
             <span className="Home-tweeter">@spotdb</span>
           </div>
         </div>
+
+        <h2>New Releases</h2>
+        {newAlbums.length !== 0 ? (
+          <CardList list={newAlbums} />
+        ) : (
+          <p>Login to view</p>
+        )}
+
         {/* This is the template for the Tweet info */}
         {/* This map function returns for every element in an array so you can show dynamic data */}
         {artists.map(item => (

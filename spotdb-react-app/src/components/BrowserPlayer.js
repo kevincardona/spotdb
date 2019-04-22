@@ -2,7 +2,7 @@ import React from "react";
 import "../layouts/BrowserPlayer.css";
 import { apiGet, apiPost } from "../util/api";
 import logo from "../assets/logo.svg";
-
+import EmptySpace from "../components/EmptySpace";
 class BrowserPlayer extends React.Component {
   state = {
     userName: this.props.userName || "",
@@ -11,15 +11,15 @@ class BrowserPlayer extends React.Component {
     playing: false
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getCurrentlyPlaying();
 
     setInterval(() => {
       this.getCurrentlyPlaying();
     }, 2000);
-  }
+  };
 
-  getCurrentlyPlaying() {
+  getCurrentlyPlaying = () => {
     apiGet("/listening").then(data => {
       if (data.success) {
         this.setState({
@@ -29,34 +29,36 @@ class BrowserPlayer extends React.Component {
         });
       }
     });
-  }
+  };
 
-  playPause(playing) {
+  playPause = playing => {
     if (playing) {
       apiPost("/pause");
     } else {
       apiPost("/play");
     }
-  }
+    this.getCurrentlyPlaying();
+  };
 
   render() {
     const { userName, currentSong, songArt, playing } = this.state;
 
     if (userName) {
       return (
-        <div className="BrowserPlayer">
-          <div className="SpaceFilling" />
-          <div className="ActualBar">
-            <img className="album-art" src={songArt} alt="" />
-            <p className="song-name">{currentSong}</p>
-            <div
-              className="play-button"
-              onClick={() => {
-                this.playPause(playing);
-              }}
-            >
-              <div className={"button " + (playing ? " pause" : " play")} />
-              {/* <div
+        <>
+          <EmptySpace height="75px" />
+          <div className="BrowserPlayer">
+            <div className="ActualBar">
+              <img className="album-art" src={songArt} alt="" />
+              <p className="song-name">{currentSong}</p>
+              <div
+                className="play-button"
+                onClick={() => {
+                  this.playPause(playing);
+                }}
+              >
+                <div className={"button " + (playing ? " pause" : " play")} />
+                {/* <div
                 id="triangle-right"
                 style={playing ? { display: "block" } : { display: "none" }}
               />
@@ -64,9 +66,10 @@ class BrowserPlayer extends React.Component {
                 id="double-line"
                 style={playing ? { display: "none" } : { display: "block" }}
               /> */}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       );
     } else {
       return <></>;
