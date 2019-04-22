@@ -145,7 +145,8 @@ var play = (req, res) => {
 };
 
 var songAnalytics = (req, res) => {
-  var id = req.query.query;
+  //console.log(req._parsedUrl.query)
+  var id = req._parsedUrl.query;
   id = id.substring(0, id.length - 1);
   var options = {
     url: "https://api.spotify.com/v1/audio-analysis" + id,
@@ -155,7 +156,7 @@ var songAnalytics = (req, res) => {
     json: true
   };
   var secondOptions = {
-    url: "https://api.spotify.com/v1/audio-features" + id,
+    url: "https://api.spotify.com/v1/audio-features/" + id,
     headers: {
       Authorization: "Bearer " + req.decoded.spotify_token
     },
@@ -175,7 +176,7 @@ var songAnalytics = (req, res) => {
     'duration_ms': int
   }
   */
-  request.get(options, (error, response, body) => {
+  request.get(secondOptions, (error, response, body) => {
     /* json of body looks like: (only important features)
     {
       'track': {
