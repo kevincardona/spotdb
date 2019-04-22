@@ -145,7 +145,7 @@ var play = (req, res) => {
 };
 
 var songAnalytics = (req, res) => {
-  var id = req.query.query
+  var id = req.query.query;
   id = id.substring(0, id.length - 1);
   var options = {
     url: "https://api.spotify.com/v1/audio-analysis" + id,
@@ -160,7 +160,7 @@ var songAnalytics = (req, res) => {
       Authorization: "Bearer " + req.decoded.spotify_token
     },
     json: true
-  }
+  };
   /* json of secondOptions looks like: (seems this is better but on sprint planning i had the other analytics)
   {
     'danceability': float
@@ -219,7 +219,7 @@ var newReleases = (req, res) => {
   };
   request.get(options, (error, response, body) => {
     //console.log(body.albums.items[0].artists[0]);
-    //need body.albums.items[index] 
+    //need body.albums.items[index]
     // json format for ^^ looks like: (only adding what is necessary)
     /*
     { 
@@ -589,5 +589,6 @@ module.exports = {
   library: library,
   play: play,
   pause: pause,
-  newAlbums: newAlbums
+  newAlbums: newAlbums,
+  songAnalytics: songAnalytics
 };

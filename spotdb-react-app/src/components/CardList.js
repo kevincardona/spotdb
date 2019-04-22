@@ -10,6 +10,10 @@ class CardList extends React.Component {
     tracks: []
   };
 
+  componentDidMount() {
+    this.getTrackInfo({ id: "35RDmXJ59YYGNlv1KfTGsP" }, function() {});
+  }
+
   selectItem = (id, type) => {
     if (type === "album") {
       this.setState({
@@ -18,13 +22,39 @@ class CardList extends React.Component {
     }
   };
 
+  getTrackInfo = (song, callbackFunction) => {
+    apiGet("/songanalytics?" + song.id).then(data => {
+      // console.log(song);
+      console.log("THE NEXT LOG SHOULD BE THE TRACK INFO: ");
+      console.log(data);
+      // song["duration"] = data.track.duration;
+      // song["tempo"] = data.track.tempo;
+      // song["loudness"] = data.track.loudness;
+      callbackFunction();
+    });
+  };
+
   getAlbum = id => {
     console.log("GET Album : getAlbum : " + id);
     apiGet("/albumtracks?query=" + id).then(data => {
       if (data.success) {
         if (!data.user.error) {
-          this.setState({
-            tracks: data.user.items
+          var songs = data.user.items;
+
+          let requests = songs.reduce((promiseChain, item) => {
+            return promiseChain.then(
+              () =>
+                new Promise(resolve => {
+                  this.getTrackInfo(item, resolve);
+                })
+            );
+          }, Promise.resolve());
+
+          requests.then(() => {
+            console.log(songs);
+            this.setState({
+              tracks: songs
+            });
           });
         }
       }
@@ -95,6 +125,12 @@ class CardList extends React.Component {
                           onClick={() => this.playSong(track.id)}
                         >
                           {index + 1 + ". "} <b>{track.name}</b>
+                          <br />
+                          {(track.duration || "-") +
+                            ", " +
+                            (track.tempo || "-") +
+                            ", " +
+                            (track.loudness || "-")}
                           {/* <input
                             type="button"
                             value="Add"

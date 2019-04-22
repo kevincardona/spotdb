@@ -42,6 +42,11 @@
 .CardList-item a {
   text-decoration: none;
 }
+
+.CardList-item .Track-item {
+  color: white;
+}
+
 .CardList-item:hover {
   background: #24252c;
 }
