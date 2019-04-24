@@ -50,9 +50,9 @@
 .CardList-item:hover {
   background: #24252c;
 }
-/* .CardList-item.selected:hover {
+.CardList-item.selected:hover {
   background: #7a7da7;
-} */
+}
 .CardList-item.selected {
   background: #9496bd;
 }

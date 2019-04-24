@@ -12,9 +12,15 @@ class CardList extends React.Component {
 
   selectItem = (id, type) => {
     if (type === "album") {
-      this.setState({
-        selectedAlbum: id
-      });
+      if (this.state.selectedAlbum !== id) {
+        this.setState({
+          selectedAlbum: id
+        });
+      } else {
+        this.setState({
+          selectedAlbum: ""
+        });
+      }
     }
   };
 
