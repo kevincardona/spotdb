@@ -12,10 +12,34 @@ class CardList extends React.Component {
 
   selectItem = (id, type) => {
     if (type === "album") {
-      this.setState({
-        selectedAlbum: id
-      });
+      if (this.state.selectedAlbum !== id) {
+        this.setState({
+          selectedAlbum: id
+        });
+      } else {
+        this.setState({
+          selectedAlbum: ""
+        });
+      }
     }
+  };
+
+  getTrackInfo = (song, callbackFunction) => {
+    apiGet("/songanalytics?" + song.id).then(data => {
+      song["duration"] = data.user.duration_ms;
+      song["tempo"] = data.user.tempo;
+      song["loudness"] = data.user.loudness;
+      song["acousticness"] = data.user.acousticness;
+      song["dancibility"] = data.user.dancibility;
+      song["energy"] = data.user.energy;
+      song["instrumentalness"] = data.user.instrumentalness;
+      song["key"] = data.user.key;
+      song["liveness"] = data.user.liveness;
+      song["speechiness"] = data.user.speechiness;
+      song["time_signature"] = data.user.time_signature;
+      song["valence"] = data.user.valence;
+      callbackFunction();
+    });
   };
 
   getAlbum = id => {
@@ -23,8 +47,22 @@ class CardList extends React.Component {
     apiGet("/albumtracks?query=" + id).then(data => {
       if (data.success) {
         if (!data.user.error) {
-          this.setState({
-            tracks: data.user.items
+          var songs = data.user.items;
+
+          let requests = songs.reduce((promiseChain, item) => {
+            return promiseChain.then(
+              () =>
+                new Promise(resolve => {
+                  this.getTrackInfo(item, resolve);
+                })
+            );
+          }, Promise.resolve());
+
+          requests.then(() => {
+            console.log(songs);
+            this.setState({
+              tracks: songs
+            });
           });
         }
       }
@@ -36,6 +74,14 @@ class CardList extends React.Component {
     apiPost("/play?id=" + id);
   };
 
+  saveSong = id => {
+    console.log("POST Savesong : saveSong : " + id);
+    apiPost("/savesong?id=" + id);
+  };
+
+  toMinutesSecondsDisplay = ms =>
+    Math.floor(ms / 1000 / 60) + ":" + Math.ceil((ms / 1000) % 60);
+
   render() {
     const props = this.props;
     const state = this.state;
@@ -43,6 +89,7 @@ class CardList extends React.Component {
     if (state.selectedAlbum && state.selectedAlbum !== state.shownAlbum) {
       this.getAlbum(state.selectedAlbum);
       this.setState({
+        tracks: [],
         shownAlbum: state.selectedAlbum
       });
     }
@@ -56,14 +103,17 @@ class CardList extends React.Component {
               key={item.id}
               id={"Album:" + item.id}
               onClick={() => this.selectItem(item.id, item.type)}
-              className="CardList-item"
+              className={
+                "CardList-item " +
+                (item.id === state.selectedAlbum && " selected ")
+              }
             >
               <Link
                 to={
                   props.links
                     ? "/artist/" +
                       (item.type === "artist" ? item.id : item.artists[0].id)
-                    : ""
+                    : "#"
                 }
               >
                 {(item.images && item.images.length > 0 && (
@@ -89,18 +139,34 @@ class CardList extends React.Component {
                     {state.tracks && <h4>Tracks:</h4>}
                     {state.tracks &&
                       state.tracks.map((track, index) => (
-                        <li
-                          key={track.id}
-                          className="Album-item Track-item"
-                          onClick={() => this.playSong(track.id)}
-                        >
-                          {index + 1 + ". "} <b>{track.name}</b>
-                          {/* <input
-                            type="button"
-                            value="Add"
-                            className="addTrack"
-                            onClick={() => this.saveSong(track.id)}
-                          /> */}
+                        <li key={track.id} className="Album-item Track-item">
+                          <div className="title">
+                            <p>
+                              {index + 1 + ". "}
+                              <b>{track.name}</b>
+                            </p>
+                          </div>
+                          <div className="stats">
+                            <p>
+                              <i class="fas fa-clock" />
+                              {(this.toMinutesSecondsDisplay(track.duration) ||
+                                "-") + ", "}
+                              <i class="fas fa-music" />
+                              {(Math.round(track.tempo) || "-") + ", "}
+                              <i class="fas fa-volume-up" />
+                              {(Math.round(track.loudness + 14) || "0") + ""}
+                            </p>
+                          </div>
+                          <div className="controls">
+                            <div onClick={() => this.playSong(track.id)}>
+                              <i class="fas fa-play" />
+                              <p>Play</p>
+                            </div>
+                            <div onClick={() => this.saveSong(track.id)}>
+                              <i class="fas fa-heart" />
+                              <p>Favorite</p>
+                            </div>
+                          </div>
                         </li>
                       ))}
                   </ul>
