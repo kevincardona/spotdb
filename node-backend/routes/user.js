@@ -14,6 +14,8 @@ var authenticate = (req, res, next) => {
     return res.send({ success: false, message: "No token provided" });
   }
 
+  // console.log(token);
+
   jwt.verify(token, config.secret, function(err, decoded) {
     if (err) {
       return res.json({
@@ -88,11 +90,12 @@ var authorize = (req, res) => {
             config.secret,
             { algorithm: "HS256", expiresIn: 99999 },
             (err, token) => {
-              if (err)
+              if (err) {
                 return res.json({
                   success: false,
                   message: "Failed to sign jwt"
                 });
+              }
 
               result.save(function(error) {
                 if (!error) {

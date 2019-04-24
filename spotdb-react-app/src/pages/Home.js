@@ -37,7 +37,7 @@ class Home extends React.Component {
             newAlbums: data.user.albums.items
           });
         } else {
-          console.log(data.error);
+          console.log(data);
         }
       })
       .catch(error => {
@@ -62,15 +62,14 @@ class Home extends React.Component {
         .then(data => {
           if (data.success && data.token && data.display_name && data.id) {
             localStorage.setItem("token", data.token);
-            this.props.userAuthorized(data.display_name, data.id);
+            this.props.userAuthorized(data.display_name);
           } else {
             this.props.userAuthorized("");
           }
         })
         .catch(error => {
           console.log(error);
-        })
-        .then(() => {});
+        });
     }
   }
 

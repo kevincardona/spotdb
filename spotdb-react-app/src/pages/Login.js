@@ -1,7 +1,7 @@
 import React from "react";
 import "../layouts/Login.css";
 import spotifyLogo from "../assets/Spotify_Icon_RGB_Black.png";
-import API_URL from "../config";
+import { API_URL } from "../config";
 
 class Login extends React.Component {
   // Unused?
@@ -22,7 +22,7 @@ class Login extends React.Component {
     return (
       <div>
         <div className="Login">
-          <a href={API_URL + "login"}>
+          <a href={API_URL + "/login"}>
             {/* We use 'a' here instead of 'Link' because it's an external link */}
             <div className="Login-button">
               <img

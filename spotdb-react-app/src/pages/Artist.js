@@ -107,7 +107,6 @@ class Artist extends React.Component {
       urlId,
       artist,
       albums,
-      tracks,
       error,
       invalidIdError,
       selectedAlbum,

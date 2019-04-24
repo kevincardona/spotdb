@@ -22,7 +22,7 @@ var login = (req, res) => {
       process.env.SPOTIFY_API_ID +
       (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
       "&redirect_uri=" +
-      encodeURIComponent("http://localhost:3000/authorized")
+      encodeURIComponent(process.env.FRONTEND_URL)
   );
 };
 
