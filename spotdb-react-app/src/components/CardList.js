@@ -16,10 +16,6 @@ class CardList extends React.Component {
         this.setState({
           selectedAlbum: id
         });
-      } else {
-        this.setState({
-          selectedAlbum: ""
-        });
       }
     }
   };
@@ -59,7 +55,7 @@ class CardList extends React.Component {
           }, Promise.resolve());
 
           requests.then(() => {
-            console.log(songs);
+            // console.log(songs);
             this.setState({
               tracks: songs
             });

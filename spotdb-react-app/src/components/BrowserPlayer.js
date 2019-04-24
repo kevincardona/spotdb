@@ -6,6 +6,7 @@ import EmptySpace from "../components/EmptySpace";
 class BrowserPlayer extends React.Component {
   state = {
     userName: this.props.userName || "",
+    listening: false,
     currentSong: "",
     songArt: "",
     playing: false
@@ -20,30 +21,48 @@ class BrowserPlayer extends React.Component {
   };
 
   getCurrentlyPlaying = () => {
+    // if (this.state.userName) {
     apiGet("/listening").then(data => {
       if (data.success) {
         this.setState({
+          listening: true,
           currentSong: data.user.item.name,
           songArt: data.user.item.album.images.slice(-1)[0].url || logo,
           playing: data.user.is_playing
         });
+      } else {
+        this.setState({
+          listening: false
+        });
       }
     });
+    // }
   };
 
   playPause = playing => {
     if (playing) {
-      apiPost("/pause");
+      apiPost("/pause")
+        .then(() => {
+          this.getCurrentlyPlaying();
+        })
+        .catch(error => {
+          console.log("Play error");
+        });
     } else {
-      apiPost("/play");
+      apiPost("/play")
+        .then(() => {
+          this.getCurrentlyPlaying();
+        })
+        .catch(error => {
+          console.log("Play error");
+        });
     }
-    this.getCurrentlyPlaying();
   };
 
   render() {
-    const { userName, currentSong, songArt, playing } = this.state;
+    const { listening, currentSong, songArt, playing } = this.state;
 
-    if (userName) {
+    if (listening) {
       return (
         <>
           <EmptySpace height="75px" />
