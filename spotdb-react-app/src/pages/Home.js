@@ -32,7 +32,7 @@ class Home extends React.Component {
   getNewAlbums = () => {
     apiGet("/newalbums")
       .then(data => {
-        if (data.success) {
+        if (data.success && !data.user.error) {
           this.setState({
             newAlbums: data.user.albums.items
           });
