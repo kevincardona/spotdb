@@ -121,12 +121,16 @@ var setHome = (req, res) => {
             user.location.latlon = req.body.last_location;
             if (req.body.position)
             user.zip = req.body.position.zip;
+            try{
             user.top_artist = body.items[0].external_urls.spotify;
             user.save(function(err) {
                 if (err)
                     return res.json({success: false, error: err});
                 return res.json({success: true, message: 'Successfully updated home'});
             })
+            } catch(e) {
+                return res.json({success:false});
+            }
         })
     })
 }

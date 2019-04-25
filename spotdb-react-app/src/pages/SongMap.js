@@ -6,11 +6,7 @@ import { apiPost, apiGet } from '../util/api';
 import { Redirect } from 'react-router-dom';
 import Player from '../components/Player';
 
-let location_marker;
-let marker_indexer = [];
-let markers = {};
-let marker_index = 0;
-let last_marker = null;
+let markers= [];
 
 export default class SongMap extends Component {
     constructor(props) {
@@ -27,11 +23,14 @@ export default class SongMap extends Component {
             locations: null,
             location_songs: null,
             top_songs: null,
-            top_artists: null
+            top_artists: null,
+            showPopup: false,
+            popupInfo: {}
         };
     }
+    
 
-    localListeners(callback) {
+    localListeners() {
         apiPost(`/locallisteners`, {
             zip: this.state.position.zip
         }).then((data) => {
@@ -51,24 +50,43 @@ export default class SongMap extends Component {
                         origin: new window.google.maps.Point(0, 0),
                         anchor: new window.google.maps.Point(20, 20)
                     };
+                    console.log(data.location_songs[i]);
+                    var contentString = `
+                    <h1><a href="/artist/${data.location_songs[i].artist}"}>${data.location_songs[i].artist_name}</a>
+                    <h1><a href="https://open.spotify.com/track/${data.location_songs[i].id}">${data.location_songs[i].name}</a></h1><br>
+                    
+                    `;
+                    var infoWindow = new window.google.maps.InfoWindow({
+                        content: contentString
+                    })
                     var marker = new window.google.maps.Marker({
                         position: {
                             lat: data.locations[i].latlon[0],
                             lng: data.locations[i].latlon[1]
                         },
                         map: this.state.map,
-                        icon: image
+                        icon: image,
+                        customInfo: {
+                            infoWindow: infoWindow
+                        }
                     });
-                    if (!markers[data.location_songs[i].name]) {
-                        marker_indexer.push(data.location_songs[i].name);
-                    }
-                    markers[data.location_songs[i].name] = marker;
+                    marker.addListener('click', function(){
+                        this.customInfo.infoWindow.open(this.map,this);
+                        
+                    })
+                    markers.push(marker);
                 }
-                callback();
             } catch (err) {
                 console.log(err);
             }
         });
+    }
+
+    togglePopup() {
+        this.setState({
+          showPopup: !this.state.showPopup
+        });
+        console.log(this.state.showPopup)
     }
 
 
@@ -118,7 +136,8 @@ export default class SongMap extends Component {
                 (position) => {
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
-                    var last_location = [lat, lon]
+                    var rdl = [Math.random()*0.00724637681-Math.random()*0.00724637681,Math.random()*0.00724637681-Math.random()*0.00724637681]
+                    var last_location = [lat + rdl[0], lon+rdl[1]]
 
                     apiGet(`/getaddress?lat=${lat}&lon=${lon}`).then((data) => {
                         var tposition = {
@@ -143,15 +162,19 @@ export default class SongMap extends Component {
                     }).catch((error) => {
                         console.log(error);
                     }).then(() => {
+                       
+                        if (this.state.position) {
                         const body = {
                             last_location: last_location,
                             position: this.state.position
                         }
-                        if (this.state.position)
+                        console.log(body)
+                        console.log(last_location)
                         apiPost('/sethome', body).then((data) => {
                         }).catch((error) => {
                             console.log(error);
                         })
+                        }
                     })
 
                 },
@@ -180,11 +203,12 @@ export default class SongMap extends Component {
             })
         }
 
+
         setInterval(() => {
             if (!this.state.map)
                 return
-            this.localListeners(() => {
-                if (last_marker)
+            /*this.localListeners(() => {
+                /*if (last_marker)
                     last_marker.setMap(null);
                 marker_index = (marker_index+1)%marker_indexer.length;
                 if (markers.length <= 0) {
@@ -192,14 +216,14 @@ export default class SongMap extends Component {
                 }
                 last_marker = markers[marker_indexer[marker_index]]
                 last_marker.setMap(this.state.map);
+                */
 
-
-            });
+            //});
         }, 6000)
     }
 
     render() {
-        const { redirect, hasLocation, position, top_songs, top_artists, city, state} = this.state;
+        const { redirect, hasLocation, position, top_songs, top_artists, city, state, showPopup} = this.state;
         if (redirect) {
             return (
                 <Redirect to="/login"></Redirect>
@@ -215,7 +239,7 @@ export default class SongMap extends Component {
                                 <img id="loader" src={loader} alt="Loading..."/>
                             </div>
                         </div>
-                        {state &&
+                        {state && city  &&
                         <Player location={city + ', ' + state} top_songs={top_songs} top_artists={top_artists} />
                         }
                     </div>

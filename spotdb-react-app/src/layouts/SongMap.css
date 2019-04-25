@@ -65,6 +65,9 @@
 .Location-Allow:hover {
 	background-color: #219181;
 }
+a{
+    text-decoration: none;
+}
 
 #map img[draggable="false"]{
     padding: 30px;

@@ -44,10 +44,7 @@ export default class Player extends Component {
                 return;
             }
             try {
-                this.state.artist = data.item.album.artists[0].name
-                this.state.song = data.item.name;
-                this.state.cover_image = data.user.item.album.images[0].url;
-                this.state.song_id = data.user.item.id;
+                this.setState({artist: data.item.album.artists[0].name, song: data.item.name, cover_image: data.user.item.album.images[0].url, song_id: data.user.item.id})
                 
             } catch (err) {
                 
@@ -96,6 +93,7 @@ export default class Player extends Component {
             display: 'inline'
         }
 
+        if (song && artist && cover_image && listeners && location) {
         return (
             <div className="player-container">
                 <div className="player-panel">
@@ -122,5 +120,10 @@ export default class Player extends Component {
                 </div>
             </div>
         )
+        } else {
+            return (
+            <div className="blank-player"
+            ></div>);
+        }
     }
 }

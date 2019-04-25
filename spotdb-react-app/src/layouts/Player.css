@@ -49,6 +49,10 @@
     margin-left: 50px;
 }
 
+.blank-player {
+    background: #3E3F52;
+}
+
 h1 {
     padding: 0;
     margin: 0;

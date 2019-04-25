@@ -240,9 +240,10 @@ var listening = (req, res) => {
             result.last_song.id = body.item.id;
             result.last_song.name = body.item.name;
             result.last_song.artist = body.item.artists[0].id;
+            result.last_song.artist_name = body.item.artists[0].name
             result.last_song.image_url = body.item.album.images[0].url;
           } catch (error1) {
-            console.log(err);
+            console.log(error1);
             return res.json({
               success: false,
               error: error1
@@ -291,6 +292,8 @@ var currentListeners = (req, res) => {
   );
 };
 
+
+
 var localListeners = (req, res) => {
   var list = UserModel.find(
     {
@@ -319,6 +322,7 @@ var localListeners = (req, res) => {
             id: songs[i].id,
             name: songs[i].name,
             artist: songs[i].artist,
+            artist_name: songs[i].artist_name,
             count: 1
           };
           song_counts[songs[i].id] = song;
@@ -327,11 +331,14 @@ var localListeners = (req, res) => {
       var artist_counts = list.reduce((p, c) => {
         if (c.top_artists.length > 0) {
           var name = c.top_artists[0];
+          if (p) {
           if (!p.hasOwnProperty(name)) {
             p[name] = 0;
           }
           p[name]++;
           return p;
+          }
+          return null;
         }
       }, {});
       //console.log(song_counts);
