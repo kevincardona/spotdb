@@ -4,6 +4,7 @@ import "../layouts/Home.css";
 import logo from "../assets/logo.svg";
 import { apiPost, apiGet } from "../util/api";
 import CardList from "../components/CardList";
+import ArtistTweet from "../components/ArtistTweet";
 const queryString = require("query-string");
 
 class Home extends React.Component {
@@ -13,13 +14,35 @@ class Home extends React.Component {
     newAlbums: []
   };
 
+  getFirstArtist = (artist, callbackFunction) => {
+    apiGet("/firstartist?query=" + artist.name).then(data => {
+      artist["id"] = data.user.artists.items[0].id;
+      artist["images"] = data.user.artists.items[0].images;
+      artist["followers"] = data.user.artists.items[0].followers;
+      artist["genres"] = data.user.artists.items[0].genres;
+      artist["popularity"] = data.user.artists.items[0].popularity;
+      callbackFunction();
+    });
+  };
+
   retrieveArtists = () => {
     apiGet("/getTweetInfo")
       .then(data => {
-        this.setState({
-          artists: data.map(item => {
-            return item;
-          })
+        var artists = data;
+
+        let requests = artists.reduce((promiseChain, item) => {
+          return promiseChain.then(
+            () =>
+              new Promise(resolve => {
+                this.getFirstArtist(item, resolve);
+              })
+          );
+        }, Promise.resolve());
+
+        requests.then(() => {
+          this.setState({
+            artists: artists
+          });
         });
       })
       .catch(error => {
@@ -105,30 +128,35 @@ class Home extends React.Component {
           <p>Login to view</p>
         )}
 
-					{/* This is the template for the Tweet info */}
-					{/* This map function returns for every element in an array so you can show dynamic data */}
-						{artists.map((item) => (
-							<div key={item.name}>
-								<div className="Home-artist-title">{item.name}</div>
-								<div className="Home-spotdb-tweets">
-									<div className="Home-tweet-list">
-										<div className="Home-tweet">
-											Artist Twitter Score: {item.qualityScore}
-										</div>
-										<div className="Home-tweet">
-											{item.randomTweet}
-										</div>
-									</div>
-									<div className="Home-tweet-right-column">
-										<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
-										<span className="Home-tweeter">@spotdb</span>
-									</div>
-								</div>
-							</div>
-						))}
-					</div>
-		);
-	}
+        {/* This is the template for the Tweet info */}
+        {/* This map function returns for every element in an array so you can show dynamic data */}
+        {/* {artists.map(item => (
+          <div key={item.name}>
+            <div className="Home-artist-title">{item.name}</div>
+            <div className="Home-spotdb-tweets">
+              <div className="Home-tweet-list">
+                <div className="Home-tweet">
+                  Artist Twitter Score: {item.qualityScore}
+                </div>
+              </div>
+              <div className="Home-tweet-right-column">
+                <img
+                  src={logo}
+                  alt="SpotDB Logo"
+                  className="Home-spotdb-logo"
+                />
+                <span className="Home-tweeter">@spotdb</span>
+              </div>
+            </div>
+          </div>
+        ))} */}
+        <h2>Artist Analysis</h2>
+        {artists.map(item => (
+          <ArtistTweet key={item.id} artist={item} />
+        ))}
+      </div>
+    );
+  }
 }
 
 export default Home;

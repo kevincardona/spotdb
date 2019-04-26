@@ -40,7 +40,7 @@
   text-decoration: none;
 }
 .CardList-item a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .CardList-item .Track-item {
@@ -75,6 +75,10 @@ img.CardList-image {
 
 .Track-list .Track-item div p {
   display: contents;
+}
+
+.Track-list .Track-item .stats svg {
+  margin-left: 5px;
 }
 
 .Track-list .Track-item .controls div {

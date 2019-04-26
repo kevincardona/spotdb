@@ -293,6 +293,28 @@ var search = (req, res) => {
   });
 };
 
+var firstArtist = (req, res) => {
+  var queryStr = querystring.stringify(req.query);
+  queryStr = queryStr.substring(6, queryStr.length - 3);
+  var options = {
+    url:
+      "https://api.spotify.com/v1/search?q=" +
+      queryStr +
+      "&type=artist&limit=1",
+    headers: {
+      Authorization: "Bearer " + req.decoded.spotify_token
+    },
+    json: true
+  };
+  request.get(options, (error, response, body) => {
+    if (error) {
+      return res.json({ success: false, error: error });
+    }
+    // console.log(response.statusMessage);
+    return res.json({ success: true, user: body });
+  });
+};
+
 var artist = (req, res) => {
   var id = req.query.query;
   id = id.substring(0, id.length - 1);
@@ -407,7 +429,7 @@ var listening = (req, res) => {
             result.last_song.id = body.item.id;
             result.last_song.name = body.item.name;
             result.last_song.artist = body.item.artists[0].id;
-            result.last_song.artist_name = body.item.artists[0].name
+            result.last_song.artist_name = body.item.artists[0].name;
             result.last_song.image_url = body.item.album.images[0].url;
           } catch (error1) {
             // console.log(err);
@@ -459,8 +481,6 @@ var currentListeners = (req, res) => {
   );
 };
 
-
-
 var localListeners = (req, res) => {
   var list = UserModel.find(
     {
@@ -499,11 +519,11 @@ var localListeners = (req, res) => {
         if (c.top_artists.length > 0) {
           var name = c.top_artists[0];
           if (p) {
-          if (!p.hasOwnProperty(name)) {
-            p[name] = 0;
-          }
-          p[name]++;
-          return p;
+            if (!p.hasOwnProperty(name)) {
+              p[name] = 0;
+            }
+            p[name]++;
+            return p;
           }
           return null;
         }
@@ -601,5 +621,6 @@ module.exports = {
   play: play,
   pause: pause,
   newAlbums: newAlbums,
-  songAnalytics: songAnalytics
+  songAnalytics: songAnalytics,
+  firstArtist: firstArtist
 };
