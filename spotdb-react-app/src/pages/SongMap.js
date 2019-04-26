@@ -52,8 +52,9 @@ export default class SongMap extends Component {
                     };
                     console.log(data.location_songs[i]);
                     var contentString = `
-                    <h1><a href="/artist/${data.location_songs[i].artist}"}>${data.location_songs[i].artist_name}</a>
-                    <h1><a href="https://open.spotify.com/track/${data.location_songs[i].id}">${data.location_songs[i].name}</a></h1><br>
+                    <h2><a href="https://open.spotify.com/track/${data.location_songs[i].id}">${data.location_songs[i].name}</a></h2>
+                    by
+                    <h3><a href="/artist/${data.location_songs[i].artist}"}>${data.location_songs[i].artist_name}</a></h3>
                     
                     `;
                     var infoWindow = new window.google.maps.InfoWindow({

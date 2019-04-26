@@ -19,9 +19,6 @@ var authenticate = (req, res, next) => {
             return res.json({ success: false, message: 'Failed to authenticate token', loggedin: false });
 		} else {
 
-            
-
-
 			req.decoded = decoded;
 			next();
 		}

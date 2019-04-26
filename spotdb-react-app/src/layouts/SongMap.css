@@ -10,7 +10,7 @@
 #map {
     position: relative;
     float: left;
-    width: calc(100% - 200px);
+    width: calc(100%);
     height: calc(100% - 50px);
     background: lightgray;
     overflow: hidden;
@@ -67,6 +67,11 @@
 }
 a{
     text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 #map img[draggable="false"]{
@@ -75,3 +80,10 @@ a{
     z-index: 2;
 }
   
+h3, h2 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0;
+    color: rgb(55, 55, 192);
+}
+
