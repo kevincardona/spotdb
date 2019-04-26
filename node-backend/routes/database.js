@@ -13,6 +13,7 @@ var addArtistToDB = (req, res) => {
       });
     }
   })
+  res.send({success: true});
 };
 
 module.exports = {
