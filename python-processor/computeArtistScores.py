@@ -13,11 +13,13 @@ def createEntry(name):
     cumGood = 0
     cumBad = 0
     scores = []
+    randomTweet = ''
     for tweet in artistCollection.find():
         numWords = 1
         currTweetCombined = 0
         currTweetGood = 0
         currTweetBad = 0
+        randomTweet = tweet['text']
         tweetArray = tweet['text'].split(' ')
         for word in tweetArray:
             if word in model.wv.vocab:
@@ -25,7 +27,6 @@ def createEntry(name):
                 currTweetGood += model.wv.similarity(word, "positive")
                 currTweetBad += model.wv.similarity(word, "bad")
                 currTweetCombined = currTweetCombined + cumGood - cumBad
-        print(numWords)
         cumGood += currTweetGood/numWords
         cumBad += currTweetBad/numWords
         currTweetCombined = currTweetCombined/numWords
@@ -39,7 +40,8 @@ def createEntry(name):
         'good': cumGood,
         'bad': cumBad,
         'combined': cumGood - cumBad,
-        'scores': scores
+        'scores': scores,
+        'randomTweet': randomTweet
     }
     return newEntry
 

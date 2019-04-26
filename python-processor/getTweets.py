@@ -72,7 +72,7 @@ if __name__ == "__main__":
         artistCollection.delete_many({})
 
         for tweet in tweepy.Cursor(api.search, q=post['name'],
-                                   lang='en').items(100):
+                                   lang='en').items(200):
             tweet_Data = {
                 'time': tweet._json['created_at'],
                 'text': tweet._json['text']
@@ -81,9 +81,15 @@ if __name__ == "__main__":
 
         # clean tweets
         cleaned_tweets = []
+        lastTweet = ''
         for tweet in tweets:
+            lastTweet = {
+                'time': 'Fri Apr 26 03:45:07 +0000 2014',
+                'text': tweet['text']
+            }
             tweet['text'] = completelyProcess(tweet['text'])
             cleaned_tweets.append(tweet)
+        cleaned_tweets.append(lastTweet)
         artistCollection.insert_many(cleaned_tweets)
 
     # tests

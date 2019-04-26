@@ -31,6 +31,13 @@ class TestStringMethods(unittest.TestCase):
             self.assertNotEqual(tweetListLength, 0)
             counter = counter + 1
 
+    def testEachArtistHasRandomTweet(self):
+        for doc in db['scores'].find():
+            self.assertIsNotNone(doc['randomTweet'])
+            self.assertIsNotNone(doc['name'])
+            self.assertIsNotNone(doc['qualityScore'])
+            self.assertIsNotNone(doc['combined'])
+
 
 if __name__ == '__main__':
     unittest.main()

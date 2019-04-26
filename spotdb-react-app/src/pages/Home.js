@@ -16,13 +16,11 @@ class Home extends React.Component {
   retrieveArtists = () => {
     apiGet("/getTweetInfo")
       .then(data => {
-        // console.log(data);
         this.setState({
           artists: data.map(item => {
             return item;
           })
         });
-        // console.log(this.state);
       })
       .catch(error => {
         console.log(error);
@@ -116,6 +114,9 @@ class Home extends React.Component {
 									<div className="Home-tweet-list">
 										<div className="Home-tweet">
 											Artist Twitter Score: {item.qualityScore}
+										</div>
+										<div className="Home-tweet">
+											{item.randomTweet}
 										</div>
 									</div>
 									<div className="Home-tweet-right-column">
