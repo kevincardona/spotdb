@@ -72,7 +72,7 @@ if __name__ == "__main__":
         artistCollection.delete_many({})
 
         for tweet in tweepy.Cursor(api.search, q=post['name'],
-                                   lang='en').items(200):
+                                   lang='en').items(150):
             tweet_Data = {
                 'time': tweet._json['created_at'],
                 'text': tweet._json['text']
