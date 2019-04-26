@@ -146,9 +146,9 @@ class CardList extends React.Component {
                             <p>
                               <i class="fas fa-clock" />
                               {(this.toMinutesSecondsDisplay(track.duration) ||
-                                "-") + ", "}
+                                "-") + " "}
                               <i class="fas fa-music" />
-                              {(Math.round(track.tempo) || "-") + ", "}
+                              {(Math.round(track.tempo) || "-") + " "}
                               <i class="fas fa-volume-up" />
                               {(Math.round(track.loudness + 14) || "0") + ""}
                             </p>
