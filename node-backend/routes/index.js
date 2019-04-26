@@ -1,6 +1,7 @@
 var router = require("express").Router();
 var spotify = require("./spotify");
 var user = require("./user");
+var database = require("./database")
 var util = require("./util");
 var tweets = require("./tweets");
 
@@ -36,4 +37,5 @@ router.get("/library", spotify.library);
 router.get("/newalbums", spotify.newAlbums);
 router.get("/songanalytics", spotify.songAnalytics);
 router.get("/firstartist", spotify.firstArtist);
+router.post("/addArtistToDB", database.addArtistToDB);
 module.exports = router;

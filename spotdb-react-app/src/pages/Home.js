@@ -32,7 +32,7 @@ class Home extends React.Component {
 
         let requests = artists.reduce((promiseChain, item) => {
           return promiseChain.then(
-            () =>
+          () =>
               new Promise(resolve => {
                 this.getFirstArtist(item, resolve);
               })

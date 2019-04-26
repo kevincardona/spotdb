@@ -41,6 +41,10 @@ class Artist extends React.Component {
             error: false,
             invalidIdError: false
           });
+          
+          apiPost("/addArtistToDB", {name: data.user.name}).then((data) =>{
+            console.log(data);
+          });
         }
       } else {
         this.setState({
