@@ -16,12 +16,13 @@ import NoMatch from "./pages/NoMatch";
 
 /* ADDED FOR TESTING */
 import Library from "./pages/Library";
+import BrowserPlayer from "./components/BrowserPlayer";
 
 /* 	
 	This component is funcitonal and has no state
 	but it renders all the visible page content	
 */
-const Routes = ({ userName, userAuthorized, userId }) => (
+const Routes = ({ userName, userAuthorized }) => (
   <div id="Routes">
     <Navbar userName={userName} />
     <div className="main-content">
@@ -72,6 +73,8 @@ const Routes = ({ userName, userAuthorized, userId }) => (
     {/* The regular expression matches all routes that are not exactly '/map' or '/login' */}
     {/* This throws an error, but it's just because react router didn't use to support regex */}
     <Route path={/^(?!(\/map|\/login)$).*$/} component={FooterNav} />
+
+    <BrowserPlayer userName={userName} />
   </div>
 );
 

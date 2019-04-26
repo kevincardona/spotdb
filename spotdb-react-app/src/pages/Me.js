@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import "../layouts/Me.css";
 import PopupBanner from "../components/PopupBanner";
 import { apiGet } from "../util/api";
@@ -10,8 +11,23 @@ class Me extends React.Component {
     this.state = {
       name: this.props.userName || "No Name",
       artists: [],
-      library: []
+      library: [],
+      redirect: false
     };
+  }
+
+  componentWillMount() {
+    apiGet(`/authenticate`)
+      .then(data => {
+        if (!data.success) {
+          this.setState({
+            redirect: true
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   componentDidMount() {
@@ -25,7 +41,7 @@ class Me extends React.Component {
         this.setState({ artists: data.user.items });
       })
       .catch(err => {
-        console.err(err);
+        console.log(err);
       });
   };
 
@@ -40,7 +56,11 @@ class Me extends React.Component {
   };
 
   render() {
-    const { name, artists, library } = this.state;
+    const { name, artists, library, redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <div>
