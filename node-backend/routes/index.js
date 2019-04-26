@@ -35,4 +35,5 @@ router.post("/pause", spotify.pause);
 router.get("/library", spotify.library);
 router.get("/newalbums", spotify.newAlbums);
 router.get("/songanalytics", spotify.songAnalytics);
+router.get("/firstartist", spotify.firstArtist);
 module.exports = router;
