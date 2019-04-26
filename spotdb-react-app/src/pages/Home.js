@@ -16,11 +16,15 @@ class Home extends React.Component {
 
   getFirstArtist = (artist, callbackFunction) => {
     apiGet("/firstartist?query=" + artist.name).then(data => {
-      artist["id"] = data.user.artists.items[0].id;
-      artist["images"] = data.user.artists.items[0].images;
-      artist["followers"] = data.user.artists.items[0].followers;
-      artist["genres"] = data.user.artists.items[0].genres;
-      artist["popularity"] = data.user.artists.items[0].popularity;
+      if (data && data.user && data.user.artists) {
+        if (data.user.artists.items.length) {
+          artist["id"] = data.user.artists.items[0].id;
+          artist["images"] = data.user.artists.items[0].images;
+          artist["followers"] = data.user.artists.items[0].followers;
+          artist["genres"] = data.user.artists.items[0].genres;
+          artist["popularity"] = data.user.artists.items[0].popularity;
+        }
+      }
       callbackFunction();
     });
   };
