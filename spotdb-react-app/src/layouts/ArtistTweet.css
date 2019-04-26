@@ -1,0 +1,74 @@
+.ArtistTweet {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ArtistTweet {
+  border: 1px solid #6e7095;
+  border-radius: 5px;
+
+  padding: 12px 12px 0 12px;
+  margin-top: 32px;
+}
+
+.ArtistTweet .artist {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ArtistTweet .artist {
+  background-color: #3e3f52;
+  border-radius: 5px;
+
+  padding: 12px 12px;
+  margin-bottom: 12px;
+  margin-right: 12px;
+}
+
+.ArtistTweet .artist img {
+  width: 120px;
+  height: 120px;
+  border-radius: 5px;
+  margin-right: 12px;
+}
+
+.ArtistTweet .artist p {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.ArtistTweet .score {
+  background: linear-gradient(to bottom right, transparent, #2ecdb7),
+    radial-gradient(transparent, #0b6255);
+  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 12px;
+  margin-right: 12px;
+}
+
+.ArtistTweet div p {
+  margin: 0px;
+}
+
+.ArtistTweet div p.subtitle {
+  color: lightgray;
+  font-size: 0.9em;
+}
+
+.ArtistTweet .score span {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.ArtistTweet .tweet {
+  background-color: #3e3f52;
+  border-radius: 5px;
+
+  padding: 12px;
+  margin-bottom: 12px;
+}
