@@ -28,22 +28,24 @@ class Home extends React.Component {
   retrieveArtists = () => {
     apiGet("/getTweetInfo")
       .then(data => {
-        var artists = data;
+        if (data) {
+          var artists = data;
 
-        let requests = artists.reduce((promiseChain, item) => {
-          return promiseChain.then(
-            () =>
-              new Promise(resolve => {
-                this.getFirstArtist(item, resolve);
-              })
-          );
-        }, Promise.resolve());
+          let requests = artists.reduce((promiseChain, item) => {
+            return promiseChain.then(
+              () =>
+                new Promise(resolve => {
+                  this.getFirstArtist(item, resolve);
+                })
+            );
+          }, Promise.resolve());
 
-        requests.then(() => {
-          this.setState({
-            artists: artists
+          requests.then(() => {
+            this.setState({
+              artists: artists
+            });
           });
-        });
+        }
       })
       .catch(error => {
         console.log(error);
