@@ -7,6 +7,10 @@ import CardList from "../components/CardList";
 import ArtistTweet from "../components/ArtistTweet";
 const queryString = require("query-string");
 
+const CanvasJSReact = require('./canvasjs.react').default;
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+const CanvasJS = CanvasJSReact.CanvasJS;
+
 class Home extends React.Component {
   // Home will use state to hold tweet info
   state = {
@@ -39,31 +43,31 @@ class Home extends React.Component {
   };
 
   retrieveArtists = () => {
-    apiGet("/getTweetInfo")
-      .then(data => {
-        if (data) {
-          var artists = data;
+   apiGet("/getTweetInfo")
+     .then(data => {
+       if (data) {
+         var artists = data;
 
-          let requests = artists.reduce((promiseChain, item) => {
-            return promiseChain.then(
-              () =>
-                new Promise(resolve => {
-                  this.getFirstArtist(item, resolve);
-                })
-            );
-          }, Promise.resolve());
+         let requests = artists.reduce((promiseChain, item) => {
+           return promiseChain.then(
+             () =>
+               new Promise(resolve => {
+                 this.getFirstArtist(item, resolve);
+               })
+           );
+         }, Promise.resolve());
 
-          requests.then(() => {
-            this.setState({
-              artists: artists
-            });
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+         requests.then(() => {
+           this.setState({
+             artists: artists
+           });
+         });
+       }
+     })
+     .catch(error => {
+       console.log(error);
+     });
+ };
 
   getNewAlbums = () => {
     apiGet("/newalbums")
@@ -112,6 +116,28 @@ class Home extends React.Component {
   render() {
     const { artists, newAlbums } = this.state;
 
+    const options = {
+			theme: "dark2",
+			animationEnabled: true,
+			title:{
+				text: "Artist Statistical Analysis"
+			},
+			axisY: {
+				title: "Positivity",
+				includeZero: false
+			},
+			data: [{
+				type: "boxAndWhisker",
+				yValueFormatString: "#,##0.# \"kcal/100g\"",
+				dataPoints: [
+					{ label: "Bread",  y: [179, 256, 300, 418, 274] },
+					{ label: "Cake",  y: [252, 346, 409, 437, 374.5] },
+					{ label: "Biscuit",  y: [236, 281.5, 336.5, 428, 313] },
+					{ label: "Doughnut",  y: [340, 382, 430, 452, 417] },
+					{ label: "Pancakes",  y: [194, 224.5, 342, 384, 251] },
+					{ label: "Bagels",  y: [241, 255, 276.5, 294, 274.5] }
+				]
+			}]};
     return (
       <div className="Home">
         {/* /About Link */}
@@ -135,14 +161,12 @@ class Home extends React.Component {
             <span className="Home-tweeter">@spotdb</span>
           </div>
         </div>
-
         <h2>New Releases</h2>
         {newAlbums.length !== 0 ? (
           <CardList list={newAlbums} />
         ) : (
           <p>Login to view</p>
         )}
-
         {/* This is the template for the Tweet info */}
         {/* This map function returns for every element in an array so you can show dynamic data */}
         {/* {artists.map(item => (
@@ -169,6 +193,11 @@ class Home extends React.Component {
         {artists.map(item => (
           <ArtistTweet key={item.id} artist={item} />
         ))}
+        <div>
+          <CanvasJSChart options = {options}
+              /* onRef = {ref => this.chart = ref} */
+          />
+        </div>
       </div>
     );
   }
