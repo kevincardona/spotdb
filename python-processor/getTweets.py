@@ -14,7 +14,6 @@ def completelyProcess(tweet):
 
 
 def initialPreprocess(tweet):
-    print(preprocessor)
     return preprocessor.clean(tweet)
 
 
@@ -60,7 +59,7 @@ if __name__ == "__main__":
     api = tweepy.API(auth, wait_on_rate_limit=True)
 
     # connect to mongo
-    client = MongoClient('mongodb://spotdb-admin:SuperSecr3tPasswordb@ds249035.mlab.com:49035/spotdb')
+    client = MongoClient(cfg.mongo_connection)
     db = client.spotdb
     collection = db.artists
 

@@ -107,31 +107,27 @@ class Home extends React.Component {
           <p>Login to view</p>
         )}
 
-        {/* This is the template for the Tweet info */}
-        {/* This map function returns for every element in an array so you can show dynamic data */}
-        {artists.map(item => (
-          <div key={item.name}>
-            <div className="Home-artist-title">{item.name}</div>
-            <div className="Home-spotdb-tweets">
-              <div className="Home-tweet-list">
-                <div className="Home-tweet">
-                  Artist Twitter Score: {item.combined}
-                </div>
-              </div>
-              <div className="Home-tweet-right-column">
-                <img
-                  src={logo}
-                  alt="SpotDB Logo"
-                  className="Home-spotdb-logo"
-                />
-                <span className="Home-tweeter">@spotdb</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+					{/* This is the template for the Tweet info */}
+					{/* This map function returns for every element in an array so you can show dynamic data */}
+						{artists.map((item) => (
+							<div key={item.name}>
+								<div className="Home-artist-title">{item.name}</div>
+								<div className="Home-spotdb-tweets">
+									<div className="Home-tweet-list">
+										<div className="Home-tweet">
+											Artist Twitter Score: {item.qualityScore}
+										</div>
+									</div>
+									<div className="Home-tweet-right-column">
+										<img src={logo} alt="SpotDB Logo" className="Home-spotdb-logo" />
+										<span className="Home-tweeter">@spotdb</span>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+		);
+	}
 }
 
 export default Home;

@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 import config as cfg
-client = MongoClient('mongodb://spotdb-admin:SuperSecr3tPasswordb@ds249035.mlab.com:49035/spotdb')
+client = MongoClient(cfg.mongo_connection)
 db = client.spotdb
 collection = db.artists
 posts = []
