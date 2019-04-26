@@ -1,12 +1,75 @@
+.player-container {
+    position: relative;
+    float: right;
+}
+
 .player-panel {
     overflow: hidden;
     position: relative;
     box-shadow: 1px -1px 3px 0px 1#5e5e5e;
     float: right;
-    background:#616970;
+    background:#ffffff;
     height: calc(100vh - 3.3rem);
     width: 200px;
+    right: -200px;
+    -webkit-animation: slide 0.5s forwards;
+    -webkit-animation-delay: 2s;
+    animation: slide 0.5s forwards;
+    animation-delay: 2s;
+    z-index: 3;
+
 }
+
+
+@-webkit-keyframes slide {
+    100% { right: 100px; position: absolute; top: 0; right: 0px;}
+}
+@keyframes slide {
+    100% { right: 200px; position: absolute; top: 0; right: 0px; }
+}
+
+.local-container {
+    color: rgb(86, 86, 86);
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+#songTable {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 10px;
+    text-align: center;
+    color: rgb(86, 86, 86);
+  }
+  
+  #songTable th, #songTable td {
+    text-align: left;
+    padding: 12px;
+  }
+  
+  #songTable tr {
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+  }
+  
+  #songTable tr.header{
+    background-color: #c1c1c1;
+    text-align: center;
+  }
+
+  #songHeader {
+    width: 60%;
+    padding-left: 10px;
+    background-color: #f1f1f1;
+  }
+
+  #listenerHeader {
+    width: 20%;
+    padding-right: 10px;
+    background-color: #f1f1f1;
+  }
 
 .player-header {
     background: #3E3F52;
@@ -39,7 +102,7 @@
     height: 100px;
     width: 200px;
     font-size: 10px;
-    padding: 10px 10px 10px 0px;
+    padding: 0px 10px 10px 0px;
 }
 
 .player-song-image {
@@ -47,6 +110,10 @@
     width: 100px;
     height: auto;
     margin-left: 50px;
+}
+
+.blank-player {
+    background: #3E3F52;
 }
 
 h1 {

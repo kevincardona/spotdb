@@ -1,6 +1,7 @@
 import React from "react";
 import "../layouts/Artist.css";
 import PopupBanner from "../components/PopupBanner";
+import CardList from "../components/CardList";
 import { apiGet, apiPost } from "../util/api";
 
 class Artist extends React.Component {
@@ -90,6 +91,11 @@ class Artist extends React.Component {
     apiPost("/savesong?id=" + id);
   };
 
+  playSong = id => {
+    console.log("PLAY SONG");
+    apiPost("/play?id=" + id);
+  };
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
       urlId: nextProps.match.params.artist_id || ""
@@ -101,7 +107,6 @@ class Artist extends React.Component {
       urlId,
       artist,
       albums,
-      tracks,
       error,
       invalidIdError,
       selectedAlbum,
@@ -142,8 +147,8 @@ class Artist extends React.Component {
             {artist.genres && <p>Genres: {artist.genres.join(", ")}</p>}
 
             <h2>Albums</h2>
-            <ul className="Album-list">
-              {/* This map function returns for every element in an array so you can show dynamic data */}
+            <CardList list={albums} />
+            {/* <ul className="Album-list">
               {albums.map(album => (
                 <li
                   key={album.id}
@@ -161,7 +166,6 @@ class Artist extends React.Component {
                       />
                     )}
                     <h3>{album.name}</h3>
-                    {/* Favorite / Tempo / Duration / Loudness */}
                     {album.id === selectedAlbum && (
                       <ul className="Album-list Track-list">
                         {tracks && <h4>Tracks:</h4>}
@@ -170,6 +174,7 @@ class Artist extends React.Component {
                             <li
                               key={track.id}
                               className="Album-item Track-item"
+                              onClick={() => this.playSong(track.id)}
                             >
                               {index + 1 + ". "} <b>{track.name}</b>
                               <input
@@ -185,7 +190,7 @@ class Artist extends React.Component {
                   </div>
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
         </div>
       );

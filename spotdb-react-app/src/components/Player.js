@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { apiGet, apiPost } from '../util/api';
+import {withRouter} from 'react-router-dom';
 import { Link } from "react-router-dom";
 import '../layouts/Player.css';
 
@@ -16,16 +17,34 @@ function SongList(props) {
         });
     }
     const listItems = song_list.map((song) =>
-      <div>{song.count} listening to <Link to={"/artist/" + song.artist}>{song.name}</Link></div>
+    //  <div>{song.count} listening to <Link to={"/artist/" + song.artist}>{song.name}</Link></div>
+    
+        <tr>
+                <td>
+                    <Link to={"/artist/" + song.artist}>{song.name}</Link>
+                </td>
+                <td>
+                    {song.count}
+                </td>
+        
+        </tr>
+        
     );
     return (
         <div>
-            {listItems}
+            <table id="songTable">
+                <tr className="header">
+                    <th id="songHeader">Song</th>
+                    <th id="listenerHeader">Listeners</th>
+                </tr>
+                
+                {listItems}
+            </table>
         </div>
     );
   }
 
-export default class Player extends Component {
+class Player extends Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -41,13 +60,11 @@ export default class Player extends Component {
     componentWillMount() {
         apiGet(`/listening`).then((data) => {
             if (!data.success) {
+                this.props.history.push("/login");
                 return;
             }
             try {
-                this.state.artist = data.item.album.artists[0].name
-                this.state.song = data.item.name;
-                this.state.cover_image = data.user.item.album.images[0].url;
-                this.state.song_id = data.user.item.id;
+                this.setState({artist: data.item.album.artists[0].name, song: data.item.name, cover_image: data.user.item.album.images[0].url, song_id: data.user.item.id})
                 
             } catch (err) {
                 
@@ -96,6 +113,7 @@ export default class Player extends Component {
             display: 'inline'
         }
 
+        if (song && artist && cover_image && listeners && location) {
         return (
             <div className="player-container">
                 <div className="player-panel">
@@ -109,18 +127,19 @@ export default class Player extends Component {
                             }
                     </div>
                     <div className="player-body">
-                        <h1>Global Listeners</h1>
-                            {listeners > 0 && cover_image != "" &&
-                                <div>{listeners}<br/>SpotDB users listening to this song</div>
-                            }
-                        <br></br>
-                        <h1>Local Listeners</h1>{this.props.location}
                             {this.props.top_songs &&
-                            <SongList top_songs={this.props.top_songs} />
+                            <SongList top_songs={this.props.top_songs} location={this.props.location} />
                             }
                     </div>
                 </div>
             </div>
         )
+        } else {
+            return (
+            <div className="blank-player"
+            ></div>);
+        }
     }
 }
+
+export default Player;

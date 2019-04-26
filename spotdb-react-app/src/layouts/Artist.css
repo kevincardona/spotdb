@@ -63,7 +63,7 @@
   width: 232px; /* HEY! */
 }
 .Album-item div {
-  height: calc(100% - 72px);
+  /* height: calc(100% - 72px); */
   padding: 36px;
   display: flex;
   flex-direction: column;
@@ -82,9 +82,9 @@
 .Album-item div {
   text-decoration: none;
 }
-.Album-item:hover {
+/* .Album-item:hover {
   background: #24252c;
-}
+} */
 .Album-item.selected:hover {
   background: #7a7da7;
 }

@@ -42,15 +42,46 @@
 .CardList-item a {
   text-decoration: none;
 }
+
+.CardList-item .Track-item {
+  color: white;
+}
+
 .CardList-item:hover {
   background: #24252c;
 }
 .CardList-item.selected:hover {
   background: #7a7da7;
 }
+.CardList-item.selected {
+  background: #9496bd;
+}
 img.CardList-image {
   width: 160px;
   height: 160px;
   border-radius: 0;
   margin-bottom: 36px;
+}
+
+.Track-list .Track-item div {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.Track-list .Track-item div.controls {
+  justify-content: space-around;
+}
+
+.Track-list .Track-item div p {
+  display: contents;
+}
+
+.Track-list .Track-item .controls div {
+  padding: 2px 5px;
+  background-color: #232430;
+  border-radius: 5px;
+}
+.Track-list .Track-item .controls div:hover {
+  background-color: #14151f;
 }

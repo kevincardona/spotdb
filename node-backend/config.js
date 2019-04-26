@@ -7,5 +7,5 @@ module.exports = {
   mongo_url: process.env.MONGODB_URI,
   geocodio_key: process.env.GEOCODIO_KEY,
   sock_port: 8000,
-  secret: process.env.secret || "tHs1sS0secRet" //This will be moved to .env for builds
+  secret: process.env.SECRET
 };
