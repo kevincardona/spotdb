@@ -7,6 +7,9 @@ import CardList from "../components/CardList";
 import ArtistTweet from "../components/ArtistTweet";
 const queryString = require("query-string");
 
+const CanvasJSReact = require('./canvasjs.react').default;
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 class Home extends React.Component {
   // Home will use state to hold tweet info
   state = {
@@ -39,31 +42,31 @@ class Home extends React.Component {
   };
 
   retrieveArtists = () => {
-    apiGet("/getTweetInfo")
-      .then(data => {
-        if (data) {
-          var artists = data;
+   apiGet("/getTweetInfo")
+     .then(data => {
+       if (data) {
+         var artists = data;
 
-          let requests = artists.reduce((promiseChain, item) => {
-            return promiseChain.then(
-              () =>
-                new Promise(resolve => {
-                  this.getFirstArtist(item, resolve);
-                })
-            );
-          }, Promise.resolve());
+         let requests = artists.reduce((promiseChain, item) => {
+           return promiseChain.then(
+             () =>
+               new Promise(resolve => {
+                 this.getFirstArtist(item, resolve);
+               })
+           );
+         }, Promise.resolve());
 
-          requests.then(() => {
-            this.setState({
-              artists: artists
-            });
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+         requests.then(() => {
+           this.setState({
+             artists: artists
+           });
+         });
+       }
+     })
+     .catch(error => {
+       console.log(error);
+     });
+ };
 
   getNewAlbums = () => {
     apiGet("/newalbums")
@@ -111,7 +114,28 @@ class Home extends React.Component {
 
   render() {
     const { artists, newAlbums } = this.state;
+    let dataPoints = []
+    if(artists[0] == null){}
+    else {
+      artists.forEach(artist => {
+        dataPoints.push({ label: artist.name,  y: artist.fiveNumSum});
+      });
+    }
 
+    const options = {
+			theme: "dark2",
+			animationEnabled: true,
+			title:{
+				text: "Artist Statistical Analysis"
+			},
+			axisY: {
+				title: "Positivity",
+				includeZero: true
+			},
+			data: [{
+				type: "boxAndWhisker",
+				dataPoints: dataPoints
+			}]};
     return (
       <div className="Home">
         {/* /About Link */}
@@ -135,14 +159,12 @@ class Home extends React.Component {
             <span className="Home-tweeter">@spotdb</span>
           </div>
         </div>
-
         <h2>New Releases</h2>
         {newAlbums.length !== 0 ? (
           <CardList list={newAlbums} />
         ) : (
           <p>Login to view</p>
         )}
-
         {/* This is the template for the Tweet info */}
         {/* This map function returns for every element in an array so you can show dynamic data */}
         {/* {artists.map(item => (
@@ -167,8 +189,13 @@ class Home extends React.Component {
         ))} */}
         <h2>Artist Analysis</h2>
         {artists.map(item => (
-          <ArtistTweet key={item.id} artist={item} />
+          <ArtistTweet key={item.name} artist={item} />
         ))}
+        <div className="ArtistTweet">
+          <CanvasJSChart options = {options}
+              onRef = {ref => this.chart = ref}
+          />
+        </div>
       </div>
     );
   }

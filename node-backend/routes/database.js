@@ -9,7 +9,6 @@ var addArtistToDB = (req, res) => {
       let addArtist = new AddArtistModel({name: req.body.name});
       addArtist.save(function (err) {
         if (err) return handleError(err);
-        res.send({success: true});
         // saved!
       });
     }
