@@ -9,7 +9,6 @@ const queryString = require("query-string");
 
 const CanvasJSReact = require('./canvasjs.react').default;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-const CanvasJS = CanvasJSReact.CanvasJS;
 
 class Home extends React.Component {
   // Home will use state to hold tweet info
@@ -115,6 +114,13 @@ class Home extends React.Component {
 
   render() {
     const { artists, newAlbums } = this.state;
+    let dataPoints = []
+    if(artists[0] == null){}
+    else {
+      artists.forEach(artist => {
+        dataPoints.push({ label: artist.name,  y: artist.fiveNumSum});
+      });
+    }
 
     const options = {
 			theme: "dark2",
@@ -124,19 +130,11 @@ class Home extends React.Component {
 			},
 			axisY: {
 				title: "Positivity",
-				includeZero: false
+				includeZero: true
 			},
 			data: [{
 				type: "boxAndWhisker",
-				yValueFormatString: "#,##0.# \"kcal/100g\"",
-				dataPoints: [
-					{ label: "Bread",  y: [179, 256, 300, 418, 274] },
-					{ label: "Cake",  y: [252, 346, 409, 437, 374.5] },
-					{ label: "Biscuit",  y: [236, 281.5, 336.5, 428, 313] },
-					{ label: "Doughnut",  y: [340, 382, 430, 452, 417] },
-					{ label: "Pancakes",  y: [194, 224.5, 342, 384, 251] },
-					{ label: "Bagels",  y: [241, 255, 276.5, 294, 274.5] }
-				]
+				dataPoints: dataPoints
 			}]};
     return (
       <div className="Home">
@@ -191,11 +189,11 @@ class Home extends React.Component {
         ))} */}
         <h2>Artist Analysis</h2>
         {artists.map(item => (
-          <ArtistTweet key={item.id} artist={item} />
+          <ArtistTweet key={item.name} artist={item} />
         ))}
-        <div>
+        <div className="ArtistTweet">
           <CanvasJSChart options = {options}
-              /* onRef = {ref => this.chart = ref} */
+              onRef = {ref => this.chart = ref}
           />
         </div>
       </div>

@@ -3,6 +3,7 @@ from gensim.models import Word2Vec
 from pymongo import MongoClient
 import numpy as np
 import config as cfg
+import pandas
 
 tknzr = TweetTokenizer(strip_handles=True)
 model = Word2Vec.load("word2vec.model")
@@ -10,6 +11,7 @@ model = Word2Vec.load("word2vec.model")
 
 def createEntry(name):
     artistCollection = db[name]
+    fiveNumSum = []
     cumGood = 0
     cumBad = 0
     scores = []
@@ -30,16 +32,20 @@ def createEntry(name):
         cumGood += currTweetGood/numWords
         cumBad += currTweetBad/numWords
         currTweetCombined = currTweetCombined/numWords
-        score = {
-            'score': currTweetCombined,
-            'name': name
-        }
-        scores.append(score)
+        scores.append(currTweetCombined)
+    if not scores:
+        fiveNumSum.append([0, 0, 0, 0, 0])
+    else:
+        fiveNumSum.append(np.min(scores))
+        for quartile in np.percentile(scores, [25, 50, 75]):
+            fiveNumSum.append(quartile)
+        fiveNumSum.append(np.max(scores))
     newEntry = {
         'name': name,
         'good': cumGood,
         'bad': cumBad,
         'combined': cumGood - cumBad,
+        'fiveNumSum': fiveNumSum,
         'scores': scores,
         'randomTweet': randomTweet
     }
