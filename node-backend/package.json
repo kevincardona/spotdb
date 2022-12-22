@@ -16,7 +16,7 @@
     "express": "^4.16.4",
     "form-data": "^2.3.3",
     "http": "0.0.0",
-    "jsonwebtoken": "^8.5.0",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.13",
     "node-spotify-api": "^1.0.7",
